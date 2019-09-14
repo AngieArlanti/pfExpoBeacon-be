@@ -1,4 +1,4 @@
-package app.stands;
+package api.stand.domain;
 
 public class Stand {
     private final long id;
