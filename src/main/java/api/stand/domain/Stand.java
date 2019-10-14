@@ -1,20 +1,35 @@
 package api.stand.domain;
 
-public class Stand {
-    private final long id;
-    private final String title;
-    private final String description;
-    private final String macAddress;
-    private final String iconUrl;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    public Stand(final long theId, final String theTitle, final String theDescription, final String theMacAddress,
-                 final String theIconUrl) {
-        this.id = theId;
-        this.title = theTitle;
-        this.description = theDescription;
-        this.macAddress = theMacAddress;
-        this.iconUrl = theIconUrl;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class Stand {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    private String title;
+
+    private String description;
+
+    @Column(name = "mac_address", nullable = false)
+    private String macAddress;
+
+    @Column(name = "icon_url", nullable = false)
+    private String iconUrl;
+
+    public Stand() {
     }
+
 
     public long getId() {
         return id;
