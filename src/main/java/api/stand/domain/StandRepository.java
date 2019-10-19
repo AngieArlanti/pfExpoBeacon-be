@@ -1,36 +1,30 @@
 package api.stand.domain;
 
+import org.apache.commons.lang3.Validate;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.apache.commons.lang3.Validate;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class StandRepository {
 
     private static final String PERSISTENCE_UNIT_NAME = "Stand";
     private static EntityManagerFactory factory =
-      Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     /** The Jpa Entity Manager, never null.
      */
-    //@PersistenceContext
-    //private EntityManager entityManager;
+    private EntityManager entityManager;
 
     /** Constructor, builds a stand repository.
-     *
-     * //@param theEntityManager the entity manager to use. It cannot be null.
      */
-    public StandRepository(/*final EntityManager theEntityManager*/) {
-        /*Validate.notNull(theEntityManager, "The entity manager cannot be " +
-          "null.");
-        entityManager = theEntityManager;*/
+    public StandRepository() {
+        entityManager = factory.createEntityManager();
     }
 
     /** Finds the Stand in this repository for the specified macAddress.
@@ -41,7 +35,7 @@ public class StandRepository {
      */
     public Stand findByMacAddress(final String macAddress) {
         Validate.notNull(macAddress, "The macAddress cannot be null.");
-        EntityManager entityManager = factory.createEntityManager();
+
         entityManager.getTransaction().begin();
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -53,7 +47,7 @@ public class StandRepository {
         criteria.select(root);
 
         final Stand stand =
-          entityManager.createQuery(criteria).getSingleResult();
+                entityManager.createQuery(criteria).getSingleResult();
 
         entityManager.getTransaction().commit();
         entityManager.close();
