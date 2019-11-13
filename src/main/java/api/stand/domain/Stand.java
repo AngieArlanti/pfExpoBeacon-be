@@ -1,53 +1,57 @@
 package api.stand.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * A Stand.
+ */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Stand {
 
+    /**
+     * Stand's Id. It MUST BE the Beacons' unique mac address.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
+    /**
+     * The Stand's title.
+     */
     private String title;
 
+    /**
+     * The Stand's description.
+     */
     private String description;
 
-    @Column(name = "mac_address", nullable = false)
-    private String macAddress;
+    /**
+     * The Stand's cover icon.
+     */
+    @Column(name = "cover_url", nullable = false)
+    private String coverUrl;
 
+    /**
+     * The Stand's icons list.
+     */
+    @Fetch(FetchMode.JOIN)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="stand_icon_urls", joinColumns=@JoinColumn(name="stand_id"))
     @Column(name = "icon_url", nullable = false)
-    private String iconUrl;
+    private List<String> iconUrls;
+
+    /**
+     * The Stand's ranking. It goes from 1 to 5.
+     * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
+     * TODO: and/or user's rank.
+     */
+    private int ranking;
 
     public Stand() {
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getMacAddress() {
-        return macAddress;
-    }
-
-    public String getIconUrl() {
-        return iconUrl;
     }
 }

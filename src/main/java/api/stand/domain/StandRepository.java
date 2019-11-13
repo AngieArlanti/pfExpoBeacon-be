@@ -35,7 +35,7 @@ public class StandRepository {
      */
     public Stand findByMacAddress(final String macAddress) {
         Validate.notNull(macAddress, "The macAddress cannot be null.");
-
+        entityManager = factory.createEntityManager();
         entityManager.getTransaction().begin();
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -43,7 +43,7 @@ public class StandRepository {
         CriteriaQuery<Stand> criteria;
         criteria = builder.createQuery(Stand.class);
         Root<Stand> root = criteria.from(Stand.class);
-        criteria.where(builder.equal(root.get("macAddress"), macAddress));
+        criteria.where(builder.equal(root.get("id"), macAddress));
         criteria.select(root);
 
         final Stand stand =
