@@ -31,19 +31,24 @@ public class Stand {
     private String description;
 
     /**
-     * The Stand's cover icon.
+     * The Stand's short description.
      */
-    @Column(name = "cover_url", nullable = false)
-    private String coverUrl;
+    @Column(name = "short_description", nullable = false)
+    private String shortDescription;
 
     /**
-     * The Stand's icons list.
+     * The Stand's cover icon.
+     */
+    private String cover;
+
+    /**
+     * The Stand's picture list.
      */
     @Fetch(FetchMode.JOIN)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="stand_icon_urls", joinColumns=@JoinColumn(name="stand_id"))
-    @Column(name = "icon_url", nullable = false)
-    private List<String> iconUrls;
+    @CollectionTable(name="stand_pictures", joinColumns=@JoinColumn(name="stand_id"))
+    @Column(name = "picture", nullable = false)
+    private List<String> pictures;
 
     /**
      * The Stand's ranking. It goes from 1 to 5.
@@ -53,5 +58,33 @@ public class Stand {
     private int ranking;
 
     public Stand() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public int getRanking() {
+        return ranking;
     }
 }
