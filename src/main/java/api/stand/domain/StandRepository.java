@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Repository
 public class StandRepository {
@@ -36,8 +37,7 @@ public class StandRepository {
      */
     public Stand findBy(final String id) {
         Validate.notNull(id, "The id cannot be null.");
-        entityManager = factory.createEntityManager();
-        entityManager.getTransaction().begin();
+        beginTransaction();
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
@@ -50,10 +50,38 @@ public class StandRepository {
         final Stand stand =
                 entityManager.createQuery(criteria).getSingleResult();
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        commitTransaction();
 
         return stand;
+    }
+
+    private void beginTransaction() {
+        entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+    }
+
+    private void commitTransaction() {
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public List<Stand> findOrderedByRanking() {
+        beginTransaction();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Stand> criteria;
+        criteria = builder.createQuery(Stand.class);
+        Root<Stand> root = criteria.from(Stand.class);
+        criteria.orderBy(builder.desc(root.get("ranking")));
+        criteria.select(root);
+
+        final List<Stand> stands =
+                entityManager.createQuery(criteria).getResultList();
+
+        commitTransaction();
+
+        return stands;
     }
 }
 
