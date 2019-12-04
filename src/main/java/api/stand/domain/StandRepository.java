@@ -27,14 +27,15 @@ public class StandRepository {
         entityManager = factory.createEntityManager();
     }
 
-    /** Finds the Stand in this repository for the specified macAddress.
+    /** Finds the Stand in this repository for the specified id.
      *
-     * @param macAddress the Stand's macAddress. It cannot be null.
+     * @param id the Stand's id. It MUST BE the beacons' unique mac address.
+     * It cannot be null.
      *
-     * @return the Stand according to macAddress, never null.
+     * @return the Stand according to id, never null.
      */
-    public Stand findByMacAddress(final String macAddress) {
-        Validate.notNull(macAddress, "The macAddress cannot be null.");
+    public Stand findBy(final String id) {
+        Validate.notNull(id, "The id cannot be null.");
         entityManager = factory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -43,7 +44,7 @@ public class StandRepository {
         CriteriaQuery<Stand> criteria;
         criteria = builder.createQuery(Stand.class);
         Root<Stand> root = criteria.from(Stand.class);
-        criteria.where(builder.equal(root.get("id"), macAddress));
+        criteria.where(builder.equal(root.get("id"), id));
         criteria.select(root);
 
         final Stand stand =

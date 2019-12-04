@@ -12,8 +12,8 @@ public class StandController {
     private StandService standService = new StandService();
 
     @RequestMapping("/stands")
-    public ResponseEntity<Stand> getStandByMacAddress(@RequestParam(name="mac-address",
-      required=true) String macAddress) {
-       return standService.getStandByMacAddress(macAddress);
+    public ResponseEntity<Stand> findBy(@RequestParam(name="id",
+      required=true) String id) {
+       return standService.findBy(id);
     }
 }

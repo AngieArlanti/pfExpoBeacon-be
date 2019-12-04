@@ -11,10 +11,10 @@ public class StandService {
     private StandRepository standRepository = new StandRepository();
 
     @Transactional
-    public  ResponseEntity<Stand> getStandByMacAddress(final String macAddress) {
+    public  ResponseEntity<Stand> findBy(final String id) {
 
-        final Stand stand = standRepository.findByMacAddress(macAddress);
-        Validate.notNull(stand,"Stand " + macAddress + " not found");
+        final Stand stand = standRepository.findBy(id);
+        Validate.notNull(stand,"Stand " + id + " not found");
         return ResponseEntity.ok().body(stand);
     }
 }
