@@ -1,7 +1,7 @@
-DROP TABLE stand_pictures;
-DROP TABLE stand;
+DROP TABLE IF EXISTS stand_pictures;
+DROP TABLE IF EXISTS stand;
 
-CREATE TABLE stand(
+CREATE TABLE IF NOT EXISTS stand(
    id VARCHAR NOT NULL PRIMARY KEY,
    title VARCHAR NOT NULL,
    short_description VARCHAR NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE stand(
    ranking INTEGER
 );
 
-CREATE TABLE stand_pictures(
+CREATE TABLE IF NOT EXISTS stand_pictures(
     id SERIAL,
     stand_id VARCHAR NOT NULL,
     picture VARCHAR NOT NULL,
