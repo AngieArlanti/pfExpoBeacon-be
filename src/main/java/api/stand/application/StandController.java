@@ -23,7 +23,7 @@ public class StandController {
     @RequestMapping("/stands")
     public ResponseEntity<Stand> findBy(@RequestParam(name="id",
       required=true) String id) {
-       return standService.findBy(id);
+       return ResponseEntity.ok().body(standService.findBy(id));
     }
 
     /**
@@ -45,7 +45,7 @@ public class StandController {
      */
     @PostMapping(value="/stands")
     public ResponseEntity<List<Stand>> findBy(@RequestBody List<String> ids) {
-        return standService.findBy(ids);
+        return ResponseEntity.ok().body(standService.findBy(ids));
     }
 
     /**
@@ -59,6 +59,6 @@ public class StandController {
      */
     @RequestMapping("/stands/list")
     public ResponseEntity<List<Stand>> listOrderedByRanking() {
-        return standService.listOrderedByRanking();
+        return ResponseEntity.ok().body(standService.listOrderedByRanking());
     }
 }
