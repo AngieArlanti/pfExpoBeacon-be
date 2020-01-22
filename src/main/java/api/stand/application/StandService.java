@@ -1,16 +1,29 @@
 package api.stand.application;
 
+import api.stand.domain.DeviceProximity;
 import api.stand.domain.Stand;
 import api.stand.domain.StandRepository;
 import org.apache.commons.lang3.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import static java.time.OffsetTime.now;
+import static java.util.stream.Collectors.groupingBy;
+
+@Service
 public class StandService {
 
     /** The Stand's Repository. Never null.
      */
     private StandRepository standRepository = new StandRepository();
+
+    @Autowired
+    private DeviceProximityService deviceProximityService;
 
     /** Returns a Stand with the given id.
      *
@@ -42,5 +55,22 @@ public class StandService {
     public List<Stand> listOrderedByRanking() {
         final List<Stand> list = standRepository.findOrderedByRanking();
         return list;
+    }
+
+    public List<Stand> findSuggestedTourByCongestion(){
+        List<DeviceProximity> deviceProximityList = deviceProximityService.listAll();
+        Map<String, Long> congestionMap =  deviceProximityList.stream().filter(this::isUpdated)
+                .collect(groupingBy(DeviceProximity::getImmediateStandId, Collectors.counting()));
+
+        List<String> orderedSuggestedStandIds = congestionMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return findBy(orderedSuggestedStandIds);
+    }
+
+    private boolean isUpdated(DeviceProximity deviceProximity) {
+        return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 public class DeviceProximityService {
@@ -18,11 +19,15 @@ public class DeviceProximityService {
     private StandService standService = new StandService();
     private DeviceProximityMapper mapper = new DeviceProximityMapper();
 
-    public void addDeviceProximity(final DeviceProximityDto deviceProximityDto) {
+    public void save(final DeviceProximityDto deviceProximityDto) {
         checkValidStand(deviceProximityDto.getImmediateStandId());
         DeviceProximity deviceProximity = mapper.toModel(deviceProximityDto);
         deviceProximity.setUpdateTime(OffsetDateTime.now());
         deviceProximityRepository.save(deviceProximity);
+    }
+
+    public List<DeviceProximity> listAll(){
+        return deviceProximityRepository.findAll();
     }
 
     private void checkValidStand(String immediateStandId) {

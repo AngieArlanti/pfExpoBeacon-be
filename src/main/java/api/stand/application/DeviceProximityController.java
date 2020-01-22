@@ -13,8 +13,8 @@ public class DeviceProximityController {
     private DeviceProximityService deviceProximityService;
 
     @PostMapping(value="/device_proximity")
-    public ResponseEntity<Void> add(@RequestBody DeviceProximityDto deviceProximityDto) {
-        deviceProximityService.addDeviceProximity(deviceProximityDto);
+    public ResponseEntity<Void> save(@RequestBody DeviceProximityDto deviceProximityDto) {
+        deviceProximityService.save(deviceProximityDto);
         return ResponseEntity.ok().build();
     }
 }
