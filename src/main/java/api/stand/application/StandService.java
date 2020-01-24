@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,17 +58,26 @@ public class StandService {
         return list;
     }
 
-    public List<Stand> findSuggestedTourByCongestion(){
+    List<Stand> findSuggestedTourByCongestion() {
         List<DeviceProximity> deviceProximityList = deviceProximityService.listAll();
         Map<String, Long> congestionMap =  deviceProximityList.stream().filter(this::isUpdated)
                 .collect(groupingBy(DeviceProximity::getImmediateStandId, Collectors.counting()));
 
-        List<String> orderedSuggestedStandIds = congestionMap.entrySet().stream()
+        List<Stand> stands = findBy(congestionMap.keySet().stream().collect(Collectors.toList()));
+
+        Map<Stand, Long> standCongestion = new HashMap<>();
+
+        for (Stand stand: stands) {
+            Long congestion = congestionMap.get(stand.getId());
+            standCongestion.put(stand, congestion);
+        }
+
+        List<Stand> orderedSuggestedStandIds = standCongestion.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        return findBy(orderedSuggestedStandIds);
+        return orderedSuggestedStandIds;
     }
 
     private boolean isUpdated(DeviceProximity deviceProximity) {

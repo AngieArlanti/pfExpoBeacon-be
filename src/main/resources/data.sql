@@ -22,10 +22,6 @@ INSERT INTO stand(id, title, short_description, description, cover, ranking) VAL
 INSERT INTO stand(id, title, short_description, description, cover, ranking) VALUES('0C:F3:EE:04:18:AC', 'PEDAL WAH WAH INALÁMBRICO',
 'Pedal analógico controlado digitalmente','Los pedales Wah Wah son accesorios para guitarras que se usan desde los años 70. Existen pedales analógicos y digitales. Los primeros son caros y dominan el mercado, mientras que los segundos tienen más prestaciones y si bien son potencialmente escalables para producción en serie, no son aceptados por el mercado. El Wah Wah inalámbrico propuesto es un pedal analógico controlado digitalmente, es decir que reúne las ventajas comerciales de uno y las prestaciones de otro.', 'https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg', 4);
 
-INSERT INTO stand(id, title, short_description, description, cover, ranking) VALUES('70:77:81:AD:1C:B4', 'Beacon sin leyenda',
-'Pedal analógico controlado digitalmente','Los pedales Wah Wah son accesorios para guitarras que se usan desde los años 70. Existen pedales analógicos y digitales. Los primeros son caros y dominan el mercado, mientras que los segundos tienen más prestaciones y si bien son potencialmente escalables para producción en serie, no son aceptados por el mercado. El Wah Wah inalámbrico propuesto es un pedal analógico controlado digitalmente, es decir que reúne las ventajas comerciales de uno y las prestaciones de otro.', 'https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg', 4);
-
-
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:19:2F', 'https://user-images.githubusercontent.com/7771294/68998312-7dac2280-088f-11ea-82b7-975f253f9cdc.jpg');
@@ -49,4 +45,13 @@ INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:19:3E', 'https
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998870-adaaf400-0896-11ea-89ca-0a35dc0a5135.jpg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg');
-INSERT INTO stand_pictures(stand_id, picture) VALUES('70:77:81:AD:1C:B4', 'https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg');
+
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_1', '0C:F3:EE:08:FC:DD', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_2', '0C:F3:EE:04:19:2F', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_3', '0C:F3:EE:04:19:2F', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_4', '0C:F3:EE:04:19:2F', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_5', '0C:F3:EE:04:19:2F', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_6', '0C:F3:EE:08:FC:DD', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_7', '0C:F3:EE:04:19:8E', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_8', '0C:F3:EE:04:19:8E', CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, immediate_stand_id, update_time) VALUES('device_9', '0C:F3:EE:08:FC:DD', CURRENT_TIMESTAMP);
