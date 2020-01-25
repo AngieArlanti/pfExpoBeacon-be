@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS stand(
    short_description VARCHAR NOT NULL,
    description VARCHAR NOT NULL,
    cover VARCHAR NOT NULL,
-   ranking INTEGER
+   ranking INTEGER,
+   latitude FLOAT,
+   longitude FLOAT
 );
 
 CREATE TABLE IF NOT EXISTS stand_pictures(
