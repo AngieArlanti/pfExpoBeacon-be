@@ -59,6 +59,16 @@ public class Stand {
      */
     private int ranking;
 
+    /**
+     * Stand's latitude position.
+     */
+    private float latitude;
+
+    /**
+     * Stand's longitude position.
+     */
+    private float longitude;
+
     /** Empty constructor. For Hibernate purposes.
      */
     public Stand() {
@@ -119,4 +129,22 @@ public class Stand {
     public int getRanking() {
         return ranking;
     }
+
+    /** Returns the Stand's latitude position.
+     *
+     * @return the Stand's latitude position.
+     */
+    public float getLatitude() {
+        return latitude;
+    }
+
+    /** Returns the Stand's longitude position.
+     *
+     * @return the Stand's longitude position.
+     */
+    public float getLongitude() {
+        return longitude;
+    }
+
+
 }
