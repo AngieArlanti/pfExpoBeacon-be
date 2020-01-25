@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS device_proximity;
 DROP TABLE IF EXISTS stand_pictures;
+DROP TABLE IF EXISTS stand_ranking;
 DROP TABLE IF EXISTS stand;
 
 CREATE TABLE IF NOT EXISTS stand(
@@ -25,4 +26,11 @@ CREATE TABLE IF NOT EXISTS device_proximity(
     update_time TIMESTAMP NOT NULL,
     PRIMARY KEY (device_id),
     FOREIGN KEY (immediate_stand_id) REFERENCES stand (id)
+);
+CREATE TABLE IF NOT EXISTS stand_ranking(
+    stand_id VARCHAR NOT NULL,
+    device_id VARCHAR NOT NULL,
+    ranking INTEGER,
+    PRIMARY KEY(stand_id, device_id),
+    FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
