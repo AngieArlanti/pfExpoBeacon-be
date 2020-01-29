@@ -55,7 +55,7 @@ public class Stand {
      * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
      * TODO: and/or user's rank.
      */
-    private int ranking;
+    private double ranking;
 
     /** Empty constructor. For Hibernate purposes.
      */
@@ -114,7 +114,11 @@ public class Stand {
      *
      * @return the Stand's ranking.
      */
-    public int getRanking() {
+    public double getRanking() {
         return ranking;
+    }
+
+    public void setRanking(double ranking) {
+        this.ranking = ranking;
     }
 }

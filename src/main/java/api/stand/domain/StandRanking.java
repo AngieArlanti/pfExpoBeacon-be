@@ -2,13 +2,16 @@ package api.stand.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 @Entity
+@IdClass(StandRankingId.class)
 public class StandRanking {
 
     @Id
     private String standId;
 
+    @Id
     private String deviceId;
 
     private int ranking;

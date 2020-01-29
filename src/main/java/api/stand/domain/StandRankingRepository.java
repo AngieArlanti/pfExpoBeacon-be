@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StandRankingRepository extends JpaRepository<StandRanking, String> {}
+public interface StandRankingRepository extends JpaRepository<StandRanking, StandRankingId> {}

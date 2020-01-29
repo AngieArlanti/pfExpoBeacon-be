@@ -83,4 +83,9 @@ public class StandService {
     private boolean isUpdated(DeviceProximity deviceProximity) {
         return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
+
+    public void update(String standId, double ranking) {
+        deviceProximityService.checkValidStand(standId);
+        standRepository.update(standId, ranking);
+    }
 }

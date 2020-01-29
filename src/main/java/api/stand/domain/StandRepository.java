@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -127,6 +128,15 @@ public class StandRepository {
         commitTransaction();
 
         return stands;
+    }
+
+    public void update(String standId, double ranking) {
+        beginTransaction();
+
+        Query query = entityManager.createQuery("UPDATE Stand SET ranking = " + ranking + " where id = '" + standId + "'");
+        query.executeUpdate();
+
+        commitTransaction();
     }
 }
 

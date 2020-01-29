@@ -8,23 +8,38 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class StandRankingService {
 
     @Autowired
     private StandRankingRepository standRankingRepository;
 
+    @Autowired
+    private DeviceProximityService deviceProximityService;
+
     private StandService standService = new StandService();
     private StandRankingMapper mapper = new StandRankingMapper();
 
     public void save(final StandRankingDto standRankingDto) {
-        checkValidStand(standRankingDto.getStandId());
+        deviceProximityService.checkValidStand(standRankingDto.getStandId());
         StandRanking standRanking = mapper.toModel(standRankingDto);
         standRankingRepository.save(standRanking);
     }
 
-    private void checkValidStand(String standId) {
-        Stand found = standService.findBy(standId);
-        Validate.notNull(found);
+    public double calculateRanking(StandRankingDto standRankingDto) {
+        deviceProximityService.checkValidStand(standRankingDto.getStandId());
+        List<StandRanking> list = standRankingRepository.findAll();
+        double rankings = 0;
+        int elem = 0;
+        for (StandRanking standRanking : list) {
+            if(standRanking.getStandId().equals(standRankingDto.getStandId())){
+                rankings += standRanking.getRanking();
+                elem++;
+            }
+        }
+        return (rankings / elem);
     }
 }

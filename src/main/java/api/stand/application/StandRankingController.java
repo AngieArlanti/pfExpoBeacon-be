@@ -13,9 +13,14 @@ public class StandRankingController {
     @Autowired
     private StandRankingService standRankingService;
 
+    @Autowired
+    private StandService standService;
+
     @PostMapping(value="/stand_ranking")
     public ResponseEntity<Void> save(@RequestBody StandRankingDto standRankingDto) {
         standRankingService.save(standRankingDto);
+        double newRanking = standRankingService.calculateRanking(standRankingDto);
+        standService.update(standRankingDto.getStandId(), newRanking);
         return ResponseEntity.ok().build();
     }
 }
