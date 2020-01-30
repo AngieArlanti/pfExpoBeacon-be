@@ -67,6 +67,14 @@ public class Stand {
      */
     private double longitude;
 
+    /**
+     * Stand's number.
+     */
+    @JsonProperty("stand_number")
+    @Column(name = "stand_number", nullable = false)
+    @GeneratedValue
+    private int standNumber;
+
     /** Empty constructor. For Hibernate purposes.
      */
     public Stand() {
@@ -142,6 +150,14 @@ public class Stand {
      */
     public double getLongitude() {
         return longitude;
+    }
+
+    /** Returns the Stand's number.
+     *
+     * @return the Stand's number.
+     */
+    public int getStandNumber() {
+        return standNumber;
     }
 
 
