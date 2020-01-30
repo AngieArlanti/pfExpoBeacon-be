@@ -1,6 +1,5 @@
 package api.stand.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,7 +28,6 @@ public class Stand {
     /**
      * The Stand's short description.
      */
-    @JsonProperty("short_description")
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 

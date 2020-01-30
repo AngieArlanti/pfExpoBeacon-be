@@ -1,6 +1,7 @@
 package api.stand.application;
 
 import api.stand.domain.Stand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,9 @@ import java.util.List;
 
 @RestController
 public class StandController {
-    private StandService standService = new StandService();
+
+    @Autowired
+    private StandService standService;
 
     /**
      * Returns a Stand with the given id.
@@ -23,7 +26,7 @@ public class StandController {
     @RequestMapping("/stands")
     public ResponseEntity<Stand> findBy(@RequestParam(name="id",
       required=true) String id) {
-       return standService.findBy(id);
+       return ResponseEntity.ok().body(standService.findBy(id));
     }
 
     /**
@@ -45,7 +48,7 @@ public class StandController {
      */
     @PostMapping(value="/stands")
     public ResponseEntity<List<Stand>> findBy(@RequestBody List<String> ids) {
-        return standService.findBy(ids);
+        return ResponseEntity.ok().body(standService.findBy(ids));
     }
 
     /**
@@ -59,6 +62,11 @@ public class StandController {
      */
     @RequestMapping("/stands/list")
     public ResponseEntity<List<Stand>> listOrderedByRanking() {
-        return standService.listOrderedByRanking();
+        return ResponseEntity.ok().body(standService.listOrderedByRanking());
+    }
+
+    @RequestMapping("/stands/suggested_tour")
+    public ResponseEntity<List<Stand>> findSuggestedTour() {
+        return ResponseEntity.ok().body(standService.findSuggestedTourByCongestion());
     }
 }
