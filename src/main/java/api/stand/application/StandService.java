@@ -1,6 +1,7 @@
 package api.stand.application;
 
-import api.stand.domain.DeviceProximity;
+import api.deviceproximity.application.DeviceProximityService;
+import api.deviceproximity.domain.DeviceProximity;
 import api.stand.domain.Stand;
 import api.stand.domain.StandRepository;
 import org.apache.commons.lang3.Validate;
@@ -61,7 +62,7 @@ public class StandService {
     List<Stand> findSuggestedTourByCongestion() {
         List<DeviceProximity> deviceProximityList = deviceProximityService.listAll();
         Map<String, Long> congestionMap =  deviceProximityList.stream().filter(this::isUpdated)
-                .collect(groupingBy(DeviceProximity::getImmediateStandId, Collectors.counting()));
+                .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting()));
 
         List<Stand> stands = findBy(congestionMap.keySet().stream().collect(Collectors.toList()));
 

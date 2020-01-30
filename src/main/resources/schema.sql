@@ -21,8 +21,9 @@ CREATE TABLE IF NOT EXISTS stand_pictures(
 
 CREATE TABLE IF NOT EXISTS device_proximity(
     device_id VARCHAR NOT NULL,
-    immediate_stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    distance FLOAT NOT NULL,
     update_time TIMESTAMP NOT NULL,
-    PRIMARY KEY (device_id),
-    FOREIGN KEY (immediate_stand_id) REFERENCES stand (id)
+    PRIMARY KEY (device_id, stand_id),
+    FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
