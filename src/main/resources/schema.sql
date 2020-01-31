@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS stand(
    ranking INTEGER,
    latitude FLOAT NOT NULL,
    longitude FLOAT NOT NULL,
-   stand_number SERIAL
+   stand_number SERIAL,
+   average_time FLOAT
 );
 
 CREATE TABLE IF NOT EXISTS stand_pictures(

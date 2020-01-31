@@ -70,10 +70,17 @@ public class Stand {
     /**
      * Stand's number.
      */
-    @JsonProperty("stand_number")
     @Column(name = "stand_number", nullable = false)
     @GeneratedValue
     private int standNumber;
+
+    /**
+     * Average time people spend in this Stand.
+     * It is measured in hours.
+     * It is calculated async.
+     */
+    @Column(name = "average_time")
+    private Double averageTime;
 
     /** Empty constructor. For Hibernate purposes.
      */
@@ -160,5 +167,12 @@ public class Stand {
         return standNumber;
     }
 
-
+    /** Returns average time people spend in this Stand.
+     * It is measured in minutes.
+     *
+     * @return the average time people spend in this Stand.
+     */
+    public Double getAverageTime() {
+        return averageTime;
+    }
 }
