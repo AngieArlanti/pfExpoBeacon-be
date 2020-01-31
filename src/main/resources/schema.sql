@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS device_location_history;
+DROP TABLE IF EXISTS stand_visit_hours;
+DROP TABLE IF EXISTS expo_hours;
 DROP TABLE IF EXISTS device_proximity;
 DROP TABLE IF EXISTS stand_pictures;
 DROP TABLE IF EXISTS stand;
@@ -31,6 +33,21 @@ CREATE TABLE IF NOT EXISTS device_proximity(
     update_time TIMESTAMP NOT NULL,
     PRIMARY KEY (device_id, stand_id),
     FOREIGN KEY (stand_id) REFERENCES stand (id)
+);
+
+CREATE TABLE IF NOT EXISTS expo_hours(
+    id SERIAL PRIMARY KEY,
+    start TIME NOT NULL,
+    finish TIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS stand_visit_hours(
+    stand_id VARCHAR NOT NULL,
+    expo_hours_id SERIAL NOT NULL,
+    visits INTEGER NOT NULL,
+    PRIMARY KEY (stand_id, expo_hours_id),
+    FOREIGN KEY (stand_id) REFERENCES stand (id),
+    FOREIGN KEY (expo_hours_id) REFERENCES expo_hours (id)
 );
 
 CREATE TABLE IF NOT EXISTS device_location_history(
