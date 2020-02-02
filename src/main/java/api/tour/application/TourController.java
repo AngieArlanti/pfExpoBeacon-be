@@ -17,7 +17,7 @@ public class TourController {
 
     @RequestMapping("/tour/no_lines")
     public ResponseEntity<List<Stand>> getTourWithoutLines() {
-        return ResponseEntity.ok().body(tourService.getTourWithoutLines());
+        return ResponseEntity.ok().body(tourService.orderStands());
     }
 
     @RequestMapping("/tour/time_limited")

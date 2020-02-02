@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.time.OffsetTime.now;
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toMap;
 
 /**
  * Service to get stats from DeviceProximity and DeviceProximityHistory Entities.
@@ -104,25 +105,43 @@ public class StatsService {
 
     public List<StandStatics> getCurrentStandStatics() {
         //TODO (ma 2020-02-02) Call ranking service when merging with Ranking Feature.
-        final Map<String, Integer> ranking = standRepository.findOrderedByRanking()
-                .stream()
-                .collect(toMap(Stand::getId, Stand::getRanking));
+        List<Stand> stands = standRepository.findOrderedByRanking();
+        //TODO (ma 2020-02-02) Improve given standIds as argument.
         final Map<String, Long> currentCongestion = getStandCurrentCongestion();
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
 
-        return ranking.keySet().stream()
-                .map(key -> new StandStatics(key, coalesce(ranking.get(key)), coalesce(currentCongestion.get(key)), coalesce(historicCongestion.get(key))))
+        final List<Long> minMaxCurrentCongestion = getMinMax(currentCongestion.values());
+        final List<Long> minMaxHistoricCongestion = getMinMax(currentCongestion.values());
+
+        return stands.stream()
+                .map(stand -> new StandStatics(stand,
+                        getNormalizedValue((long) stand.getRanking(),1L, 5L),
+                        getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), minMaxCurrentCongestion.get(0),  minMaxCurrentCongestion.get(1)),
+                        getNormalizedOpportunity(coalesce(currentCongestion.get(stand.getId())),
+                                coalesce(historicCongestion.get(stand.getId())), minMaxHistoricCongestion.get(0), minMaxHistoricCongestion.get(1))))
                 .collect(Collectors.toList());
     }
 
-    private long coalesce(Long value){
-        if(value == null){
-            return 0;
-        }
-        return value;
+    private List<Long> getMinMax(final Collection<Long> values) {
+        final List<Long> result = new ArrayList<>();
+        values.stream().min(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
+        values.stream().max(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
+        return result;
     }
 
-    private int coalesce(Integer value){
+    private double getNormalizedValue(final Long value, final Long min, final Long max){
+        return (-1) * ((double)value / (max - min));
+    }
+    private Long getOpportunity(final Long currentCongestion, final Long historicCongestion) {
+        return historicCongestion - currentCongestion;
+    }
+
+    private double getNormalizedOpportunity(final Long currentCongestion, final Long historicCongestion,
+                                            final Long min, final Long max){
+        return getNormalizedValue(getOpportunity(currentCongestion, historicCongestion), min, max);
+    }
+
+    private long coalesce(final Long value){
         if(value == null){
             return 0;
         }

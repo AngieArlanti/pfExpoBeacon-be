@@ -2,14 +2,12 @@ package api.tour.application;
 
 import api.stand.application.StandService;
 import api.stand.domain.Stand;
+import api.stats.application.StandStatics;
 import api.stats.application.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,5 +74,12 @@ public class TourService {
             }
         }
         return timeLimitedTour;
+    }
+
+    public List<Stand> orderStands() {
+        final List<StandStatics> standStatics = statsService.getCurrentStandStatics();
+        standStatics.sort(Comparator.comparingDouble(StandStatics::getOrderCriteria));
+
+        return standStatics.stream().map(StandStatics::getStand).collect(Collectors.toList());
     }
 }
