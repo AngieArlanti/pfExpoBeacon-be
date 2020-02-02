@@ -9,7 +9,7 @@ import java.util.List;
 public class StandVisitHoursMapper {
 
     public StandVisitHoursDto toDto(StandVisitHours standVisitHours, ExpoHours expoHours) {
-        return new StandVisitHoursDto(expoHours.getFrom(),
+        return new StandVisitHoursDto(standVisitHours.getStandId(), expoHours.getFrom(),
                 expoHours.getTo(), standVisitHours.getVisits());
     }
 

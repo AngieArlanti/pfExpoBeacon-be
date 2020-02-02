@@ -48,6 +48,17 @@ public class StatsService {
         return standVisitHoursMapper.toDto(standVisitHours, expoHours);
     }
 
+    /** Returns amount of visits per hour for all Stands.
+     *
+     * @return amount of visits per hour for the all Stands.
+     */
+    List<StandVisitHoursDto> getAllStandVisitHours() {
+        List<StandVisitHours> standVisitHours = standVisitHoursRepository.findAll();
+        List<ExpoHours> expoHours = expoHoursRepository.findAll();
+
+        return standVisitHoursMapper.toDto(standVisitHours, expoHours);
+    }
+
     /** Returns a map with Stand Ids as a key and a Long representing Stand's
      * current congestion, which is the amount of Stand's visits in the last ten minutes.
      *
@@ -66,8 +77,22 @@ public class StatsService {
      *
      * @return true if deviceProximity is updated (it is 10 minutes old).
      */
-    private boolean isUpdated(DeviceProximity deviceProximity) {
+    private boolean isUpdated(final DeviceProximity deviceProximity) {
         return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
 
+    /** Returns a map with Stand Ids as a key and a Long representing Stand's
+     * current historic congestion, which is the historical average amount of Stand's visits in current
+     * interval of ExpoHours.
+     *
+     * @return Map with Stand Id as a key and a Long representing Stand's current historic congestion.
+     */
+    public Map<String, Long> getStandCurrentHistoricCongestion() {
+        final List<StandVisitHoursDto> standVisitHours = getAllStandVisitHours();
+
+        return standVisitHours
+                .stream()
+                .filter(StandVisitHoursDto::matchesCurrentTime)
+                .collect(Collectors.toMap(StandVisitHoursDto::getStandId, StandVisitHoursDto::getVisits));
+    }
 }

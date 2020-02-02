@@ -52,12 +52,10 @@ public class TourService {
             standCongestion.put(stand, congestion);
         }
 
-        final List<Stand> orderedSuggestedStandIds = standCongestion.entrySet().stream()
+        return standCongestion.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-
-        return orderedSuggestedStandIds;
     }
 
     /** Returns time limited tour by the given timeLimit.
