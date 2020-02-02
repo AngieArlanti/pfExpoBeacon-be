@@ -7,10 +7,10 @@ public class StandStatics {
 
     private String standId;
     private int ranking;
-    private Long currentCongestion;
-    private Long historicCongestion;
+    private long currentCongestion;
+    private long historicCongestion;
 
-    public StandStatics(String standId, int ranking, Long currentCongestion, Long historicCongestion) {
+    public StandStatics(String standId, int ranking, long currentCongestion, long historicCongestion) {
         this.standId = standId;
         this.ranking = ranking;
         this.currentCongestion = currentCongestion;
@@ -25,11 +25,11 @@ public class StandStatics {
         return ranking;
     }
 
-    public Long getCurrentCongestion() {
+    public long getCurrentCongestion() {
         return currentCongestion;
     }
 
-    public Long getHistoricCongestion() {
+    public long getHistoricCongestion() {
         return historicCongestion;
     }
 }

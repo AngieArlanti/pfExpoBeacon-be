@@ -2,6 +2,8 @@ package api.stats.application;
 
 import api.deviceproximity.application.DeviceProximityService;
 import api.deviceproximity.domain.DeviceProximity;
+import api.stand.domain.Stand;
+import api.stand.domain.StandRepository;
 import api.stats.domain.ExpoHours;
 import api.stats.domain.ExpoHoursRepository;
 import api.stats.domain.StandVisitHours;
@@ -16,12 +18,16 @@ import java.util.stream.Collectors;
 
 import static java.time.OffsetTime.now;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Service to get stats from DeviceProximity and DeviceProximityHistory Entities.
  */
 @Service
 public class StatsService {
+
+    @Autowired
+    private StandRepository standRepository;
 
     @Autowired
     private StandVisitHoursRepository standVisitHoursRepository;
@@ -94,5 +100,32 @@ public class StatsService {
                 .stream()
                 .filter(StandVisitHoursDto::matchesCurrentTime)
                 .collect(Collectors.toMap(StandVisitHoursDto::getStandId, StandVisitHoursDto::getVisits));
+    }
+
+    public List<StandStatics> getCurrentStandStatics() {
+        //TODO (ma 2020-02-02) Call ranking service when merging with Ranking Feature.
+        final Map<String, Integer> ranking = standRepository.findOrderedByRanking()
+                .stream()
+                .collect(toMap(Stand::getId, Stand::getRanking));
+        final Map<String, Long> currentCongestion = getStandCurrentCongestion();
+        final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
+
+        return ranking.keySet().stream()
+                .map(key -> new StandStatics(key, coalesce(ranking.get(key)), coalesce(currentCongestion.get(key)), coalesce(historicCongestion.get(key))))
+                .collect(Collectors.toList());
+    }
+
+    private long coalesce(Long value){
+        if(value == null){
+            return 0;
+        }
+        return value;
+    }
+
+    private int coalesce(Integer value){
+        if(value == null){
+            return 0;
+        }
+        return value;
     }
 }
