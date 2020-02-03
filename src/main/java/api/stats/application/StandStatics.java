@@ -40,19 +40,21 @@ public class StandStatics {
 
     /**
      * // En éste caso te conviene mandarlo al 1. Por eso la congestion tiene una ponderación mayor que la oportunidad.
-     *     //1. 5 rank - cong 0 - hist 5
-     *     //2. 5 - 5 - 10
-     *     // En éste caso sucede lo mismo:
-     *     //1. 4 - 0 - 0
-     *     //2. 4 - 9 - 10
+     * //1. 5 rank - cong 0 - hist 5
+     * //2. 5 - 5 - 10
+     * // En éste caso sucede lo mismo:
+     * //1. 4 - 0 - 0
+     * //2. 4 - 9 - 10
      *
      * @return
      */
     public double getOrderCriteria() {
-        return (normalizedRanking * 0.4) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2);
+        if (normalizedRanking >= 0.6) {
+            return (normalizedRanking * 0.4) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2);
+        } else {
+            return (normalizedRanking * 0.2) - (normalizedCurrentCongestion * 0.5) + (normalizedOpportunity * 0.3);
+        }
     }
-
-
 
 
 }
