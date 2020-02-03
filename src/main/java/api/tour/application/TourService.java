@@ -78,7 +78,7 @@ public class TourService {
 
     public List<Stand> orderStands() {
         final List<StandStatics> standStatics = statsService.getCurrentStandStatics();
-        standStatics.sort(Comparator.comparingDouble(StandStatics::getOrderCriteria));
+        standStatics.sort(Comparator.comparingDouble(StandStatics::getOrderCriteria).reversed());
 
         return standStatics.stream().map(StandStatics::getStand).collect(Collectors.toList());
     }

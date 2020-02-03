@@ -36,14 +36,16 @@ public class StatsService {
     @Autowired
     private ExpoHoursRepository expoHoursRepository;
 
-    /** Device Proximity Service to ask for device immediate Stand's info.
+    /**
+     * Device Proximity Service to ask for device immediate Stand's info.
      */
     @Autowired
     private DeviceProximityService deviceProximityService;
 
     private StandVisitHoursMapper standVisitHoursMapper = new StandVisitHoursMapper();
 
-    /** Returns amount of visits per hour for the given Stand Id.
+    /**
+     * Returns amount of visits per hour for the given Stand Id.
      *
      * @param standId to calculate amount of visits per hour.
      * @return amount of visits per hour for the given Stand Id.
@@ -55,7 +57,8 @@ public class StatsService {
         return standVisitHoursMapper.toDto(standVisitHours, expoHours);
     }
 
-    /** Returns amount of visits per hour for all Stands.
+    /**
+     * Returns amount of visits per hour for all Stands.
      *
      * @return amount of visits per hour for the all Stands.
      */
@@ -66,7 +69,8 @@ public class StatsService {
         return standVisitHoursMapper.toDto(standVisitHours, expoHours);
     }
 
-    /** Returns a map with Stand Ids as a key and a Long representing Stand's
+    /**
+     * Returns a map with Stand Ids as a key and a Long representing Stand's
      * current congestion, which is the amount of Stand's visits in the last ten minutes.
      *
      * @return Map with Stand Id as a key and a Long representing Stand's current congestion.
@@ -80,7 +84,8 @@ public class StatsService {
                 .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting()));
     }
 
-    /** Returns whether deviceProximity record is at most ten minutes old.
+    /**
+     * Returns whether deviceProximity record is at most ten minutes old.
      *
      * @return true if deviceProximity is updated (it is 10 minutes old).
      */
@@ -88,7 +93,8 @@ public class StatsService {
         return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
 
-    /** Returns a map with Stand Ids as a key and a Long representing Stand's
+    /**
+     * Returns a map with Stand Ids as a key and a Long representing Stand's
      * current historic congestion, which is the historical average amount of Stand's visits in current
      * interval of ExpoHours.
      *
@@ -111,38 +117,43 @@ public class StatsService {
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
 
         final List<Long> minMaxCurrentCongestion = getMinMax(currentCongestion.values());
-        final List<Long> minMaxHistoricCongestion = getMinMax(currentCongestion.values());
 
+        return getStandStatics(stands, currentCongestion, historicCongestion, minMaxCurrentCongestion);
+    }
+
+    List<StandStatics> getStandStatics(final List<Stand> stands, final Map<String, Long> currentCongestion,
+                                       final Map<String, Long> historicCongestion, final List<Long> minMaxCurrentCongestion) {
         return stands.stream()
                 .map(stand -> new StandStatics(stand,
-                        getNormalizedValue((long) stand.getRanking(),1L, 5L),
-                        getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), minMaxCurrentCongestion.get(0),  minMaxCurrentCongestion.get(1)),
+                        getNormalizedValue((long) stand.getRanking(), 1L, 5L),
+                        getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), minMaxCurrentCongestion.get(0), minMaxCurrentCongestion.get(1)),
                         getNormalizedOpportunity(coalesce(currentCongestion.get(stand.getId())),
-                                coalesce(historicCongestion.get(stand.getId())), minMaxHistoricCongestion.get(0), minMaxHistoricCongestion.get(1))))
+                                coalesce(historicCongestion.get(stand.getId())), 0L, coalesce(historicCongestion.get(stand.getId())))))
                 .collect(Collectors.toList());
     }
 
-    private List<Long> getMinMax(final Collection<Long> values) {
+    List<Long> getMinMax(final Collection<Long> values) {
         final List<Long> result = new ArrayList<>();
         values.stream().min(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
         values.stream().max(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
         return result;
     }
 
-    private double getNormalizedValue(final Long value, final Long min, final Long max){
-        return (-1) * ((double)value / (max - min));
+    double getNormalizedValue(final Long value, final Long min, final Long max) {
+        return ((double) (value - min) / Math.abs(max - min));
     }
+
     private Long getOpportunity(final Long currentCongestion, final Long historicCongestion) {
         return historicCongestion - currentCongestion;
     }
 
     private double getNormalizedOpportunity(final Long currentCongestion, final Long historicCongestion,
-                                            final Long min, final Long max){
+                                            final Long min, final Long max) {
         return getNormalizedValue(getOpportunity(currentCongestion, historicCongestion), min, max);
     }
 
-    private long coalesce(final Long value){
-        if(value == null){
+    private long coalesce(final Long value) {
+        if (value == null) {
             return 0;
         }
         return value;
