@@ -1,12 +1,12 @@
 
 package api.stand.application;
 
-import api.stand.domain.StandRanking;
+import api.stand.domain.StandRankingDevice;
 
 public class StandRankingMapper {
 
-    StandRanking toModel(final StandRankingDto standRankingDto){
-        return new StandRanking(standRankingDto.getStandId(),
+    StandRankingDevice toModel(final StandRankingDto standRankingDto){
+        return new StandRankingDevice(standRankingDto.getStandId(),
                 standRankingDto.getDeviceId(), standRankingDto.getRanking());
     }
 }

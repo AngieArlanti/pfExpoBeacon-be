@@ -1,14 +1,10 @@
 package api.stand.application;
 
-import api.stand.domain.StandRanking;
-import api.stand.domain.StandRankingRepository;
-import api.stand.domain.StandRanking;
-import api.stand.domain.Stand;
-import org.apache.commons.lang3.Validate;
+import api.stand.domain.*;
+import api.stand.domain.StandRankingDevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,28 +14,28 @@ public class StandRankingService {
     private StandRankingRepository standRankingRepository;
 
     @Autowired
-    private DeviceProximityService deviceProximityService;
+    private RankingAverageService rankingAverageService;
 
-    private StandService standService = new StandService();
+    @Autowired
+    private StandService standService;
+
     private StandRankingMapper mapper = new StandRankingMapper();
 
     public void save(final StandRankingDto standRankingDto) {
-        deviceProximityService.checkValidStand(standRankingDto.getStandId());
-        StandRanking standRanking = mapper.toModel(standRankingDto);
-        standRankingRepository.save(standRanking);
+        standService.findBy(standRankingDto.getStandId());
+        StandRankingDevice standRankingByDevice = mapper.toModel(standRankingDto);
+        standRankingRepository.save(standRankingByDevice);
+        RankingAverage rankingAverage = calculateRankingCantRates(standRankingDto);
+        rankingAverageService.update(rankingAverage);
     }
 
-    public double calculateRanking(StandRankingDto standRankingDto) {
-        deviceProximityService.checkValidStand(standRankingDto.getStandId());
-        List<StandRanking> list = standRankingRepository.findAll();
-        double rankings = 0;
-        int elem = 0;
-        for (StandRanking standRanking : list) {
-            if(standRanking.getStandId().equals(standRankingDto.getStandId())){
-                rankings += standRanking.getRanking();
-                elem++;
-            }
-        }
-        return (rankings / elem);
+    public RankingAverage calculateRankingCantRates(StandRankingDto standRankingDto) {
+        standService.findBy(standRankingDto.getStandId());
+        List<StandRankingDevice> list = standRankingRepository.findBystandId(standRankingDto.getStandId());
+        double rankings = list.stream()
+                .mapToInt(r -> r.getRanking())
+                .sum();
+        int cantRates = list.size();
+        return new RankingAverage(standService.findBy(standRankingDto.getStandId()).getRankingAverage().getId(), (rankings / cantRates), cantRates);
     }
 }

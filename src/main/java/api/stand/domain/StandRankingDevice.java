@@ -6,7 +6,7 @@ import javax.persistence.IdClass;
 
 @Entity
 @IdClass(StandRankingId.class)
-public class StandRanking {
+public class StandRankingDevice {
 
     @Id
     private String standId;
@@ -16,10 +16,10 @@ public class StandRanking {
 
     private int ranking;
 
-    public StandRanking() {
+    public StandRankingDevice() {
     }
 
-    public StandRanking(final String standId, final String deviceId, final int ranking) {
+    public StandRankingDevice(final String standId, final String deviceId, final int ranking) {
         this.standId = standId;
         this.deviceId = deviceId;
         this.ranking = ranking;

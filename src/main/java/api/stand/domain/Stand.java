@@ -55,7 +55,9 @@ public class Stand {
      * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
      * TODO: and/or user's rank.
      */
-    private double ranking;
+    @OneToOne
+    @JoinColumn(name = "ranking_average_id", referencedColumnName = "id")
+    private RankingAverage rankingAverage;
 
     /** Empty constructor. For Hibernate purposes.
      */
@@ -110,15 +112,7 @@ public class Stand {
         return pictures;
     }
 
-    /** Returns the Stand's ranking.
-     *
-     * @return the Stand's ranking.
-     */
-    public double getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(double ranking) {
-        this.ranking = ranking;
+    public RankingAverage getRankingAverage() {
+        return rankingAverage;
     }
 }

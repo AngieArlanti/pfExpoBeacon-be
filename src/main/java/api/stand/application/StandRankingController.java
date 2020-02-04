@@ -1,6 +1,7 @@
   
 package api.stand.application;
 
+import api.stand.domain.RankingAverage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,6 @@ public class StandRankingController {
     @PostMapping(value="/stand_ranking")
     public ResponseEntity<Void> save(@RequestBody StandRankingDto standRankingDto) {
         standRankingService.save(standRankingDto);
-        double newRanking = standRankingService.calculateRanking(standRankingDto);
-        standService.update(standRankingDto.getStandId(), newRanking);
         return ResponseEntity.ok().build();
     }
 }

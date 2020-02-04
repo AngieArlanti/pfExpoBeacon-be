@@ -1,16 +1,16 @@
 package api.stand.application;
 
-import api.stand.domain.DeviceProximity;
-import api.stand.domain.Stand;
-import api.stand.domain.StandRepository;
+import api.stand.domain.*;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.time.OffsetTime.now;
@@ -21,7 +21,10 @@ public class StandService {
 
     /** The Stand's Repository. Never null.
      */
-    private StandRepository standRepository = new StandRepository();
+    //private StandRepository standRepository = new StandRepository();
+
+    @Autowired
+    private StandRepository stand2Repository;
 
     @Autowired
     private DeviceProximityService deviceProximityService;
@@ -31,10 +34,11 @@ public class StandService {
      * @param id Stand's id. MUST be the natural id beacon's MAC ADDRESS.
      * @return a Stand.
      */
-    public  Stand findBy(final String id) {
-        final Stand stand = standRepository.findBy(id);
+    @Transactional
+    public Stand findBy(final String id) {
+        final Optional<Stand> stand = stand2Repository.findById(id);
         Validate.notNull(stand,"Stand " + id + " not found");
-        return stand;
+        return stand.get();
     }
 
     /** Returns a Stand's List using the given Stands' ids.
@@ -42,8 +46,9 @@ public class StandService {
      * @param ids the Stands's ids.
      * @return a Stand's list.
      * */
+    @Transactional
     public  List<Stand>  findBy(final List<String> ids) {
-        final List<Stand> stands = standRepository.findBy(ids);
+        final List<Stand> stands = stand2Repository.findAllById(ids);
         Validate.notEmpty(stands,"Stands " + ids + " not found");
         Validate.isTrue(stands.size() == ids.size(), "Stands not found");
         return stands;
@@ -53,8 +58,9 @@ public class StandService {
      *
      * @return a Stand's list ordered by ranking.
      */
+    @Transactional
     public List<Stand> listOrderedByRanking() {
-        final List<Stand> list = standRepository.findOrderedByRanking();
+        final List<Stand> list = stand2Repository.findByOrderByRankingAverage_RankingDesc();
         return list;
     }
 
@@ -84,8 +90,8 @@ public class StandService {
         return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
 
-    public void update(String standId, double ranking) {
+    /*public void update(String standId, StandRankingRates rankingRates) {
         deviceProximityService.checkValidStand(standId);
-        standRepository.update(standId, ranking);
-    }
+        standRepository.update(standId, rankingRates);
+    }*/
 }
