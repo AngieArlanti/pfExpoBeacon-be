@@ -21,10 +21,9 @@ public class StandService {
 
     /** The Stand's Repository. Never null.
      */
-    //private StandRepository standRepository = new StandRepository();
 
     @Autowired
-    private StandRepository stand2Repository;
+    private StandRepository standRepository;
 
     @Autowired
     private DeviceProximityService deviceProximityService;
@@ -36,7 +35,7 @@ public class StandService {
      */
     @Transactional
     public Stand findBy(final String id) {
-        final Optional<Stand> stand = stand2Repository.findById(id);
+        final Optional<Stand> stand = standRepository.findById(id);
         Validate.notNull(stand,"Stand " + id + " not found");
         return stand.get();
     }
@@ -48,7 +47,7 @@ public class StandService {
      * */
     @Transactional
     public  List<Stand>  findBy(final List<String> ids) {
-        final List<Stand> stands = stand2Repository.findAllById(ids);
+        final List<Stand> stands = standRepository.findAllById(ids);
         Validate.notEmpty(stands,"Stands " + ids + " not found");
         Validate.isTrue(stands.size() == ids.size(), "Stands not found");
         return stands;
@@ -60,7 +59,7 @@ public class StandService {
      */
     @Transactional
     public List<Stand> listOrderedByRanking() {
-        final List<Stand> list = stand2Repository.findByOrderByRankingAverage_RankingDesc();
+        final List<Stand> list = standRepository.findByOrderByRankingAverage_RankingDesc();
         return list;
     }
 

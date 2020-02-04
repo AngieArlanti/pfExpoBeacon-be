@@ -16,7 +16,9 @@ public class DeviceProximityService {
     @Autowired
     private DeviceProximityRepository deviceProximityRepository;
 
-    private StandService standService = new StandService();
+    @Autowired
+    private StandService standService;
+
     private DeviceProximityMapper mapper = new DeviceProximityMapper();
 
     public void save(final DeviceProximityDto deviceProximityDto) {
