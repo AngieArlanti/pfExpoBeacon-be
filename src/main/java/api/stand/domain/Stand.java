@@ -1,5 +1,7 @@
 package api.stand.domain;
 
+import api.ranking.domain.RankingAverage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,10 +54,10 @@ public class Stand {
 
     /**
      * The Stand's ranking. It goes from 1 to 5.
-     * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
-     * TODO: and/or user's rank.
      */
-    private int ranking;
+    @OneToOne
+    @JoinColumn(name = "ranking_average_id", referencedColumnName = "id")
+    private RankingAverage rankingAverage;
 
     /**
      * Stand's latitude position.
@@ -87,10 +89,20 @@ public class Stand {
     public Stand() {
     }
 
-    //TODO hacer bien el constructor
-    public Stand(final String id, final int ranking) {
+    public Stand(final String id, final String title, final String shortDescription,
+                 final String description, final String cover, final List<String> pictures,
+                 final RankingAverage rankingAverage, final double latitude,
+                 final double longitude, final Double averageTime) {
         this.id = id;
-        this.ranking = ranking;
+        this.title = title;
+        this.shortDescription = shortDescription;
+        this.description = description;
+        this.cover = cover;
+        this.pictures = pictures;
+        this.rankingAverage = rankingAverage;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.averageTime = averageTime;
     }
 
     /** Returns the Stand's id.
@@ -141,12 +153,13 @@ public class Stand {
         return pictures;
     }
 
-    /** Returns the Stand's ranking.
-     *
-     * @return the Stand's ranking.
-     */
-    public int getRanking() {
-        return ranking;
+    public RankingAverage getRankingAverage() {
+        return rankingAverage;
+    }
+
+    @JsonIgnore
+    public double getRanking(){
+        return rankingAverage != null ? rankingAverage.getRanking() : 0;
     }
 
     /** Returns the Stand's latitude position.

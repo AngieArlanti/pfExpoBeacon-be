@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static api.stats.application.utils.StatsUtils.coalesce;
+
 @Service
 public class TourService {
 
@@ -67,7 +69,7 @@ public class TourService {
         final List<Stand> timeLimitedTour = new ArrayList<>();
         Double totalTime = 0.0;
         for (Stand stand: tourWithoutLines) {
-            totalTime += (stand.getAverageTime()/60.0);
+            totalTime += (coalesce(stand.getAverageTime())/60.0);
             totalTime += (TIME_BETWEEN_STANDS/60.0);
             if(totalTime <= timeLimit){
                 timeLimitedTour.add(stand);

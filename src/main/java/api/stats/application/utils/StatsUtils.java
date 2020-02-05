@@ -12,6 +12,13 @@ public final class StatsUtils {
         return value;
     }
 
+    public static Double coalesce(final Double value) {
+        if (value == null) {
+            return 0.0;
+        }
+        return value;
+    }
+
     public static StatsInterval getStatsInterval(final Collection<Long> values) {
         return new StatsInterval(values);
     }

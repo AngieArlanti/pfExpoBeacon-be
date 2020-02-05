@@ -1,5 +1,6 @@
 package api.tour.application;
 
+import api.stand.StandTestBuilder;
 import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import api.stats.application.StandStatics;
@@ -51,9 +52,24 @@ public class TourServiceTest {
 
     @Test
     public void orderStands_threeStandWithSameRanking() {
-        final Stand stand1 = new Stand("1", 5); // cong 5 - hist 10
-        final Stand stand2 = new Stand("2", 5); //cong 7 - hist 5
-        final Stand stand3 = new Stand("3", 5); //cong 0 - hist 5
+        final StandTestBuilder builder = new StandTestBuilder();
+        // cong 5 - hist 10
+        final Stand stand1 = builder
+                .setId("1")
+                .setRanking(5.0)
+                .build();
+
+        //cong 7 - hist 5
+        final Stand stand2 = builder
+                .setId("2")
+                .setRanking(5.0)
+                .build();
+
+        //cong 0 - hist 5
+        final Stand stand3 = builder
+                .setId("3")
+                .setRanking(5.0)
+                .build();
 
         final StandStatics standStatics1 = new StandStatics(stand1, 1, 0.71,0.5); //0,216
         final StandStatics standStatics2 = new StandStatics(stand2, 1, 1, -0.4); //-0,08
@@ -74,9 +90,24 @@ public class TourServiceTest {
 
     @Test
     public void orderStands_onlyRankingStats() {
-        final Stand stand1 = new Stand("1", 5); // cong 5 - hist 10
-        final Stand stand2 = new Stand("2", 4); //cong 7 - hist 5
-        final Stand stand3 = new Stand("3", 3); //cong 0 - hist 5
+        final StandTestBuilder builder = new StandTestBuilder();
+        // cong 5 - hist 10
+        final Stand stand1 = builder
+                .setId("1")
+                .setRanking(5.0)
+                .build();
+
+        //cong 7 - hist 5
+        final Stand stand2 = builder
+                .setId("2")
+                .setRanking(5.0)
+                .build();
+
+        //cong 0 - hist 5
+        final Stand stand3 = builder
+                .setId("3")
+                .setRanking(5.0)
+                .build();
 
         final StandStatics standStatics1 = new StandStatics(stand1, 1, 0,0); //0,216
         final StandStatics standStatics2 = new StandStatics(stand2, 0.8, 0, 0); //-0,08

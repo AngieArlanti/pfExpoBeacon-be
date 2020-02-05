@@ -1,8 +1,9 @@
 package api.stats.application;
 
 import api.deviceproximity.application.DeviceProximityService;
+import api.stand.StandTestBuilder;
+import api.stand.application.StandService;
 import api.stand.domain.Stand;
-import api.stand.domain.StandRepository;
 import api.stats.domain.ExpoHoursRepository;
 import api.stats.domain.StandVisitHoursRepository;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import static org.hamcrest.core.Is.is;
 public class StatsServiceTest {
 
     @TestConfiguration
-    static class StatsServiceTestConfigutarion {
+    static class StatsServiceTestConfiguration {
 
         @Bean
         public StatsService statsService() {
@@ -37,7 +38,7 @@ public class StatsServiceTest {
     private StatsService statsService;
 
     @MockBean
-    private StandRepository standRepository;
+    private StandService standService;
 
     @MockBean
     private StandVisitHoursRepository standVisitHoursRepository;
@@ -50,9 +51,24 @@ public class StatsServiceTest {
 
     @Test
     public void getStandStatics_generateStandStaticsOk() {
-        final Stand stand1 = new Stand("1", 5); // cong 5 - hist 10
-        final Stand stand2 = new Stand("2", 5); //cong 7 - hist 5
-        final Stand stand3 = new Stand("3", 5); //cong 0 - hist 5
+        final StandTestBuilder builder = new StandTestBuilder();
+        // cong 5 - hist 10
+        final Stand stand1 = builder
+                .setId("1")
+                .setRanking(5.0)
+                .build();
+
+        //cong 7 - hist 5
+        final Stand stand2 = builder
+                .setId("2")
+                .setRanking(5.0)
+                .build();
+
+        //cong 0 - hist 5
+        final Stand stand3 = builder
+                .setId("3")
+                .setRanking(5.0)
+                .build();
 
         final List<Stand> stands = new ArrayList<>();
         stands.add(stand1);

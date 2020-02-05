@@ -2,8 +2,8 @@ package api.stats.application;
 
 import api.deviceproximity.application.DeviceProximityService;
 import api.deviceproximity.domain.DeviceProximity;
+import api.stand.application.StandService;
 import api.stand.domain.Stand;
-import api.stand.domain.StandRepository;
 import api.stats.application.utils.StatsInterval;
 import api.stats.domain.ExpoHours;
 import api.stats.domain.ExpoHoursRepository;
@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class StatsService {
 
     @Autowired
-    private StandRepository standRepository;
+    private StandService standService;
 
     @Autowired
     private StandVisitHoursRepository standVisitHoursRepository;
@@ -110,8 +110,7 @@ public class StatsService {
     }
 
     public List<StandStatics> getCurrentStandStatics() {
-        //TODO (ma 2020-02-02) Call ranking service when merging with Ranking Feature.
-        List<Stand> stands = standRepository.findOrderedByRanking();
+        List<Stand> stands = standService.listOrderedByRanking();
         //TODO (ma 2020-02-02) Improve given standIds as argument.
         final Map<String, Long> currentCongestion = getStandCurrentCongestion();
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();

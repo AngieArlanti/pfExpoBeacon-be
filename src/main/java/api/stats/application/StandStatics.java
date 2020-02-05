@@ -49,12 +49,12 @@ public class StandStatics {
      * @return
      */
     public double getOrderCriteria() {
+        //Priority is given to Ranking being 3 or higher.
         if (normalizedRanking >= 0.6) {
             return (normalizedRanking * 0.4) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2);
         } else {
             return (normalizedRanking * 0.2) - (normalizedCurrentCongestion * 0.5) + (normalizedOpportunity * 0.3);
         }
     }
-
 
 }
