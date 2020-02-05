@@ -1,16 +1,21 @@
 package api.stand.application;
 
-import api.stand.domain.*;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import api.deviceproximity.application.DeviceProximityService;
+import api.deviceproximity.domain.DeviceProximity;
+import api.stand.domain.Stand;
+import api.stand.domain.StandRepository;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 import static java.time.OffsetTime.now;
@@ -66,7 +71,7 @@ public class StandService {
     List<Stand> findSuggestedTourByCongestion() {
         List<DeviceProximity> deviceProximityList = deviceProximityService.listAll();
         Map<String, Long> congestionMap =  deviceProximityList.stream().filter(this::isUpdated)
-                .collect(groupingBy(DeviceProximity::getImmediateStandId, Collectors.counting()));
+                .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting()));
 
         List<Stand> stands = findBy(congestionMap.keySet().stream().collect(Collectors.toList()));
 
@@ -88,9 +93,4 @@ public class StandService {
     private boolean isUpdated(DeviceProximity deviceProximity) {
         return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
-
-    /*public void update(String standId, StandRankingRates rankingRates) {
-        deviceProximityService.checkValidStand(standId);
-        standRepository.update(standId, rankingRates);
-    }*/
 }

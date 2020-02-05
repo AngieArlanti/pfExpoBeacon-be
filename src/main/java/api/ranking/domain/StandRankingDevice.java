@@ -1,4 +1,4 @@
-package api.stand.domain;
+package api.ranking.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

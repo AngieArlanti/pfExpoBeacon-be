@@ -1,4 +1,4 @@
-package api.stand.domain;
+package api.ranking.domain;
 
 import java.io.Serializable;
 

@@ -1,4 +1,6 @@
-package api.stand.domain;
+package api.ranking.domain;
+
+import api.stand.domain.Stand;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package api.stand.application;
+package api.ranking.application;
 
 public class StandRankingDto {
 

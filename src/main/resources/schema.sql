@@ -18,7 +18,10 @@ CREATE TABLE IF NOT EXISTS stand(
    short_description VARCHAR NOT NULL,
    description VARCHAR NOT NULL,
    cover VARCHAR NOT NULL,
-   ranking_average_id INTEGER REFERENCES ranking_average (id)
+   ranking_average_id INTEGER REFERENCES ranking_average (id),
+   latitude FLOAT NOT NULL,
+   longitude FLOAT NOT NULL,
+   stand_number SERIAL
 );
 
 CREATE TABLE IF NOT EXISTS stand_pictures(
@@ -31,11 +34,13 @@ CREATE TABLE IF NOT EXISTS stand_pictures(
 
 CREATE TABLE IF NOT EXISTS device_proximity(
     device_id VARCHAR NOT NULL,
-    immediate_stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    distance FLOAT NOT NULL,
     update_time TIMESTAMP NOT NULL,
-    PRIMARY KEY (device_id),
-    FOREIGN KEY (immediate_stand_id) REFERENCES stand (id)
+    PRIMARY KEY (device_id, stand_id),
+    FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
+
 CREATE TABLE IF NOT EXISTS stand_ranking_device(
     stand_id VARCHAR NOT NULL,
     device_id VARCHAR NOT NULL,

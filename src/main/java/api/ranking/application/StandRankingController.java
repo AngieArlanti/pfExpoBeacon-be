@@ -1,7 +1,7 @@
   
-package api.stand.application;
+package api.ranking.application;
 
-import api.stand.domain.RankingAverage;
+import api.stand.application.StandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

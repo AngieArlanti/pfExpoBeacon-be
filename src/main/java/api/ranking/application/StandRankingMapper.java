@@ -1,7 +1,7 @@
 
-package api.stand.application;
+package api.ranking.application;
 
-import api.stand.domain.StandRankingDevice;
+import api.ranking.domain.StandRankingDevice;
 
 public class StandRankingMapper {
 

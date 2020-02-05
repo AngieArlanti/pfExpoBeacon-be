@@ -1,13 +1,13 @@
-package api.stand.application;
+package api.deviceproximity.application;
 
-import api.stand.domain.DeviceProximity;
-import api.stand.domain.DeviceProximityRepository;
+import api.deviceproximity.domain.DeviceProximity;
+import api.deviceproximity.domain.DeviceProximityRepository;
+import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -18,22 +18,20 @@ public class DeviceProximityService {
 
     @Autowired
     private StandService standService;
-
     private DeviceProximityMapper mapper = new DeviceProximityMapper();
 
     public void save(final DeviceProximityDto deviceProximityDto) {
-        checkValidStand(deviceProximityDto.getImmediateStandId());
-        DeviceProximity deviceProximity = mapper.toModel(deviceProximityDto);
-        deviceProximity.setUpdateTime(OffsetDateTime.now());
-        deviceProximityRepository.save(deviceProximity);
+        checkValidStand(deviceProximityDto.getNearbyStandIds());
+        List<DeviceProximity> deviceProximity = mapper.toModel(deviceProximityDto);
+        deviceProximityRepository.saveAll(deviceProximity);
     }
 
     public List<DeviceProximity> listAll(){
         return deviceProximityRepository.findAll();
     }
 
-    public void checkValidStand(String immediateStandId) {
-        Stand found = standService.findBy(immediateStandId);
-        Validate.notNull(found);
+    private void checkValidStand(List<String> immediateStandIds) {
+        List<Stand> found = standService.findBy(immediateStandIds);
+        Validate.notEmpty(found);
     }
 }

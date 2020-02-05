@@ -1,5 +1,7 @@
 package api.stand.domain;
 
+import api.ranking.domain.RankingAverage;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -59,6 +61,24 @@ public class Stand {
     @JoinColumn(name = "ranking_average_id", referencedColumnName = "id")
     private RankingAverage rankingAverage;
 
+    /**
+     * Stand's latitude position.
+     */
+    private double latitude;
+
+    /**
+     * Stand's longitude position.
+     */
+    private double longitude;
+
+    /**
+     * Stand's number.
+     */
+    @JsonProperty("stand_number")
+    @Column(name = "stand_number", nullable = false)
+    @GeneratedValue
+    private int standNumber;
+
     /** Empty constructor. For Hibernate purposes.
      */
     public Stand() {
@@ -115,4 +135,30 @@ public class Stand {
     public RankingAverage getRankingAverage() {
         return rankingAverage;
     }
+
+    /** Returns the Stand's latitude position.
+     *
+     * @return the Stand's latitude position.
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /** Returns the Stand's longitude position.
+     *
+     * @return the Stand's longitude position.
+     */
+    public double getLongitude() {
+        return longitude;
+    }
+
+    /** Returns the Stand's number.
+     *
+     * @return the Stand's number.
+     */
+    public int getStandNumber() {
+        return standNumber;
+    }
+
+
 }

@@ -1,7 +1,9 @@
-package api.stand.application;
+package api.ranking.application;
 
-import api.stand.domain.*;
-import api.stand.domain.StandRankingDevice;
+import api.ranking.domain.RankingAverage;
+import api.ranking.domain.StandRankingRepository;
+import api.stand.application.StandService;
+import api.ranking.domain.StandRankingDevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
