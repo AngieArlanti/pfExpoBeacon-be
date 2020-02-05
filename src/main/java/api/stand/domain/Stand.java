@@ -87,6 +87,12 @@ public class Stand {
     public Stand() {
     }
 
+    //TODO hacer bien el constructor
+    public Stand(final String id, final int ranking) {
+        this.id = id;
+        this.ranking = ranking;
+    }
+
     /** Returns the Stand's id.
      *
      * @return the Stand's id.

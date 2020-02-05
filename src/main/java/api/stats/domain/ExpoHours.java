@@ -3,7 +3,7 @@ package api.stats.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 public class ExpoHours {
@@ -11,9 +11,9 @@ public class ExpoHours {
     @Id
     private Long id;
     @Column(name = "start", nullable = false)
-    private Time from;
+    private LocalTime from;
     @Column(name = "finish", nullable = false)
-    private Time to;
+    private LocalTime to;
 
     public ExpoHours() {}
 
@@ -21,11 +21,11 @@ public class ExpoHours {
         return id;
     }
 
-    public Time getFrom() {
+    public LocalTime getFrom() {
         return from;
     }
 
-    public Time getTo() {
+    public LocalTime getTo() {
         return to;
     }
 }
