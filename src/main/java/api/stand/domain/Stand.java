@@ -1,5 +1,7 @@
 package api.stand.domain;
 
+import api.ranking.domain.RankingAverage;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -55,7 +57,9 @@ public class Stand {
      * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
      * TODO: and/or user's rank.
      */
-    private int ranking;
+    @OneToOne
+    @JoinColumn(name = "ranking_average_id", referencedColumnName = "id")
+    private RankingAverage rankingAverage;
 
     /**
      * Stand's latitude position.
@@ -128,12 +132,8 @@ public class Stand {
         return pictures;
     }
 
-    /** Returns the Stand's ranking.
-     *
-     * @return the Stand's ranking.
-     */
-    public int getRanking() {
-        return ranking;
+    public RankingAverage getRankingAverage() {
+        return rankingAverage;
     }
 
     /** Returns the Stand's latitude position.
