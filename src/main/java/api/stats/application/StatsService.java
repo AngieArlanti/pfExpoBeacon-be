@@ -4,6 +4,7 @@ import api.deviceproximity.application.DeviceProximityService;
 import api.deviceproximity.domain.DeviceProximity;
 import api.stand.domain.Stand;
 import api.stand.domain.StandRepository;
+import api.stats.application.utils.StatsInterval;
 import api.stats.domain.ExpoHours;
 import api.stats.domain.ExpoHoursRepository;
 import api.stats.domain.StandVisitHours;
@@ -12,12 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static api.stats.application.utils.StatsUtils.*;
 import static java.time.OffsetTime.now;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -116,46 +116,36 @@ public class StatsService {
         final Map<String, Long> currentCongestion = getStandCurrentCongestion();
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
 
-        final List<Long> minMaxCurrentCongestion = getMinMax(currentCongestion.values());
-
-        return getStandStatics(stands, currentCongestion, historicCongestion, minMaxCurrentCongestion);
+        return getStandStatics(stands, currentCongestion, historicCongestion);
     }
 
     List<StandStatics> getStandStatics(final List<Stand> stands, final Map<String, Long> currentCongestion,
-                                       final Map<String, Long> historicCongestion, final List<Long> minMaxCurrentCongestion) {
+                                       final Map<String, Long> historicCongestion) {
         return stands.stream()
                 .map(stand -> new StandStatics(stand,
-                        getNormalizedValue((long) stand.getRanking(), 1L, 5L),
-                        getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), minMaxCurrentCongestion.get(0), minMaxCurrentCongestion.get(1)),
-                        getNormalizedOpportunity(coalesce(currentCongestion.get(stand.getId())),
-                                coalesce(historicCongestion.get(stand.getId())), 0L, coalesce(historicCongestion.get(stand.getId())))))
+                        getNormalizedRanking(stand),
+                        getNormalizedCurrentCongestion(currentCongestion, stand),
+                        getNormalizedOpportunity(currentCongestion, historicCongestion, stand)))
                 .collect(Collectors.toList());
     }
 
-    List<Long> getMinMax(final Collection<Long> values) {
-        final List<Long> result = new ArrayList<>();
-        values.stream().min(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
-        values.stream().max(Long::compareTo).ifPresent(aLong -> result.add(coalesce(aLong)));
-        return result;
+    private double getNormalizedOpportunity(final Map<String, Long> currentCongestion,
+                                            final Map<String, Long> historicCongestion, final Stand stand) {
+        return getNormalizedValue(getOpportunity(coalesce(currentCongestion.get(stand.getId())),
+                coalesce(historicCongestion.get(stand.getId()))), 0L,
+                coalesce(historicCongestion.get(stand.getId())));
     }
 
-    double getNormalizedValue(final Long value, final Long min, final Long max) {
-        return ((double) (value - min) / Math.abs(max - min));
+    private double getNormalizedCurrentCongestion(final Map<String, Long> currentCongestion, final Stand stand) {
+        final StatsInterval statsInterval = getStatsInterval(currentCongestion.values());
+        return getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), statsInterval.getMin(), statsInterval.getMax());
+    }
+
+    private double getNormalizedRanking(final Stand stand) {
+        return getNormalizedValue((long) stand.getRanking(), 1L, 5L);
     }
 
     private Long getOpportunity(final Long currentCongestion, final Long historicCongestion) {
         return historicCongestion - currentCongestion;
-    }
-
-    private double getNormalizedOpportunity(final Long currentCongestion, final Long historicCongestion,
-                                            final Long min, final Long max) {
-        return getNormalizedValue(getOpportunity(currentCongestion, historicCongestion), min, max);
-    }
-
-    private long coalesce(final Long value) {
-        if (value == null) {
-            return 0;
-        }
-        return value;
     }
 }

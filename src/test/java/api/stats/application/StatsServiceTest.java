@@ -69,12 +69,8 @@ public class StatsServiceTest {
         historicCongestion.put("2", 5L);
         historicCongestion.put("3", 5L);
 
-        final List<Long> minMaxCurrentCongestion = new ArrayList<>();
-        minMaxCurrentCongestion.add(0L);
-        minMaxCurrentCongestion.add(7L);
-
         final List<StandStatics> standStatics = statsService.getStandStatics(stands, currentCongestion,
-                historicCongestion, minMaxCurrentCongestion);
+                historicCongestion);
 
         assertThat(standStatics.get(0).getStand().getId(), is("1"));
         assertThat(standStatics.get(0).getNormalizedRanking(), is(1.0));
@@ -91,25 +87,4 @@ public class StatsServiceTest {
         assertThat(standStatics.get(2).getNormalizedCurrentCongestion(), is(0.0));
         assertThat(standStatics.get(2).getNormalizedOpportunity(), is(1.0));
     }
-
-    @Test
-    public void getNormalizedValue() {
-        double normalize = statsService.getNormalizedValue(5L, 0L, 7L);
-        assertThat(normalize, is(0.7142857142857143));
-    }
-
-    @Test
-    public void getMinMax() {
-        List<Long> values = new ArrayList<>();
-        values.add(0L);
-        values.add(5L);
-        values.add(7L);
-
-        List<Long> result = statsService.getMinMax(values);
-
-        assertThat(result.get(0), is(0L));
-        assertThat(result.get(1), is(7L));
-
-    }
-
 }
