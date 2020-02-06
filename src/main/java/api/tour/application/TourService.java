@@ -25,6 +25,10 @@ public class TourService {
      */
     private static final Double TIME_BETWEEN_STANDS = 2.0;
 
+    /** Mapper to convert from Tour to TourDto.
+     */
+    private TourMapper tourMapper = new TourMapper();
+
     /**
      * Stand Service to ask for Stands specific information.
      */
@@ -35,44 +39,46 @@ public class TourService {
     private StatsService statsService;
 
     /**
-     * Returns a Stand's list ordered from best ranked and less congested stands
-     * to worst ranked and more congested ones. Also the unusual free stands at this very moment
+     * Returns a Tour which is a Stand's list ordered from best ranked and less congested stands
+     * to worst ranked and more congested ones.
+     * Also the unusual free stands at this very moment
      * are prioritized.
      *
-     * @return a Stand's list representing a tour throw best ranked and less congested Stands.
+     * @return a Tour ordered by current best ranked and less congested Stands.
      */
-    List<Stand> getTourWithoutLines() {
+    TourDto getTourWithoutLines() {
         //Find Stands info.
         final List<Stand> stands = standService.findAll();
-        return sortStandsByCurrentStats(stands);
+        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(stands));
     }
 
     /**
-     * Returns time limited tour by the given timeLimit.
+     * Returns a tour without lines limited by the given timeLimit.
      *
      * @param timeLimit total time a person has to spend in this tour.
      *                  It is measured in hours.
-     * @return a Stand's list representing time limited tour.
+     * @return a tour without lines limited by the given timeLimit.
      */
-    List<Stand> getTimeLimitedTour(final Double timeLimit) {
-        final List<Stand> tourWithoutLines = getTourWithoutLines();
+    TourDto getTimeLimitedTour(final Double timeLimit) {
+        final TourDto tourWithoutLines = getTourWithoutLines();
         final List<Stand> timeLimitedTour = new ArrayList<>();
         Double totalTime = 0.0;
-        for (Stand stand : tourWithoutLines) {
+        for (Stand stand : tourWithoutLines.getTour()) {
             totalTime += (coalesce(stand.getAverageTime()) / 60.0);
             totalTime += (TIME_BETWEEN_STANDS / 60.0);
             if (totalTime <= timeLimit) {
                 timeLimitedTour.add(stand);
             }
         }
-        return timeLimitedTour;
+        return tourMapper.toDtoFromStands(timeLimitedTour);
     }
 
-    /**
+    /** Returns Top Three Popular Paths visited by people in history.
+     * Each Tour is ordered by current best ranked and less congested Stands.
      *
-     * @return
+     * @return Top Three Tours ordered by current best ranked and less congested Stands.
      */
-    List<Tour> getTopThreeTours() {
+    List<TourDto> getTopThreeTours() {
         final List<Tour> tours = statsService.getPopularTours(3);
         final List<Tour> popularTours = new ArrayList<>();
 
@@ -82,7 +88,7 @@ public class TourService {
                              tour.getVisits()));
         }
 
-        return popularTours;
+        return tourMapper.toDto(popularTours);
     }
 
     /**

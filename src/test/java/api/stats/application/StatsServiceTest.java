@@ -6,6 +6,7 @@ import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import api.stats.domain.ExpoHoursRepository;
 import api.stats.domain.StandVisitHoursRepository;
+import api.stats.domain.TourVisitsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class StatsServiceTest {
 
     @MockBean
     private ExpoHoursRepository expoHoursRepository;
+
+    @MockBean
+    private TourVisitsRepository tourVisitsRepository;
 
     @MockBean
     private DeviceProximityService deviceProximityService;

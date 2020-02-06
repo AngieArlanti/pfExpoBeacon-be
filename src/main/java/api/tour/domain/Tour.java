@@ -9,6 +9,9 @@ public class Tour {
     private List<Stand> tour;
     private Long visits;
 
+    public Tour() {
+    }
+
     public Tour(final List<Stand> tour, final Long visits) {
         this.tour = tour;
         this.visits = visits;
