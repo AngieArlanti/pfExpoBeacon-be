@@ -1,25 +1,14 @@
 package api.stand.application;
 
-import org.apache.commons.lang3.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import api.deviceproximity.application.DeviceProximityService;
-import api.deviceproximity.domain.DeviceProximity;
 import api.stand.domain.Stand;
 import api.stand.domain.StandRepository;
+import org.apache.commons.lang3.Validate;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import java.util.Optional;
-
-import java.util.stream.Collectors;
-
-import static java.time.OffsetTime.now;
-import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class StandService {
@@ -29,9 +18,6 @@ public class StandService {
 
     @Autowired
     private StandRepository standRepository;
-
-    @Autowired
-    private DeviceProximityService deviceProximityService;
 
     /** Returns a Stand with the given id.
      *
@@ -58,6 +44,12 @@ public class StandService {
         return stands;
     }
 
+    @Transactional
+    public List<Stand> findAll(){
+        final List<Stand> stands = standRepository.findAll();
+        return stands;
+    }
+
     /** Returns all the available Stands ordered by ranking.
      *
      * @return a Stand's list ordered by ranking.
@@ -66,31 +58,5 @@ public class StandService {
     public List<Stand> listOrderedByRanking() {
         final List<Stand> list = standRepository.findByOrderByRankingAverage_RankingDesc();
         return list;
-    }
-
-    List<Stand> findSuggestedTourByCongestion() {
-        List<DeviceProximity> deviceProximityList = deviceProximityService.listAll();
-        Map<String, Long> congestionMap =  deviceProximityList.stream().filter(this::isUpdated)
-                .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting()));
-
-        List<Stand> stands = findBy(congestionMap.keySet().stream().collect(Collectors.toList()));
-
-        Map<Stand, Long> standCongestion = new HashMap<>();
-
-        for (Stand stand: stands) {
-            Long congestion = congestionMap.get(stand.getId());
-            standCongestion.put(stand, congestion);
-        }
-
-        List<Stand> orderedSuggestedStandIds = standCongestion.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-
-        return orderedSuggestedStandIds;
-    }
-
-    private boolean isUpdated(DeviceProximity deviceProximity) {
-        return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
     }
 }

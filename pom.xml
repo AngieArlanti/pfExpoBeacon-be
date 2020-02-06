@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
+            <artifactId>json-tour</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -67,7 +67,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.4.6.Final</version>
         </dependency>
-
     </dependencies>
 
     <build>

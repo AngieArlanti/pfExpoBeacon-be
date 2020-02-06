@@ -40,4 +40,16 @@ public class RankingAverage {
     public int getCantRates() {
         return cantRates;
     }
+
+    public void setStand(Stand stand) {
+        this.stand = stand;
+    }
+
+    public void setRanking(double ranking) {
+        this.ranking = ranking;
+    }
+
+    public void setCantRates(int cantRates) {
+        this.cantRates = cantRates;
+    }
 }

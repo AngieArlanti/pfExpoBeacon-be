@@ -64,9 +64,4 @@ public class StandController {
     public ResponseEntity<List<Stand>> listOrderedByRanking() {
         return ResponseEntity.ok().body(standService.listOrderedByRanking());
     }
-
-    @RequestMapping("/stands/suggested_tour")
-    public ResponseEntity<List<Stand>> findSuggestedTour() {
-        return ResponseEntity.ok().body(standService.findSuggestedTourByCongestion());
-    }
 }

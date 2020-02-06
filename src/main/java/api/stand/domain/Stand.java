@@ -1,7 +1,7 @@
 package api.stand.domain;
 
 import api.ranking.domain.RankingAverage;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -54,8 +54,6 @@ public class Stand {
 
     /**
      * The Stand's ranking. It goes from 1 to 5.
-     * TODO: (ma 2019-10-19) ranking feature. Now it is a harcoded value, it has to be a calculated popularity
-     * TODO: and/or user's rank.
      */
     @OneToOne
     @JoinColumn(name = "ranking_average_id", referencedColumnName = "id")
@@ -74,14 +72,37 @@ public class Stand {
     /**
      * Stand's number.
      */
-    @JsonProperty("stand_number")
     @Column(name = "stand_number", nullable = false)
     @GeneratedValue
     private int standNumber;
 
+    /**
+     * Average time people spend in this Stand.
+     * It is measured in hours.
+     * It is calculated async.
+     */
+    @Column(name = "average_time")
+    private Double averageTime;
+
     /** Empty constructor. For Hibernate purposes.
      */
     public Stand() {
+    }
+
+    public Stand(final String id, final String title, final String shortDescription,
+                 final String description, final String cover, final List<String> pictures,
+                 final RankingAverage rankingAverage, final double latitude,
+                 final double longitude, final Double averageTime) {
+        this.id = id;
+        this.title = title;
+        this.shortDescription = shortDescription;
+        this.description = description;
+        this.cover = cover;
+        this.pictures = pictures;
+        this.rankingAverage = rankingAverage;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.averageTime = averageTime;
     }
 
     /** Returns the Stand's id.
@@ -136,6 +157,11 @@ public class Stand {
         return rankingAverage;
     }
 
+    @JsonIgnore
+    public double getRanking(){
+        return rankingAverage != null ? rankingAverage.getRanking() : 0;
+    }
+
     /** Returns the Stand's latitude position.
      *
      * @return the Stand's latitude position.
@@ -160,5 +186,12 @@ public class Stand {
         return standNumber;
     }
 
-
+    /** Returns average time people spend in this Stand.
+     * It is measured in minutes.
+     *
+     * @return the average time people spend in this Stand.
+     */
+    public Double getAverageTime() {
+        return averageTime;
+    }
 }
