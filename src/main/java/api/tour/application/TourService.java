@@ -78,8 +78,8 @@ public class TourService {
 
         for (final Tour tour : tours) {
             popularTours.add(
-                    new Tour(sortStandsByCurrentStats(tour.getTour())
-                            , tour.getVisits()));
+                    new Tour(sortStandsByCurrentStats(tour.getTour()),
+                             tour.getVisits()));
         }
 
         return popularTours;

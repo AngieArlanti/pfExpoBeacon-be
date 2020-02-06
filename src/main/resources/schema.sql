@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS stand_ranking;
 DROP TABLE If EXISTS stand_ranking_device;
 DROP TABLE IF EXISTS stand;
 DROP TABLE IF EXISTS ranking_average;
-DROP TABLE IF EXISTS device_paths;
-DROP TABLE IF EXISTS path_visits;
+DROP TABLE IF EXISTS device_tours;
+DROP TABLE IF EXISTS tour_visits;
 
 CREATE TABLE IF NOT EXISTS ranking_average(
     id SERIAL,
@@ -78,12 +78,12 @@ CREATE TABLE IF NOT EXISTS stand_ranking_device(
     FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
 
-CREATE TABLE IF NOT EXISTS device_paths(
+CREATE TABLE IF NOT EXISTS device_tours(
     device_id VARCHAR NOT NULL,
     tour VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS path_visits(
+CREATE TABLE IF NOT EXISTS tour_visits(
     tour VARCHAR NOT NULL PRIMARY KEY,
     visits INTEGER NOT NULL
 );
