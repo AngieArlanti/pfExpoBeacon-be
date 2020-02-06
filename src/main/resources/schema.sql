@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS stand_ranking;
 DROP TABLE If EXISTS stand_ranking_device;
 DROP TABLE IF EXISTS stand;
 DROP TABLE IF EXISTS ranking_average;
+DROP TABLE IF EXISTS device_paths;
+DROP TABLE IF EXISTS path_visits;
 
 CREATE TABLE IF NOT EXISTS ranking_average(
     id SERIAL,
@@ -21,11 +23,12 @@ CREATE TABLE IF NOT EXISTS stand(
    short_description VARCHAR NOT NULL,
    description VARCHAR NOT NULL,
    cover VARCHAR NOT NULL,
-   ranking_average_id INTEGER REFERENCES ranking_average (id),
+   ranking_average_id INTEGER,
    latitude FLOAT NOT NULL,
    longitude FLOAT NOT NULL,
    stand_number SERIAL,
-   average_time FLOAT
+   average_time FLOAT,
+   FOREIGN KEY (ranking_average_id) REFERENCES ranking_average (id)
 );
 
 CREATE TABLE IF NOT EXISTS stand_pictures(
@@ -73,6 +76,16 @@ CREATE TABLE IF NOT EXISTS stand_ranking_device(
     ranking INTEGER,
     PRIMARY KEY(stand_id, device_id),
     FOREIGN KEY (stand_id) REFERENCES stand (id)
+);
+
+CREATE TABLE IF NOT EXISTS device_paths(
+    device_id VARCHAR NOT NULL,
+    tour VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS path_visits(
+    tour VARCHAR NOT NULL PRIMARY KEY,
+    visits INTEGER NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION update_device_location_history_with_device_proximity() RETURNS TRIGGER LANGUAGE 'plpgsql' AS '

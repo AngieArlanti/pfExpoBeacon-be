@@ -15,14 +15,22 @@ public class TourController {
     @Autowired
     private TourService tourService;
 
+    private TourMapper tourMapper = new TourMapper();
+
     @RequestMapping("/tour/no_lines")
     public ResponseEntity<List<Stand>> getTourWithoutLines() {
-        return ResponseEntity.ok().body(tourService.orderStands());
+        return ResponseEntity.ok().body(tourService.getTourWithoutLines());
     }
 
     @RequestMapping("/tour/time_limited")
     public ResponseEntity<List<Stand>> getTimeLimitedTour(@RequestParam(name="time_limit",
             required=true) final Double timeLimit ) {
         return ResponseEntity.ok().body(tourService.getTimeLimitedTour(timeLimit));
+    }
+
+    @RequestMapping("/tour/top_three")
+    public ResponseEntity<List<TourDto>> getTopThreeTours() {
+        final List<TourDto> tourDtos = tourMapper.toDto(tourService.getTopThreeTours());
+        return ResponseEntity.ok().body(tourDtos);
     }
 }
