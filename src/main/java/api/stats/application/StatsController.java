@@ -14,7 +14,7 @@ public class StatsController {
     @Autowired
     private StatsService statsService;
 
-    @RequestMapping("/stats/stand_visit_hours")
+    @RequestMapping("/stats/stand_histogram")
     public ResponseEntity<List<StandVisitHoursDto>> findBy(@RequestParam(name="stand_id",
             required=true) String standId) {
         return ResponseEntity.ok().body(statsService.getStandVisitHours(standId));

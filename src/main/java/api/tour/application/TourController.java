@@ -1,6 +1,5 @@
 package api.tour.application;
 
-import api.stand.domain.Stand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,18 @@ public class TourController {
     private TourService tourService;
 
     @RequestMapping("/tour/no_lines")
-    public ResponseEntity<List<Stand>> getTourWithoutLines() {
-        return ResponseEntity.ok().body(tourService.orderStands());
+    public ResponseEntity<TourDto> getTourWithoutLines() {
+        return ResponseEntity.ok().body(tourService.getTourWithoutLines());
     }
 
     @RequestMapping("/tour/time_limited")
-    public ResponseEntity<List<Stand>> getTimeLimitedTour(@RequestParam(name="time_limit",
+    public ResponseEntity<TourDto> getTimeLimitedTour(@RequestParam(name="time_limit",
             required=true) final Double timeLimit ) {
         return ResponseEntity.ok().body(tourService.getTimeLimitedTour(timeLimit));
+    }
+
+    @RequestMapping("/tour/top_three")
+    public ResponseEntity<List<TourDto>> getTopThreeTours() {
+        return ResponseEntity.ok().body(tourService.getTopThreeTours());
     }
 }

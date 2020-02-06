@@ -45,8 +45,7 @@ public class TourServiceTest {
 
     @Test
     public void orderStands_withEmptyStandStatics_isOk() {
-        when(statsService.getCurrentStandStatics()).thenReturn(Collections.emptyList());
-        final List<Stand> stands = tourService.orderStands();
+        final List<Stand> stands = tourService.sortStandsByCurrentStats(Collections.emptyList());
         assertThat(stands, empty());
     }
 
@@ -75,17 +74,22 @@ public class TourServiceTest {
         final StandStatics standStatics2 = new StandStatics(stand2, 1, 1, -0.4); //-0,08
         final StandStatics standStatics3 = new StandStatics(stand3, 1, 0, 1); //0.6
 
+        final List<Stand> stands = new ArrayList<>();
+        stands.add(stand1);
+        stands.add(stand2);
+        stands.add(stand3);
+
         final List<StandStatics> standStatics = new ArrayList<>();
         standStatics.add(standStatics1);
         standStatics.add(standStatics2);
         standStatics.add(standStatics3);
 
-        when(statsService.getCurrentStandStatics()).thenReturn(standStatics);
-        final List<Stand> stands = tourService.orderStands();
+        when(statsService.getCurrentStandStats(stands)).thenReturn(standStatics);
+        final List<Stand> sortedStands = tourService.sortStandsByCurrentStats(stands);
 
-        assertThat(stands.get(0).getId(), is(stand3.getId()));
-        assertThat(stands.get(1).getId(), is(stand1.getId()));
-        assertThat(stands.get(2).getId(), is(stand2.getId()));
+        assertThat(sortedStands.get(0).getId(), is(stand3.getId()));
+        assertThat(sortedStands.get(1).getId(), is(stand1.getId()));
+        assertThat(sortedStands.get(2).getId(), is(stand2.getId()));
     }
 
     @Test
@@ -113,16 +117,21 @@ public class TourServiceTest {
         final StandStatics standStatics2 = new StandStatics(stand2, 0.8, 0, 0); //-0,08
         final StandStatics standStatics3 = new StandStatics(stand3, 0.6, 0, 0); //0.6
 
+        final List<Stand> stands = new ArrayList<>();
+        stands.add(stand1);
+        stands.add(stand2);
+        stands.add(stand3);
+
         final List<StandStatics> standStatics = new ArrayList<>();
         standStatics.add(standStatics3);
         standStatics.add(standStatics1);
         standStatics.add(standStatics2);
 
-        when(statsService.getCurrentStandStatics()).thenReturn(standStatics);
-        final List<Stand> stands = tourService.orderStands();
+        when(statsService.getCurrentStandStats(stands)).thenReturn(standStatics);
+        final List<Stand> sortedStands = tourService.sortStandsByCurrentStats(stands);
 
-        assertThat(stands.get(0).getId(), is(stand1.getId()));
-        assertThat(stands.get(1).getId(), is(stand2.getId()));
-        assertThat(stands.get(2).getId(), is(stand3.getId()));
+        assertThat(sortedStands.get(0).getId(), is(stand1.getId()));
+        assertThat(sortedStands.get(1).getId(), is(stand2.getId()));
+        assertThat(sortedStands.get(2).getId(), is(stand3.getId()));
     }
 }

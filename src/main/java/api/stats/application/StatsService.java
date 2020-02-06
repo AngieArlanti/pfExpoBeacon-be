@@ -5,14 +5,14 @@ import api.deviceproximity.domain.DeviceProximity;
 import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import api.stats.application.utils.StatsInterval;
-import api.stats.domain.ExpoHours;
-import api.stats.domain.ExpoHoursRepository;
-import api.stats.domain.StandVisitHours;
-import api.stats.domain.StandVisitHoursRepository;
+import api.stats.domain.*;
+import api.tour.domain.Tour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,6 +35,9 @@ public class StatsService {
 
     @Autowired
     private ExpoHoursRepository expoHoursRepository;
+
+    @Autowired
+    private TourVisitsRepository tourVisitsRepository;
 
     /**
      * Device Proximity Service to ask for device immediate Stand's info.
@@ -109,9 +112,7 @@ public class StatsService {
                 .collect(Collectors.toMap(StandVisitHoursDto::getStandId, StandVisitHoursDto::getVisits));
     }
 
-    public List<StandStatics> getCurrentStandStatics() {
-        List<Stand> stands = standService.listOrderedByRanking();
-        //TODO (ma 2020-02-02) Improve given standIds as argument.
+    public List<StandStatics> getCurrentStandStats(final List<Stand> stands) {
         final Map<String, Long> currentCongestion = getStandCurrentCongestion();
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
 
@@ -126,6 +127,25 @@ public class StatsService {
                         getNormalizedCurrentCongestion(currentCongestion, stand),
                         getNormalizedOpportunity(currentCongestion, historicCongestion, stand)))
                 .collect(Collectors.toList());
+    }
+
+    public List<Tour> getPopularTours(final int top) {
+        final List<TourVisits> toursVisits = tourVisitsRepository.findByOrderByVisitsDesc();
+        final List<Tour> popularTours = new ArrayList<>();
+
+        for (final TourVisits tourVisits : toursVisits) {
+            if (popularTours.size() <= top) {
+                popularTours.add(getTour(tourVisits));
+            }
+        }
+        return popularTours;
+    }
+
+    private Tour getTour(TourVisits tourVisits) {
+        List<String> tours = Arrays.asList(tourVisits.getTour().split(" "));
+        final List<Stand> tour = standService.findBy(tours);
+
+        return new Tour(tour, tourVisits.getVisits());
     }
 
     private double getNormalizedOpportunity(final Map<String, Long> currentCongestion,

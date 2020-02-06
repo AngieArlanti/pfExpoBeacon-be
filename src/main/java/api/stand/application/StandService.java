@@ -44,6 +44,12 @@ public class StandService {
         return stands;
     }
 
+    @Transactional
+    public List<Stand> findAll(){
+        final List<Stand> stands = standRepository.findAll();
+        return stands;
+    }
+
     /** Returns all the available Stands ordered by ranking.
      *
      * @return a Stand's list ordered by ranking.
