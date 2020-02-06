@@ -1,5 +1,6 @@
 package api.stats.application.utils;
 
+import api.stats.application.StatsInterval;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;

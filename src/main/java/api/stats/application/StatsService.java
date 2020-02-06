@@ -4,7 +4,6 @@ import api.deviceproximity.application.DeviceProximityService;
 import api.deviceproximity.domain.DeviceProximity;
 import api.stand.application.StandService;
 import api.stand.domain.Stand;
-import api.stats.application.utils.StatsInterval;
 import api.stats.domain.*;
 import api.tour.domain.Tour;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package api.stats.application.utils;
+package api.stats.application;
 
 import java.util.Collection;
 

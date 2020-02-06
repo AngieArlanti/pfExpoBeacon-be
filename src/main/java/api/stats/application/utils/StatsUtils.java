@@ -1,5 +1,7 @@
 package api.stats.application.utils;
 
+import api.stats.application.StatsInterval;
+
 import java.util.Collection;
 
 public final class StatsUtils {
