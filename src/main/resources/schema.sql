@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS stand;
 DROP TABLE IF EXISTS ranking_average;
 DROP TABLE IF EXISTS device_tours;
 DROP TABLE IF EXISTS tour_visits;
+DROP TABLE IF EXISTS device_stands_time_history;
 
 CREATE TABLE IF NOT EXISTS ranking_average(
     id SERIAL,
@@ -57,17 +58,19 @@ CREATE TABLE IF NOT EXISTS expo_hours(
 CREATE TABLE IF NOT EXISTS stand_visit_hours(
     stand_id VARCHAR NOT NULL,
     expo_hours_id SERIAL NOT NULL,
-    visits INTEGER NOT NULL,
+    visits BIGINT NOT NULL,
     PRIMARY KEY (stand_id, expo_hours_id),
     FOREIGN KEY (stand_id) REFERENCES stand (id),
     FOREIGN KEY (expo_hours_id) REFERENCES expo_hours (id)
 );
 
 CREATE TABLE IF NOT EXISTS device_location_history(
-device_id VARCHAR NOT NULL,
-stand_id VARCHAR NOT NULL,
-distance FLOAT NOT NULL,
-update_time TIMESTAMP NOT NULL
+    id SERIAL,
+    device_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    distance FLOAT NOT NULL,
+    update_time TIMESTAMP NOT NULL,
+    average_time_processed BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS stand_ranking_device(
@@ -85,13 +88,20 @@ CREATE TABLE IF NOT EXISTS device_tours(
 
 CREATE TABLE IF NOT EXISTS tour_visits(
     tour VARCHAR NOT NULL PRIMARY KEY,
-    visits INTEGER NOT NULL
+    visits BIGINT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS device_stands_time_history(
+    id SERIAL,
+    device_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    avg_time FLOAT NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION update_device_location_history_with_device_proximity() RETURNS TRIGGER LANGUAGE 'plpgsql' AS '
 BEGIN
-INSERT INTO device_location_history (device_id, stand_id, distance, update_time)
-VALUES (NEW.device_id, NEW.stand_id, NEW.distance, NEW.update_time);
+INSERT INTO device_location_history (device_id, stand_id, distance, update_time, average_time_processed)
+VALUES (NEW.device_id, NEW.stand_id, NEW.distance, NEW.update_time, FALSE);
 
 RETURN NEW;
 END; ';
