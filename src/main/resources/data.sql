@@ -56,6 +56,10 @@ INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg');
 
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP + (5 * interval '1 minute'));
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP + (10 * interval '1 minute'));
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP + (12 * interval '1 minute'));
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP + (15 * interval '1 minute'));
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_2', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_3', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_4', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);

@@ -65,11 +65,12 @@ CREATE TABLE IF NOT EXISTS stand_visit_hours(
 );
 
 CREATE TABLE IF NOT EXISTS device_location_history(
-device_id VARCHAR NOT NULL,
-stand_id VARCHAR NOT NULL,
-distance FLOAT NOT NULL,
-update_time TIMESTAMP NOT NULL,
-avg_time_processed BOOLEAN NOT NULL
+    id SERIAL,
+    device_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    distance FLOAT NOT NULL,
+    update_time TIMESTAMP NOT NULL,
+    average_time_processed BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS stand_ranking_device(
@@ -91,6 +92,7 @@ CREATE TABLE IF NOT EXISTS tour_visits(
 );
 
 CREATE TABLE IF NOT EXISTS device_stands_time_history(
+    id SERIAL,
     device_id VARCHAR NOT NULL,
     stand_id VARCHAR NOT NULL,
     avg_time FLOAT NOT NULL
@@ -98,7 +100,7 @@ CREATE TABLE IF NOT EXISTS device_stands_time_history(
 
 CREATE OR REPLACE FUNCTION update_device_location_history_with_device_proximity() RETURNS TRIGGER LANGUAGE 'plpgsql' AS '
 BEGIN
-INSERT INTO device_location_history (device_id, stand_id, distance, update_time, avg_time_processed)
+INSERT INTO device_location_history (device_id, stand_id, distance, update_time, average_time_processed)
 VALUES (NEW.device_id, NEW.stand_id, NEW.distance, NEW.update_time, FALSE);
 
 RETURN NEW;
