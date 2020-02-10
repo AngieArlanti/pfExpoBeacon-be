@@ -43,12 +43,12 @@ public class DeviceProximityService {
     }
 
     private boolean hasValidExpoHourInterval(DeviceProximity dp) {
-        return !dp.getExpoHourIntervalId().equals(INVALID_EXPO_HOUR_INTERVAL);
+        return !dp.getExpoHoursId().equals(INVALID_EXPO_HOUR_INTERVAL);
     }
 
     private void setHourInterval(final DeviceProximity deviceProximity, final List<ExpoHours> expoHours) {
         final Long hourIntervalId = getHourInterval(deviceProximity.getUpdateTime(), expoHours);
-        deviceProximity.setExpoHourIntervalId(hourIntervalId);
+        deviceProximity.setExpoHoursId(hourIntervalId);
     }
 
     private Long getHourInterval(final OffsetDateTime updateTime, final List<ExpoHours> expoHours) {

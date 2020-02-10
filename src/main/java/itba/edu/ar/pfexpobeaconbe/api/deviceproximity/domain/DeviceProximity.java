@@ -19,7 +19,7 @@ public class DeviceProximity {
 
     private OffsetDateTime updateTime;
 
-    private Long expoHourIntervalId;
+    private Long expoHoursId;
 
     public DeviceProximity() {
     }
@@ -48,9 +48,9 @@ public class DeviceProximity {
         return updateTime;
     }
 
-    public Long getExpoHourIntervalId() { return expoHourIntervalId; }
+    public Long getExpoHoursId() { return expoHoursId; }
 
-    public void setExpoHourIntervalId(final Long theExpoHourIntervalId) {
-        this.expoHourIntervalId = theExpoHourIntervalId;
+    public void setExpoHoursId(final Long theExpoHoursId) {
+        this.expoHoursId = theExpoHoursId;
     }
 }
