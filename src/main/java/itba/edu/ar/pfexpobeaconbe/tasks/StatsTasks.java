@@ -22,9 +22,9 @@ public class StatsTasks {
     /**
      * This Task runs at 21hs every week day.
      */
-    @Scheduled(cron = "0 0 21 * * MON-FRI")
+    //@Scheduled(cron = "0 0 21 * * MON-FRI")
     //TODO erase whean feature is ended - every minute for dev
-    //@Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     public void getAverageStandTimePerDevice() {
         final Map<String, List<DeviceLocationHistory>> deviceLocationHistoryMap =
                 deviceLocationHistoryService.getDeviceNextToStandRegisters();
