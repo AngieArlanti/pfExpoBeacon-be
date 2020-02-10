@@ -31,6 +31,32 @@ INSERT INTO stand(id, title, short_description, description, cover, ranking_aver
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:04:18:AC', 'PEDAL WAH WAH INALÁMBRICO',
 'Pedal analógico controlado digitalmente','Los pedales Wah Wah son accesorios para guitarras que se usan desde los años 70. Existen pedales analógicos y digitales. Los primeros son caros y dominan el mercado, mientras que los segundos tienen más prestaciones y si bien son potencialmente escalables para producción en serie, no son aceptados por el mercado. El Wah Wah inalámbrico propuesto es un pedal analógico controlado digitalmente, es decir que reúne las ventajas comerciales de uno y las prestaciones de otro.', 'https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg', 8,-34.6403299,-58.4015221, 10);
 
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:08:FC:DD', 'device_1', 3);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_1', 5);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_2', 5);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_3', 5);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_4', 5);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:A0', 'device_1', 2);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_1', 2);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_2', 4);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_1', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_2', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_3', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_4', 3);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_1', 2);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_2', 2);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_3', 2);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_1', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_2', 3);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:AC', 'device_1', 2);
+
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:19:2F', 'https://user-images.githubusercontent.com/7771294/68998312-7dac2280-088f-11ea-82b7-975f253f9cdc.jpg');
@@ -81,6 +107,55 @@ INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:
 INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 4, 5);
 INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 5, 5);
 INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 6, 20);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 1, 4);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 2, 12);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 3, 15);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 4, 3);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 5, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:2F', 6, 3);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 1, 2);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 2, 10);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 3, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 4, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 5, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:A0', 6, 20);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 1, 2);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 2, 10);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 3, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 4, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 5, 6);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 6, 10);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 1, 9);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 2, 6);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 3, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 4, 7);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 5, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:1B:E4', 6, 20);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 1, 2);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 2, 15);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 3, 4);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 4, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 5, 15);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:21', 6, 20);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 1, 2);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 2, 10);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 3, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 4, 5);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 5, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:3E', 6, 10);
+
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 1, 2);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 2, 20);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 3, 6);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 4, 10);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 5, 11);
+INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:18:AC', 6, 6);
 
 INSERT INTO device_tours(device_id, tour) VALUES ('device_1', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
 INSERT INTO device_tours(device_id, tour) VALUES ('device_2', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');
