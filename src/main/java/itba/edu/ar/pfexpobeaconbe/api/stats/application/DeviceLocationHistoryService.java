@@ -3,6 +3,7 @@ package itba.edu.ar.pfexpobeaconbe.api.stats.application;
 import itba.edu.ar.pfexpobeaconbe.api.stand.application.StandService;
 import itba.edu.ar.pfexpobeaconbe.api.stats.domain.DeviceLocationHistoryRepository;
 import itba.edu.ar.pfexpobeaconbe.api.stats.domain.DeviceStandsTimeHistory;
+import itba.edu.ar.pfexpobeaconbe.api.stats.domain.StandVisitHours;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +37,13 @@ public class DeviceLocationHistoryService {
               .collect(groupingBy(DeviceLocationHistory::getDeviceId, toList()));
     }
 
-    public void updateAll(final List<DeviceLocationHistory> deviceLocationHistories) {
-        deviceLocationHistories.forEach(DeviceLocationHistory::processed);
+    public void markAverageTimeTaskProcessed(final List<DeviceLocationHistory> deviceLocationHistories) {
+        deviceLocationHistories.forEach(DeviceLocationHistory::averageTimeTaskProcessed);
+        deviceLocationHistoryRepository.saveAll(deviceLocationHistories);
+    }
+
+    public void markHistogramTaskProcessed(final List<DeviceLocationHistory> deviceLocationHistories) {
+        deviceLocationHistories.forEach(DeviceLocationHistory::histogramTaskProcessed);
         deviceLocationHistoryRepository.saveAll(deviceLocationHistories);
     }
 
@@ -58,5 +64,13 @@ public class DeviceLocationHistoryService {
                 .stream()
                 .mapToDouble(DeviceStandsTimeHistory::getAvgTime)
                 .average().getAsDouble();
+    }
+
+    public List<StandVisitHours> findStandVisitHours(){
+        return deviceLocationHistoryRepository.findStandVisitHours();
+    }
+
+    public List<DeviceLocationHistory> findByHistogramProcessedFalse(){
+        return deviceLocationHistoryRepository.findByHistogramProcessedFalse();
     }
 }

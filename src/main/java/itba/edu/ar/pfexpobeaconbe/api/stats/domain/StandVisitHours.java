@@ -17,6 +17,12 @@ public class StandVisitHours {
 
     public StandVisitHours() {}
 
+    public StandVisitHours(String standId, Long expoHoursId, Long visits) {
+        this.standId = standId;
+        this.expoHoursId = expoHoursId;
+        this.visits = visits;
+    }
+
     public String getStandId() {
         return standId;
     }
