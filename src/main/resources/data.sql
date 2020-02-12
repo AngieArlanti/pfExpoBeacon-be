@@ -55,23 +55,6 @@ INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998870-adaaf400-0896-11ea-89ca-0a35dc0a5135.jpg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg');
 
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
-UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP + (5 * interval '1 minute'));
-UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP + (10 * interval '1 minute'));
-UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP + (12 * interval '1 minute'));
-UPDATE device_proximity SET (device_id, stand_id, distance, update_time) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP + (15 * interval '1 minute'));
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_2', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_3', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_4', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_5', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_6', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_7', '0C:F3:EE:04:19:8E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_8', '0C:F3:EE:04:19:8E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_9', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_10', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_11', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_12', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
-
 INSERT INTO expo_hours(id, start, finish) VALUES (1, '8:00:00', '10:00:00');
 INSERT INTO expo_hours(id, start, finish) VALUES (2, '10:00:00', '12:00:00');
 INSERT INTO expo_hours(id, start, finish) VALUES (3, '12:00:00', '14:00:00');
@@ -79,12 +62,22 @@ INSERT INTO expo_hours(id, start, finish) VALUES (4, '14:00:00', '16:00:00');
 INSERT INTO expo_hours(id, start, finish) VALUES (5, '16:00:00', '18:00:00');
 INSERT INTO expo_hours(id, start, finish) VALUES (6, '18:00:00', '20:00:00');
 
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 1, 2);
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 2, 10);
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 3, 20);
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 4, 5);
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 5, 5);
-INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:08:FC:DD', 6, 20);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_1', '0C:F3:EE:08:FC:DD', 0.5, '2020-02-08 10:54:44.496396', 2);
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time, expo_hours_id) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, '2020-02-08 10:59:44.496396', 2);
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time, expo_hours_id) = ('device_1', '0C:F3:EE:08:FC:DD', 0.5, '2020-02-08 11:09:44.496396', 2);
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time, expo_hours_id) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 11:11:44.496396', 2);
+UPDATE device_proximity SET (device_id, stand_id, distance, update_time, expo_hours_id) = ('device_1', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 11:36:44.496396', 2);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_2', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 13:54:44.496396', 3);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_3', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 13:54:44.496396', 3);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_4', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 13:54:44.496396', 3);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_5', '0C:F3:EE:04:19:2F', 0.5, '2020-02-08 13:54:44.496396', 3);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_6', '0C:F3:EE:08:FC:DD', 0.5, '2020-02-08 13:54:44.496396', 3);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_7', '0C:F3:EE:04:19:8E', 0.5, '2020-02-08 17:54:44.496396', 5);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_8', '0C:F3:EE:04:19:8E', 0.5, '2020-02-08 17:54:44.496396', 5);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_9', '0C:F3:EE:08:FC:DD', 0.5, '2020-02-08 18:54:44.496396', 6);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_10', '0C:F3:EE:04:19:3E', 0.5, '2020-02-08 18:54:44.496396', 6);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_11', '0C:F3:EE:04:19:3E', 0.5, '2020-02-08 18:54:44.496396', 6);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time, expo_hours_id) VALUES('device_12', '0C:F3:EE:04:19:3E', 0.5, '2020-02-08 18:54:44.496396', 6);
 
 INSERT INTO device_tours(device_id, tour) VALUES ('device_1', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
 INSERT INTO device_tours(device_id, tour) VALUES ('device_2', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');

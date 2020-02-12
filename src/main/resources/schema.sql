@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS device_location_history;
 DROP TABLE IF EXISTS stand_visit_hours;
-DROP TABLE IF EXISTS expo_hours;
 DROP TABLE IF EXISTS device_proximity;
+DROP TABLE IF EXISTS expo_hours;
 DROP TABLE IF EXISTS stand_pictures;
 DROP TABLE IF EXISTS stand_ranking;
 DROP TABLE If EXISTS stand_ranking_device;
@@ -40,24 +40,26 @@ CREATE TABLE IF NOT EXISTS stand_pictures(
     FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
 
-CREATE TABLE IF NOT EXISTS device_proximity(
-    device_id VARCHAR NOT NULL,
-    stand_id VARCHAR NOT NULL,
-    distance FLOAT NOT NULL,
-    update_time TIMESTAMP NOT NULL,
-    PRIMARY KEY (device_id, stand_id),
-    FOREIGN KEY (stand_id) REFERENCES stand (id)
-);
-
 CREATE TABLE IF NOT EXISTS expo_hours(
     id SERIAL PRIMARY KEY,
     start TIME NOT NULL,
     finish TIME NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS device_proximity(
+    device_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL,
+    distance FLOAT NOT NULL,
+    update_time TIMESTAMP NOT NULL,
+    expo_hours_id BIGINT NOT NULL,
+    PRIMARY KEY (device_id, stand_id),
+    FOREIGN KEY (stand_id) REFERENCES stand (id),
+    FOREIGN KEY (expo_hours_id) REFERENCES expo_hours (id)
+);
+
 CREATE TABLE IF NOT EXISTS stand_visit_hours(
     stand_id VARCHAR NOT NULL,
-    expo_hours_id SERIAL NOT NULL,
+    expo_hours_id BIGINT NOT NULL,
     visits BIGINT NOT NULL,
     PRIMARY KEY (stand_id, expo_hours_id),
     FOREIGN KEY (stand_id) REFERENCES stand (id),
@@ -70,7 +72,9 @@ CREATE TABLE IF NOT EXISTS device_location_history(
     stand_id VARCHAR NOT NULL,
     distance FLOAT NOT NULL,
     update_time TIMESTAMP NOT NULL,
-    average_time_processed BOOLEAN NOT NULL
+    expo_hours_id BIGINT NOT NULL,
+    average_time_processed BOOLEAN NOT NULL,
+    histogram_processed BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS stand_ranking_device(
@@ -100,8 +104,8 @@ CREATE TABLE IF NOT EXISTS device_stands_time_history(
 
 CREATE OR REPLACE FUNCTION update_device_location_history_with_device_proximity() RETURNS TRIGGER LANGUAGE 'plpgsql' AS '
 BEGIN
-INSERT INTO device_location_history (device_id, stand_id, distance, update_time, average_time_processed)
-VALUES (NEW.device_id, NEW.stand_id, NEW.distance, NEW.update_time, FALSE);
+INSERT INTO device_location_history (device_id, stand_id, distance, update_time, expo_hours_id, average_time_processed, histogram_processed)
+VALUES (NEW.device_id, NEW.stand_id, NEW.distance, NEW.update_time, NEW.expo_hours_id, FALSE, FALSE);
 
 RETURN NEW;
 END; ';
