@@ -100,7 +100,7 @@ public class StatsServiceTest {
         linearDistances.put("2", 0.1);
         linearDistances.put("3", 0.1);
 
-        final List<StandStatics> standStatics = statsService.getStandStatics(linearDistances, stands,
+        final List<StandStatics> standStatics = statsService.getTimeTourStats(linearDistances, stands,
                 currentCongestion, historicCongestion);
 
         assertThat(standStatics.get(0).getStand().getId(), is("1"));
@@ -166,7 +166,7 @@ public class StatsServiceTest {
         linearDistances.put("2", 0.4);
         linearDistances.put("3", 1.0);
 
-        final List<StandStatics> standStatics = statsService.getStandStatics(linearDistances, stands,
+        final List<StandStatics> standStatics = statsService.getTimeTourStats(linearDistances, stands,
                 currentCongestion, historicCongestion);
 
         assertThat(standStatics.get(0).getStand().getId(), is("1"));

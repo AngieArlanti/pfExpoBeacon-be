@@ -5,19 +5,19 @@ import api.stand.domain.Stand;
 /**
  * Model for Order Algorithm purposes.
  */
-public class StandStatics {
+public abstract class StandStatics {
 
-    private Stand stand;
-    private double normalizedRanking;
-    private double normalizedCurrentCongestion;
-    private double normalizedOpportunity;
-    private double normalizedDistanceToStartPoint;
+    protected Stand stand;
+    protected double normalizedRanking;
+    protected double normalizedCurrentCongestion;
+    protected double normalizedOpportunity;
+    protected double normalizedDistanceToStartPoint;
 
-    public StandStatics(Stand stand,
-                        double normalizedRanking,
-                        double normalizedCurrentCongestion,
-                        double normalizedOpportunity,
-                        double normalizedDistanceToStartPoint) {
+    public StandStatics(final Stand stand,
+                        final double normalizedRanking,
+                        final double normalizedCurrentCongestion,
+                        final double normalizedOpportunity,
+                        final double normalizedDistanceToStartPoint) {
         this.stand = stand;
         this.normalizedRanking = normalizedRanking;
         this.normalizedCurrentCongestion = normalizedCurrentCongestion;

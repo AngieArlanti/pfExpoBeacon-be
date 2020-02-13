@@ -29,7 +29,7 @@ public class TourService {
     /**
      * Mapper to convert from Tour to TourDto.
      */
-    private TourMapper tourMapper = new TourMapper();
+    private TourMapper tourMapper;
 
     /**
      * Stand Service to ask for Stands specific information.
@@ -39,6 +39,14 @@ public class TourService {
 
     @Autowired
     private StatsService statsService;
+
+    private Position entrance;
+
+    public TourService() {
+        this.tourMapper = new TourMapper();
+        //TODO (ma 2020-02-12) entrance Position is harcoded, must be brought from backoffice.
+        this.entrance = new Position(0.33, 0.33);
+    }
 
     /**
      * Returns a Tour which is a Stand's list ordered from best ranked and less congested stands
@@ -51,9 +59,7 @@ public class TourService {
     TourDto getTourWithoutLines() {
         //Find Stands info.
         final List<Stand> stands = standService.findAll();
-        //TODO (ma 2020-02-12) this is harcoded, must be brought from backoffice.
-        final Position entrance = new Position(0.33, 0.33);
-        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(entrance, stands));
+        return tourMapper.toDtoFromStands(sortStandsByTimeTourStats(entrance, stands));
     }
 
     /**
@@ -68,7 +74,7 @@ public class TourService {
      */
     TourDto getNextBestStandToVisitTour(final Stand currentStand, final List<Stand> pendingStands) {
         final Position lastStandPosition = new Position(currentStand.getLongitude(), currentStand.getLatitude());
-        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(lastStandPosition, pendingStands));
+        return tourMapper.toDtoFromStands(sortStandsByTimeTourStats(lastStandPosition, pendingStands));
     }
 
     /**
@@ -102,15 +108,15 @@ public class TourService {
         final List<Tour> tours = statsService.getPopularTours(3);
         final List<Tour> popularTours = new ArrayList<>();
 
-        //TODO resolver con sorting por distancia lineal
-        /*for (final Tour tour : tours) {
+        for (final Tour tour : tours) {
             popularTours.add(
-                    new Tour(sortStandsByCurrentStats(tour.getTour()),
+                    new Tour(sortStandsByTopThreeTourStats(entrance, tour.getTour()),
                              tour.getVisits()));
-        }*/
+        }
 
-        //return tourMapper.toDto(popularTours);
-        return tourMapper.toDto(tours);
+        //TODO now order by distance.
+
+        return tourMapper.toDto(popularTours);
     }
 
     /**
@@ -122,8 +128,26 @@ public class TourService {
      * @param pendingStands the Stands to sort.
      * @return given Stand's list sorted by Ranking, Current Congestion, and Opportunity.
      */
-    List<Stand> sortStandsByCurrentStats(final Position startPosition, final List<Stand> pendingStands) {
-        final List<StandStatics> standStatics = statsService.getCurrentStandStats(startPosition, pendingStands);
+    List<Stand> sortStandsByTimeTourStats(final Position startPosition, final List<Stand> pendingStands) {
+        final List<StandStatics> standStatics = statsService.getTimeTourStats(startPosition, pendingStands);
+        return sortStandsByCurrentStats(standStatics);
+    }
+
+    /**
+     * Returns the given Stand's list sorted by Ranking, Current Congestion, and Opportunity
+     * (which is the difference between historic and current congestion).
+     * First the best ranked and less congested Stands taking into account the opportunity of
+     * visiting an unusual free stand at this moment.
+     *
+     * @param pendingStands the Stands to sort.
+     * @return given Stand's list sorted by Ranking, Current Congestion, and Opportunity.
+     */
+    List<Stand> sortStandsByTopThreeTourStats(final Position startPosition, final List<Stand> pendingStands) {
+        final List<StandStatics> standStatics = statsService.getPopularTourStats(startPosition, pendingStands);
+        return sortStandsByCurrentStats(standStatics);
+    }
+
+    private List<Stand> sortStandsByCurrentStats(final List<StandStatics> standStatics) {
         standStatics.sort(Comparator.comparingDouble(StandStatics::getOrderCriteria).reversed());
         return standStatics.stream().map(StandStatics::getStand).collect(Collectors.toList());
     }
