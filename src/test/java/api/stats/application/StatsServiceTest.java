@@ -60,18 +60,24 @@ public class StatsServiceTest {
         final Stand stand1 = builder
                 .setId("1")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         //cong 7 - hist 5
         final Stand stand2 = builder
                 .setId("2")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         //cong 0 - hist 5
         final Stand stand3 = builder
                 .setId("3")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         final List<Stand> stands = new ArrayList<>();
@@ -89,8 +95,13 @@ public class StatsServiceTest {
         historicCongestion.put("2", 5L);
         historicCongestion.put("3", 5L);
 
-        final List<StandStatics> standStatics = statsService.getStandStatics(stands, currentCongestion,
-                historicCongestion);
+        final Map<String, Double> linearDistances = new HashMap<>();
+        linearDistances.put("1", 0.1);
+        linearDistances.put("2", 0.1);
+        linearDistances.put("3", 0.1);
+
+        final List<StandStatics> standStatics = statsService.getStandStatics(linearDistances, stands,
+                currentCongestion, historicCongestion);
 
         assertThat(standStatics.get(0).getStand().getId(), is("1"));
         assertThat(standStatics.get(0).getNormalizedRanking(), is(1.0));
@@ -106,5 +117,74 @@ public class StatsServiceTest {
         assertThat(standStatics.get(2).getNormalizedRanking(), is(1.0));
         assertThat(standStatics.get(2).getNormalizedCurrentCongestion(), is(0.0));
         assertThat(standStatics.get(2).getNormalizedOpportunity(), is(1.0));
+    }
+
+    @Test
+    public void getStandStatics_generateDistanceStatsOk() {
+        final StandTestBuilder builder = new StandTestBuilder();
+        // cong 5 - hist 10
+        final Stand stand1 = builder
+                .setId("1")
+                .setRanking(5.0)
+                .setLatitude(0.2)
+                .setLongitude(0.2)
+                .build();
+
+        //cong 7 - hist 5
+        final Stand stand2 = builder
+                .setId("2")
+                .setRanking(5.0)
+                .setLatitude(0.4)
+                .setLongitude(0.4)
+                .build();
+
+        //cong 0 - hist 5
+        final Stand stand3 = builder
+                .setId("3")
+                .setRanking(5.0)
+                .setLatitude(1)
+                .setLongitude(1)
+                .build();
+
+        final List<Stand> stands = new ArrayList<>();
+        stands.add(stand1);
+        stands.add(stand2);
+        stands.add(stand3);
+
+        final Map<String, Long> currentCongestion = new HashMap<>();
+        currentCongestion.put("1", 5L);
+        currentCongestion.put("2", 7L);
+        currentCongestion.put("3", 0L);
+
+        final Map<String, Long> historicCongestion = new HashMap<>();
+        historicCongestion.put("1", 10L);
+        historicCongestion.put("2", 5L);
+        historicCongestion.put("3", 5L);
+
+        final Map<String, Double> linearDistances = new HashMap<>();
+        linearDistances.put("1", 0.2);
+        linearDistances.put("2", 0.4);
+        linearDistances.put("3", 1.0);
+
+        final List<StandStatics> standStatics = statsService.getStandStatics(linearDistances, stands,
+                currentCongestion, historicCongestion);
+
+        assertThat(standStatics.get(0).getStand().getId(), is("1"));
+        assertThat(standStatics.get(0).getNormalizedRanking(), is(1.0));
+        assertThat(standStatics.get(0).getNormalizedCurrentCongestion(), is(0.7142857142857143));
+        assertThat(standStatics.get(0).getNormalizedOpportunity(), is(0.5));
+        assertThat(standStatics.get(0).getNormalizedDistanceToStartPoint(), is(0.0));
+
+        assertThat(standStatics.get(1).getStand().getId(), is("2"));
+        assertThat(standStatics.get(1).getNormalizedRanking(), is(1.0));
+        assertThat(standStatics.get(1).getNormalizedCurrentCongestion(), is(1.0));
+        assertThat(standStatics.get(1).getNormalizedOpportunity(), is(-0.4));
+        assertThat(standStatics.get(1).getNormalizedDistanceToStartPoint(), is(0.25));
+
+        assertThat(standStatics.get(2).getStand().getId(), is("3"));
+        assertThat(standStatics.get(2).getNormalizedRanking(), is(1.0));
+        assertThat(standStatics.get(2).getNormalizedCurrentCongestion(), is(0.0));
+        assertThat(standStatics.get(2).getNormalizedOpportunity(), is(1.0));
+        assertThat(standStatics.get(2).getNormalizedDistanceToStartPoint(), is(1.0));
     }
 }

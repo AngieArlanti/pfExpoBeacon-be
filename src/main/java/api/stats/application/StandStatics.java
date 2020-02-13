@@ -11,15 +11,18 @@ public class StandStatics {
     private double normalizedRanking;
     private double normalizedCurrentCongestion;
     private double normalizedOpportunity;
+    private double normalizedDistanceToStartPoint;
 
     public StandStatics(Stand stand,
                         double normalizedRanking,
                         double normalizedCurrentCongestion,
-                        double normalizedOpportunity) {
+                        double normalizedOpportunity,
+                        double normalizedDistanceToStartPoint) {
         this.stand = stand;
         this.normalizedRanking = normalizedRanking;
         this.normalizedCurrentCongestion = normalizedCurrentCongestion;
         this.normalizedOpportunity = normalizedOpportunity;
+        this.normalizedDistanceToStartPoint = normalizedDistanceToStartPoint;
     }
 
     public Stand getStand() {
@@ -38,6 +41,10 @@ public class StandStatics {
         return normalizedOpportunity;
     }
 
+    public double getNormalizedDistanceToStartPoint() {
+        return normalizedDistanceToStartPoint;
+    }
+
     /**
      * // En éste caso te conviene mandarlo al 1. Por eso la congestion tiene una ponderación mayor que la oportunidad.
      * //1. 5 rank - cong 0 - hist 5
@@ -49,12 +56,8 @@ public class StandStatics {
      * @return
      */
     public double getOrderCriteria() {
-        //Priority is given to Ranking being 3 or higher.
-        if (normalizedRanking >= 0.6) {
-            return (normalizedRanking * 0.4) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2);
-        } else {
-            return (normalizedRanking * 0.2) - (normalizedCurrentCongestion * 0.5) + (normalizedOpportunity * 0.3);
-        }
+        return (normalizedRanking * 0.2) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2)
+                - (normalizedDistanceToStartPoint * 0.2);
     }
 
 }
