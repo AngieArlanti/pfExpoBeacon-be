@@ -112,15 +112,23 @@ public class StatsService {
                 .collect(Collectors.toMap(StandVisitHoursDto::getStandId, StandVisitHoursDto::getVisits));
     }
 
-    public List<StandStatics> getCurrentStandStats(final Position startPosition, final List<Stand> stands) {
+    public List<StandStatics> getTimeTourStats(final Position startPosition, final List<Stand> stands) {
         final Map<String, Long> currentCongestion = getStandCurrentCongestion();
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
         final Map<String, Double> linearDistancesToStartPoint = getLinearDistanceToStartPosition(startPosition, stands);
 
-        return getStandStatics(linearDistancesToStartPoint, stands, currentCongestion, historicCongestion);
+        return getTimeTourStats(linearDistancesToStartPoint, stands, currentCongestion, historicCongestion);
     }
 
-    private Map<String, Double> getLinearDistanceToStartPosition(final Position startPosition,
+    public List<StandStatics> getPopularTourStats(final Position startPosition, final List<Stand> stands) {
+        final Map<String, Long> currentCongestion = getStandCurrentCongestion();
+        final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
+        final Map<String, Double> linearDistancesToStartPoint = getLinearDistanceToStartPosition(startPosition, stands);
+
+        return getPopularTourStats(linearDistancesToStartPoint, stands, currentCongestion, historicCongestion);
+    }
+
+    public Map<String, Double> getLinearDistanceToStartPosition(final Position startPosition,
                                                                  final List<Stand> stands) {
         final Map<String, Double> linearDistances = new HashMap<>();
         stands.forEach(stand -> linearDistances.put(stand.getId(),
@@ -128,13 +136,25 @@ public class StatsService {
         return linearDistances;
     }
 
-    List<StandStatics> getStandStatics(final Map<String, Double> linearDistancesToStartPoint,
-                                       final List<Stand> stands,
-                                       final Map<String, Long> currentCongestion,
-                                       final Map<String, Long> historicCongestion) {
+    List<StandStatics> getTimeTourStats(final Map<String, Double> linearDistancesToStartPoint,
+                                        final List<Stand> stands,
+                                        final Map<String, Long> currentCongestion,
+                                        final Map<String, Long> historicCongestion) {
         return stands.stream()
-                .map(stand -> new StandStatics(stand,
+                .map(stand -> new TimeTourStandStatics(stand,
                         getNormalizedRanking(stand),
+                        getNormalizedCurrentCongestion(currentCongestion, stand),
+                        getNormalizedOpportunity(currentCongestion, historicCongestion, stand),
+                        getNormalizedDistanceToStartPosition(linearDistancesToStartPoint, stand)))
+                .collect(Collectors.toList());
+    }
+
+    List<StandStatics> getPopularTourStats(final Map<String, Double> linearDistancesToStartPoint,
+                                        final List<Stand> stands,
+                                        final Map<String, Long> currentCongestion,
+                                        final Map<String, Long> historicCongestion) {
+        return stands.stream()
+                .map(stand -> new PopularTourStandStatics(stand,
                         getNormalizedCurrentCongestion(currentCongestion, stand),
                         getNormalizedOpportunity(currentCongestion, historicCongestion, stand),
                         getNormalizedDistanceToStartPosition(linearDistancesToStartPoint, stand)))
