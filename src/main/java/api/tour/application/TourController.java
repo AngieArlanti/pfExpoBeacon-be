@@ -23,12 +23,6 @@ public class TourController {
                 tourInProgressDto.getPendingStands()));
     }
 
-    @GetMapping("/tour/time_limited")
-    public ResponseEntity<TourDto> getTimeLimitedTour(@RequestParam(name="time_limit",
-            required=true) final Double timeLimit ) {
-        return ResponseEntity.ok().body(tourService.getTimeLimitedTour(timeLimit));
-    }
-
     @GetMapping("/tour/top_three")
     public ResponseEntity<List<TourDto>> getTopThreeTours() {
         return ResponseEntity.ok().body(tourService.getTopThreeTours());

@@ -128,7 +128,7 @@ public class StatsService {
         return getPopularTourStats(linearDistancesToStartPoint, stands, currentCongestion, historicCongestion);
     }
 
-    private Map<String, Double> getLinearDistanceToStartPosition(final Position startPosition,
+    public Map<String, Double> getLinearDistanceToStartPosition(final Position startPosition,
                                                                  final List<Stand> stands) {
         final Map<String, Double> linearDistances = new HashMap<>();
         stands.forEach(stand -> linearDistances.put(stand.getId(),
