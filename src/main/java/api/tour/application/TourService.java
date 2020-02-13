@@ -19,13 +19,6 @@ import java.util.stream.Collectors;
 public class TourService {
 
     /**
-     * Time people last to walk from stand to stand.
-     * It is measured in minutes.
-     * TODO this can be calculated async with history.
-     */
-    private static final Double TIME_BETWEEN_STANDS = 2.0;
-
-    /**
      * Mapper to convert from Tour to TourDto.
      */
     private TourMapper tourMapper;
@@ -44,7 +37,7 @@ public class TourService {
     public TourService() {
         this.tourMapper = new TourMapper();
         //TODO (ma 2020-02-12) entrance Position is harcoded, must be brought from backoffice.
-        this.entrance = new Position(0.33, 0.33);
+        this.entrance = new Position(-34.640419, -58.401466);
     }
 
     /**
