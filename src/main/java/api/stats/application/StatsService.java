@@ -7,12 +7,12 @@ import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import api.stats.application.utils.StatsDoubleInterval;
 import api.stats.application.utils.StatsLongInterval;
+import api.stats.application.utils.StatsUtils;
 import api.stats.domain.*;
 import api.tour.domain.Tour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.geom.Point2D;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -124,7 +124,7 @@ public class StatsService {
                                                                  final List<Stand> stands) {
         final Map<String, Double> linearDistances = new HashMap<>();
         stands.forEach(stand -> linearDistances.put(stand.getId(),
-                        getLinearDistance(startPosition, stand)));
+                StatsUtils.getLinearDistance(startPosition, stand)));
         return linearDistances;
     }
 
@@ -139,18 +139,6 @@ public class StatsService {
                         getNormalizedOpportunity(currentCongestion, historicCongestion, stand),
                         getNormalizedDistanceToStartPosition(linearDistancesToStartPoint, stand)))
                 .collect(Collectors.toList());
-    }
-
-    private double getNormalizedDistanceToStartPosition(final Map<String, Double> linearDistancesToStartPoint,
-                                                        final Stand stand) {
-        final StatsDoubleInterval statsInterval = getStatsDoubleInterval(linearDistancesToStartPoint.values());
-        final double distance = linearDistancesToStartPoint.get(stand.getId());
-        return getNormalizedValue(distance, statsInterval.getMin(), statsInterval.getMax());
-    }
-
-    private double getLinearDistance(final Position startPosition, final Stand stand) {
-        return Point2D.distance(startPosition.getLongitude(),
-                startPosition.getLatitude(), stand.getLongitude(), stand.getLatitude());
     }
 
     public List<Tour> getPopularTours(final int top) {
@@ -190,5 +178,12 @@ public class StatsService {
 
     private Long getOpportunity(final Long currentCongestion, final Long historicCongestion) {
         return historicCongestion - currentCongestion;
+    }
+
+    private double getNormalizedDistanceToStartPosition(final Map<String, Double> linearDistancesToStartPoint,
+                                                        final Stand stand) {
+        final StatsDoubleInterval statsInterval = getStatsDoubleInterval(linearDistancesToStartPoint.values());
+        final double distance = linearDistancesToStartPoint.get(stand.getId());
+        return getNormalizedValue(distance, statsInterval.getMin(), statsInterval.getMax());
     }
 }

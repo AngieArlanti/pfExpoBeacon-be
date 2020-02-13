@@ -1,5 +1,9 @@
 package api.stats.application.utils;
 
+import api.position.domain.Position;
+import api.stand.domain.Stand;
+
+import java.awt.geom.Point2D;
 import java.util.Collection;
 
 public final class StatsUtils {
@@ -33,5 +37,10 @@ public final class StatsUtils {
 
     public static double getNormalizedValue(final Double value, final Double min, final Double max) {
         return ((value - min) / Math.abs(max - min));
+    }
+
+    public static double getLinearDistance(final Position startPosition, final Stand stand) {
+        return Point2D.distance(startPosition.getLongitude(),
+                startPosition.getLatitude(), stand.getLongitude(), stand.getLatitude());
     }
 }
