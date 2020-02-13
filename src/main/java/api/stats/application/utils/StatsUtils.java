@@ -19,11 +19,19 @@ public final class StatsUtils {
         return value;
     }
 
-    public static StatsInterval getStatsInterval(final Collection<Long> values) {
-        return new StatsInterval(values);
+    public static StatsDoubleInterval getStatsDoubleInterval(final Collection<Double> values) {
+        return new StatsDoubleInterval(values);
+    }
+
+    public static StatsLongInterval getStatsLongInterval(final Collection<Long> values) {
+        return new StatsLongInterval(values);
     }
 
     public static double getNormalizedValue(final Long value, final Long min, final Long max) {
         return ((double) (value - min) / Math.abs(max - min));
+    }
+
+    public static double getNormalizedValue(final Double value, final Double min, final Double max) {
+        return ((value - min) / Math.abs(max - min));
     }
 }

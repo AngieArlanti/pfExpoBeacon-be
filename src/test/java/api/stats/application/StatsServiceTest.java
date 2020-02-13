@@ -60,18 +60,24 @@ public class StatsServiceTest {
         final Stand stand1 = builder
                 .setId("1")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         //cong 7 - hist 5
         final Stand stand2 = builder
                 .setId("2")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         //cong 0 - hist 5
         final Stand stand3 = builder
                 .setId("3")
                 .setRanking(5.0)
+                .setLatitude(0.3)
+                .setLongitude(0.3)
                 .build();
 
         final List<Stand> stands = new ArrayList<>();
@@ -89,8 +95,13 @@ public class StatsServiceTest {
         historicCongestion.put("2", 5L);
         historicCongestion.put("3", 5L);
 
-        final List<StandStatics> standStatics = statsService.getStandStatics(stands, currentCongestion,
-                historicCongestion);
+        final Map<String, Double> linearDistances = new HashMap<>();
+        linearDistances.put("1", 0.1);
+        linearDistances.put("2", 0.1);
+        linearDistances.put("3", 0.1);
+
+        final List<StandStatics> standStatics = statsService.getStandStatics(linearDistances, stands,
+                currentCongestion, historicCongestion);
 
         assertThat(standStatics.get(0).getStand().getId(), is("1"));
         assertThat(standStatics.get(0).getNormalizedRanking(), is(1.0));

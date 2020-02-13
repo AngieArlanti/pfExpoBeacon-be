@@ -1,5 +1,6 @@
 package api.tour.application;
 
+import api.position.domain.Position;
 import api.stand.application.StandService;
 import api.stand.domain.Stand;
 import api.stats.application.StandStatics;
@@ -25,7 +26,8 @@ public class TourService {
      */
     private static final Double TIME_BETWEEN_STANDS = 2.0;
 
-    /** Mapper to convert from Tour to TourDto.
+    /**
+     * Mapper to convert from Tour to TourDto.
      */
     private TourMapper tourMapper = new TourMapper();
 
@@ -49,7 +51,24 @@ public class TourService {
     TourDto getTourWithoutLines() {
         //Find Stands info.
         final List<Stand> stands = standService.findAll();
-        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(stands));
+        //TODO (ma 2020-02-12) this is harcoded, must be brought from backoffice.
+        final Position entrance = new Position(0.33, 0.33);
+        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(entrance, stands));
+    }
+
+    /**
+     * Returns a Tour which is a Stand's list ordered from best ranked and less congested stands
+     * to worst ranked and more congested ones.
+     * Also the unusual free stands at this very moment
+     * are prioritized.
+     *
+     * @param currentStand  start point for tour.
+     * @param pendingStands
+     * @return a Tour ordered by current best ranked and less congested Stands.
+     */
+    TourDto getNextBestStandToVisitTour(final Stand currentStand, final List<Stand> pendingStands) {
+        final Position lastStandPosition = new Position(currentStand.getLongitude(), currentStand.getLatitude());
+        return tourMapper.toDtoFromStands(sortStandsByCurrentStats(lastStandPosition, pendingStands));
     }
 
     /**
@@ -73,7 +92,8 @@ public class TourService {
         return tourMapper.toDtoFromStands(timeLimitedTour);
     }
 
-    /** Returns Top Three Popular Paths visited by people in history.
+    /**
+     * Returns Top Three Popular Paths visited by people in history.
      * Each Tour is ordered by current best ranked and less congested Stands.
      *
      * @return Top Three Tours ordered by current best ranked and less congested Stands.
@@ -82,13 +102,15 @@ public class TourService {
         final List<Tour> tours = statsService.getPopularTours(3);
         final List<Tour> popularTours = new ArrayList<>();
 
-        for (final Tour tour : tours) {
+        //TODO resolver con sorting por distancia lineal
+        /*for (final Tour tour : tours) {
             popularTours.add(
                     new Tour(sortStandsByCurrentStats(tour.getTour()),
                              tour.getVisits()));
-        }
+        }*/
 
-        return tourMapper.toDto(popularTours);
+        //return tourMapper.toDto(popularTours);
+        return tourMapper.toDto(tours);
     }
 
     /**
@@ -97,11 +119,11 @@ public class TourService {
      * First the best ranked and less congested Stands taking into account the opportunity of
      * visiting an unusual free stand at this moment.
      *
-     * @param stands the Stands to sort.
+     * @param pendingStands the Stands to sort.
      * @return given Stand's list sorted by Ranking, Current Congestion, and Opportunity.
      */
-    List<Stand> sortStandsByCurrentStats(final List<Stand> stands) {
-        final List<StandStatics> standStatics = statsService.getCurrentStandStats(stands);
+    List<Stand> sortStandsByCurrentStats(final Position startPosition, final List<Stand> pendingStands) {
+        final List<StandStatics> standStatics = statsService.getCurrentStandStats(startPosition, pendingStands);
         standStatics.sort(Comparator.comparingDouble(StandStatics::getOrderCriteria).reversed());
         return standStatics.stream().map(StandStatics::getStand).collect(Collectors.toList());
     }

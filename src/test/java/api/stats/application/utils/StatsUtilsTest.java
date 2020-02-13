@@ -26,7 +26,7 @@ public class StatsUtilsTest {
         values.add(5L);
         values.add(7L);
 
-        StatsInterval statsInterval = StatsUtils.getStatsInterval(values);
+        StatsLongInterval statsInterval = StatsUtils.getStatsLongInterval(values);
 
         assertThat(statsInterval.getMin(), is(0L));
         assertThat(statsInterval.getMax(), is(7L));
