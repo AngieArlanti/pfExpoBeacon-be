@@ -30,6 +30,10 @@ public class DeviceProximityService {
         return deviceProximityRepository.findAll();
     }
 
+    public List<DeviceProximity> listAllInmmediateStandRegisters(){
+        return deviceProximityRepository.findAllInmmediateStandRegisters();
+    }
+
     private void checkValidStand(List<String> immediateStandIds) {
         List<Stand> found = standService.findBy(immediateStandIds);
         Validate.notEmpty(found);
