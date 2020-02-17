@@ -39,7 +39,6 @@ public class StatsTasks {
             deviceStandsTimeHistoryService.save(deviceId, list);
             deviceLocationHistoryService.markAverageTimeTaskProcessed(list);
         }
-
         deviceLocationHistoryService.updateStandWithAverageTime();
     }
 

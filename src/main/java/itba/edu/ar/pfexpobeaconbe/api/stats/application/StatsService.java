@@ -140,6 +140,10 @@ public class StatsService {
         return popularTours;
     }
 
+    public void getDeviceTours(){
+
+    }
+
     private Tour getTour(TourVisits tourVisits) {
         List<String> tours = Arrays.asList(tourVisits.getTour().split(" "));
         final List<Stand> tour = standService.findBy(tours);
