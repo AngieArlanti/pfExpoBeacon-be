@@ -4,16 +4,16 @@ import java.util.Collection;
 
 import static api.stats.application.utils.StatsUtils.coalesce;
 
-public class StatsInterval {
+public class StatsLongInterval {
     private Long min;
     private Long max;
 
-    public StatsInterval(Long min, Long max) {
+    public StatsLongInterval(final Long min, final Long max) {
         this.min = min;
         this.max = max;
     }
 
-    public StatsInterval(final Collection<Long> values) {
+    public StatsLongInterval(final Collection<Long> values) {
         values.stream().min(Long::compareTo).ifPresent(aLong -> min = coalesce(aLong));
         values.stream().max(Long::compareTo).ifPresent(aLong -> max = coalesce(aLong));
     }
