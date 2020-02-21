@@ -14,4 +14,5 @@ public interface DeviceProximityRepository extends JpaRepository<DeviceProximity
     "FROM DeviceProximity " +
     "WHERE distance < 1.0 ")
   List<DeviceProximity> findAllInmmediateStandRegisters();
+
 }
