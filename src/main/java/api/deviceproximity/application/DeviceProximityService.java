@@ -36,7 +36,7 @@ public class DeviceProximityService {
         checkValidStand(deviceProximityDto.getNearbyStandIds());
         final List<DeviceProximity> deviceProximity = mapper.toModel(deviceProximityDto);
         deviceProximityRepository.saveAll(deviceProximity);
-        locationService.save(deviceProximityDto.getDeviceId(), getLocation(deviceProximityDto));
+        locationService.save(deviceProximityDto.getDeviceId(), getTrilaterationLocationDto(deviceProximityDto));
     }
 
     public List<DeviceProximity> listAll() {
@@ -54,6 +54,10 @@ public class DeviceProximityService {
 
     public LocationDto getLocation(final DeviceProximityDto deviceProximityDto) {
         save(deviceProximityDto);
+        return getTrilaterationLocationDto(deviceProximityDto);
+    }
+
+    private LocationDto getTrilaterationLocationDto(final DeviceProximityDto deviceProximityDto) {
         final Map<String, Double> deviceProximity = deviceProximityDto.getNearbyStands().stream()
                 .collect(toMap(NearbyStandDto::getStandId, NearbyStandDto::getDistance));
 
