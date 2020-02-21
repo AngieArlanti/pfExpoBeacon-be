@@ -8,7 +8,12 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 @Service
 public class DeviceProximityService {
@@ -18,24 +23,46 @@ public class DeviceProximityService {
 
     @Autowired
     private StandService standService;
+
+    @Autowired
+    private TrilaterationService trilaterationService;
+
     private DeviceProximityMapper mapper = new DeviceProximityMapper();
+
+    private LocationMapper locationMapper = new LocationMapper();
 
     public void save(final DeviceProximityDto deviceProximityDto) {
         checkValidStand(deviceProximityDto.getNearbyStandIds());
-        List<DeviceProximity> deviceProximity = mapper.toModel(deviceProximityDto);
+        final List<DeviceProximity> deviceProximity = mapper.toModel(deviceProximityDto);
         deviceProximityRepository.saveAll(deviceProximity);
     }
 
-    public List<DeviceProximity> listAll(){
+    public List<DeviceProximity> listAll() {
         return deviceProximityRepository.findAll();
     }
 
-    public List<DeviceProximity> listAllInmmediateStandRegisters(){
+    public List<DeviceProximity> listAllImmediateStandRegisters() {
         return deviceProximityRepository.findAllInmmediateStandRegisters();
     }
 
-    private void checkValidStand(List<String> immediateStandIds) {
-        List<Stand> found = standService.findBy(immediateStandIds);
+    private void checkValidStand(final List<String> immediateStandIds) {
+        final List<Stand> found = standService.findBy(immediateStandIds);
         Validate.notEmpty(found);
+    }
+
+    public LocationDto getLocation(final DeviceProximityDto deviceProximityDto) {
+        save(deviceProximityDto);
+        final Map<String, Double> deviceProximity = deviceProximityDto.getNearbyStands().stream()
+                .collect(toMap(NearbyStandDto::getStandId, NearbyStandDto::getDistance));
+
+        final List<Stand> standDtos = standService.findBy(new ArrayList<>(deviceProximity.keySet()));
+
+        final List<Point> points =
+                standDtos.stream().map(stand -> new Point(stand.getLatitude(),
+                        stand.getLongitude(), deviceProximity.get(stand.getId()))).collect(Collectors.toList());
+
+        final Point point = trilaterationService.getLocation(points);
+
+        return locationMapper.toDto(point);
     }
 }

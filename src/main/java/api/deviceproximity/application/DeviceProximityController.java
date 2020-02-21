@@ -17,4 +17,11 @@ public class DeviceProximityController {
         deviceProximityService.save(deviceProximityDto);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping(value="/get_location")
+    public ResponseEntity<LocationDto> getLocation(@RequestBody DeviceProximityDto deviceProximityDto) {
+        return ResponseEntity.ok()
+                .body(deviceProximityService.getLocation(deviceProximityDto));
+    }
+
 }
