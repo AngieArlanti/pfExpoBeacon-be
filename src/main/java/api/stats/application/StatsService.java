@@ -81,7 +81,7 @@ public class StatsService {
     public Map<String, Long> getStandCurrentCongestion() {
         //Obtain Stand Proximity Info.
         List<DeviceProximity> deviceProximityList =
-          deviceProximityService.listAllInmmediateStandRegisters();
+          deviceProximityService.listAllImmediateStandRegisters();
 
         //Calculate how many people was in each stand in the last 10 minutes.
         return deviceProximityList.stream().filter(this::isUpdated)
