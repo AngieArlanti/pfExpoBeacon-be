@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Repository
-public interface LocationRepository extends JpaRepository<Location, Integer> {
+public interface LocationRepository extends JpaRepository<Location, String> {
 
     List<Location> findByUpdateTimeBetween(final OffsetDateTime start, final OffsetDateTime end);
 }
