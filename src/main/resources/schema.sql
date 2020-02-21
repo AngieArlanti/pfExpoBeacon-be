@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS stand;
 DROP TABLE IF EXISTS ranking_average;
 DROP TABLE IF EXISTS device_tours;
 DROP TABLE IF EXISTS tour_visits;
+DROP TABLE IF EXISTS location;
 
 CREATE TABLE IF NOT EXISTS ranking_average(
     id SERIAL,
@@ -100,3 +101,10 @@ CREATE TRIGGER update_device_location_history
 AFTER INSERT OR UPDATE ON device_proximity
 FOR EACH ROW
 EXECUTE PROCEDURE update_device_location_history_with_device_proximity();
+
+CREATE TABLE IF NOT EXISTS location(
+    device_id VARCHAR NOT NULL PRIMARY KEY,
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL,
+    update_time TIMESTAMP NOT NULL
+);

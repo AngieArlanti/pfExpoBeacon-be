@@ -15,9 +15,6 @@ public class DeviceProximityController {
     @Autowired
     private DeviceProximityService deviceProximityService;
 
-    @Autowired
-    private LocationService locationService;
-
     @PostMapping(value="/device_proximity")
     public ResponseEntity<Void> save(@RequestBody DeviceProximityDto deviceProximityDto) {
         deviceProximityService.save(deviceProximityDto);
@@ -30,8 +27,4 @@ public class DeviceProximityController {
                 .body(deviceProximityService.getLocation(deviceProximityDto));
     }
 
-    @GetMapping(value="/heat_map")
-    public ResponseEntity<List<LocationDto>> getHeatMap() {
-        return ResponseEntity.ok().body(locationService.getLocations());
-    }
 }
