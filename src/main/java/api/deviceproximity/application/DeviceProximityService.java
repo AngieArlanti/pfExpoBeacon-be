@@ -8,9 +8,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
@@ -27,6 +25,9 @@ public class DeviceProximityService {
     @Autowired
     private TrilaterationService trilaterationService;
 
+    @Autowired
+    private LocationService locationService;
+
     private DeviceProximityMapper mapper = new DeviceProximityMapper();
 
     private LocationMapper locationMapper = new LocationMapper();
@@ -35,6 +36,7 @@ public class DeviceProximityService {
         checkValidStand(deviceProximityDto.getNearbyStandIds());
         final List<DeviceProximity> deviceProximity = mapper.toModel(deviceProximityDto);
         deviceProximityRepository.saveAll(deviceProximity);
+        locationService.save(deviceProximityDto.getDeviceId(), getTrilaterationLocationDto(deviceProximityDto));
     }
 
     public List<DeviceProximity> listAll() {
@@ -52,6 +54,10 @@ public class DeviceProximityService {
 
     public LocationDto getLocation(final DeviceProximityDto deviceProximityDto) {
         save(deviceProximityDto);
+        return getTrilaterationLocationDto(deviceProximityDto);
+    }
+
+    private LocationDto getTrilaterationLocationDto(final DeviceProximityDto deviceProximityDto) {
         final Map<String, Double> deviceProximity = deviceProximityDto.getNearbyStands().stream()
                 .collect(toMap(NearbyStandDto::getStandId, NearbyStandDto::getDistance));
 
@@ -63,6 +69,7 @@ public class DeviceProximityService {
 
         final Point point = trilaterationService.getLocation(points);
 
-        return locationMapper.toDto(point);
+        return locationMapper.toDtoFromPoint(point);
     }
+
 }
