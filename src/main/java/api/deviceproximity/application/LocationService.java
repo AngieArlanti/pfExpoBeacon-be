@@ -22,8 +22,8 @@ public class LocationService {
     }
 
     public List<LocationDto> getLocations() {
-        return locationRepository.findByUpdateTimeBetween(OffsetDateTime.now(),
-                OffsetDateTime.now().minus(10, ChronoUnit.MINUTES))
+        final OffsetDateTime now = OffsetDateTime.now();
+        return locationRepository.findByUpdateTimeBetween(now.minus(10, ChronoUnit.MINUTES), now)
                 .stream().map(location -> locationMapper.toDto(location))
                 .collect(Collectors.toList());
     }
