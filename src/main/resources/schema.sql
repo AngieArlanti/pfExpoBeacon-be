@@ -34,19 +34,19 @@ CREATE TABLE IF NOT EXISTS stand(
 
 CREATE TABLE IF NOT EXISTS stand_pictures(
     id SERIAL,
-    stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL REFERENCES stand(id) ON DELETE CASCADE,
     picture VARCHAR NOT NULL,
-    PRIMARY KEY (id, stand_id),
-    FOREIGN KEY (stand_id) REFERENCES stand (id)
+    PRIMARY KEY (id, stand_id)
+    --FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
 
 CREATE TABLE IF NOT EXISTS device_proximity(
     device_id VARCHAR NOT NULL,
-    stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL REFERENCES stand(id) ON DELETE CASCADE,
     distance FLOAT NOT NULL,
     update_time TIMESTAMP NOT NULL,
-    PRIMARY KEY (device_id, stand_id),
-    FOREIGN KEY (stand_id) REFERENCES stand (id)
+    PRIMARY KEY (device_id, stand_id)
+    --FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
 
 CREATE TABLE IF NOT EXISTS expo_hours(
@@ -56,11 +56,11 @@ CREATE TABLE IF NOT EXISTS expo_hours(
 );
 
 CREATE TABLE IF NOT EXISTS stand_visit_hours(
-    stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL REFERENCES stand(id) ON DELETE CASCADE,
     expo_hours_id SERIAL NOT NULL,
     visits INTEGER NOT NULL,
     PRIMARY KEY (stand_id, expo_hours_id),
-    FOREIGN KEY (stand_id) REFERENCES stand (id),
+    --FOREIGN KEY (stand_id) REFERENCES stand (id),
     FOREIGN KEY (expo_hours_id) REFERENCES expo_hours (id)
 );
 
@@ -72,11 +72,11 @@ update_time TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS stand_ranking_device(
-    stand_id VARCHAR NOT NULL,
+    stand_id VARCHAR NOT NULL REFERENCES stand(id) ON DELETE CASCADE,
     device_id VARCHAR NOT NULL,
     ranking INTEGER,
-    PRIMARY KEY(stand_id, device_id),
-    FOREIGN KEY (stand_id) REFERENCES stand (id)
+    PRIMARY KEY(stand_id, device_id)
+    --FOREIGN KEY (stand_id) REFERENCES stand (id)
 );
 
 CREATE TABLE IF NOT EXISTS device_tours(
