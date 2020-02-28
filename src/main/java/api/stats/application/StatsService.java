@@ -183,9 +183,10 @@ public class StatsService {
 
     private double getNormalizedOpportunity(final Map<String, Long> currentCongestion,
                                             final Map<String, Long> historicCongestion, final Stand stand) {
+        final Long max = Math.abs(coalesce(historicCongestion.get(stand.getId()))) < Math.abs(coalesce(currentCongestion.get(stand.getId()))) ?
+                coalesce(historicCongestion.get(stand.getId())) : coalesce(currentCongestion.get(stand.getId()));
         return getNormalizedValue(getOpportunity(coalesce(currentCongestion.get(stand.getId())),
-                coalesce(historicCongestion.get(stand.getId()))), 0L,
-                coalesce(historicCongestion.get(stand.getId())));
+                coalesce(historicCongestion.get(stand.getId()))), 0L, max);
     }
 
     private double getNormalizedCurrentCongestion(final Map<String, Long> currentCongestion, final Stand stand) {

@@ -15,6 +15,7 @@ public class LocationController {
 
     @GetMapping(value="/heat_map")
     public ResponseEntity<List<LocationDto>> getHeatMap() {
-        return ResponseEntity.ok().body(locationService.getLocations());
+        final ResponseEntity<List<LocationDto>> heatmap =  ResponseEntity.ok().body(locationService.getLocations());
+        return heatmap;
     }
 }

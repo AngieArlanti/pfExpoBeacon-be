@@ -56,8 +56,8 @@ public abstract class StandStatics {
      * @return
      */
     public double getOrderCriteria() {
-        return (normalizedRanking * 0.2) - (normalizedCurrentCongestion * 0.4) + (normalizedOpportunity * 0.2)
-                - (normalizedDistanceToStartPoint * 0.2);
+        return (normalizedRanking * 0.4) - (normalizedCurrentCongestion * 0.25) + (normalizedOpportunity * 0.25)
+                - (normalizedDistanceToStartPoint * 0.1);
     }
 
 }
