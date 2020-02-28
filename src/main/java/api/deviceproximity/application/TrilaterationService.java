@@ -27,7 +27,6 @@ public class TrilaterationService {
         return getPoint(optimum.getPoint().toArray());
     }
 
-    //TODO no estoy segura si el orden es latitud longitud
     private Point getPoint(final double[] arrayPoint) {
         return new Point(arrayPoint[0], arrayPoint[1]);
     }
