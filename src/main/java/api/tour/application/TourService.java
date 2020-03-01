@@ -37,7 +37,7 @@ public class TourService {
     public TourService() {
         this.tourMapper = new TourMapper();
         //TODO (ma 2020-02-12) entrance Position is harcoded, must be brought from backoffice.
-        this.entrance = new Position(-34.640419, -58.401466);
+        this.entrance = new Position( -58.401466, -34.640419);
     }
 
     /**
@@ -170,7 +170,7 @@ public class TourService {
                                   final List<Stand> stands){
         final Position startPosition = new Position(currentStand.getLatitude(), currentStand.getLongitude());
         return stands.stream()
-                .min(Comparator.comparingDouble(value -> StatsUtils.getLinearDistance(startPosition, value)))
+                .min(Comparator.comparingDouble(value -> StatsUtils.getHaversineDistance(startPosition, value)))
                 .orElse(null);
     }
 }

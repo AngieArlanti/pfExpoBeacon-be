@@ -133,7 +133,7 @@ public class StatsService {
                                                                  final List<Stand> stands) {
         final Map<String, Double> linearDistances = new HashMap<>();
         stands.forEach(stand -> linearDistances.put(stand.getId(),
-                StatsUtils.getLinearDistance(startPosition, stand)));
+                StatsUtils.getHaversineDistance(startPosition, stand)));
         return linearDistances;
     }
 
@@ -183,9 +183,11 @@ public class StatsService {
 
     private double getNormalizedOpportunity(final Map<String, Long> currentCongestion,
                                             final Map<String, Long> historicCongestion, final Stand stand) {
-        return getNormalizedValue(getOpportunity(coalesce(currentCongestion.get(stand.getId())),
-                coalesce(historicCongestion.get(stand.getId()))), 0L,
+        final Long opportunity = getOpportunity(coalesce(currentCongestion.get(stand.getId())),
                 coalesce(historicCongestion.get(stand.getId())));
+        final Long max = Math.abs(coalesce(historicCongestion.get(stand.getId()))) > Math.abs(opportunity) ?
+                coalesce(historicCongestion.get(stand.getId())) : opportunity;
+        return getNormalizedValue(opportunity, 0L, max);
     }
 
     private double getNormalizedCurrentCongestion(final Map<String, Long> currentCongestion, final Stand stand) {
@@ -207,4 +209,5 @@ public class StatsService {
         final double distance = linearDistancesToStartPoint.get(stand.getId());
         return getNormalizedValue(distance, statsInterval.getMin(), statsInterval.getMax());
     }
+
 }

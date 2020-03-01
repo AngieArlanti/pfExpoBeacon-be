@@ -31,31 +31,31 @@ INSERT INTO stand(id, title, short_description, description, cover, ranking_aver
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:04:18:AC', 'PEDAL WAH WAH INALÁMBRICO',
 'Pedal analógico controlado digitalmente','Los pedales Wah Wah son accesorios para guitarras que se usan desde los años 70. Existen pedales analógicos y digitales. Los primeros son caros y dominan el mercado, mientras que los segundos tienen más prestaciones y si bien son potencialmente escalables para producción en serie, no son aceptados por el mercado. El Wah Wah inalámbrico propuesto es un pedal analógico controlado digitalmente, es decir que reúne las ventajas comerciales de uno y las prestaciones de otro.', 'https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg', 8,-34.640404, -58.401470, 10);
 
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:08:FC:DD', 'device_1', 3);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_1', 5);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_2', 5);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_3', 5);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_4', 5);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:A0', 'device_1', 2);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_1', 2);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_2', 4);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_1', 3);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_2', 3);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_3', 3);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_4', 3);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_1', 2);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_2', 2);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_3', 2);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_1', 3);
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_2', 3);
-
-INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:AC', 'device_1', 2);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:08:FC:DD', 'device_1', 3);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_1', 5);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_2', 5);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_3', 5);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_4', 5);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:A0', 'device_1', 2);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_1', 2);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_2', 4);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_1', 3);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_2', 3);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_3', 3);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:1B:E4', 'device_4', 3);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_1', 2);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_2', 2);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:21', 'device_3', 2);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_1', 3);
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:3E', 'device_2', 3);
+--
+-- INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:AC', 'device_1', 2);
 
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg');
@@ -83,16 +83,11 @@ INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:04:18:AC', 'https
 
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_1', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
 INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_2', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_3', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_4', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_5', '0C:F3:EE:04:19:2F', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_6', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_7', '0C:F3:EE:04:19:8E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_8', '0C:F3:EE:04:19:8E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_9', '0C:F3:EE:08:FC:DD', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_10', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_11', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
-INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_12', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_3', '0C:F3:EE:04:19:8E', 0.5, CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_4', '0C:F3:EE:04:19:3E', 0.5, CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_5', '0C:F3:EE:04:18:A0', 0.5, CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_6', '0C:F3:EE:04:1B:E4', 0.5, CURRENT_TIMESTAMP);
+INSERT INTO device_proximity(device_id, stand_id, distance, update_time) VALUES('device_7', '0C:F3:EE:04:19:21', 0.5, CURRENT_TIMESTAMP);
 
 INSERT INTO expo_hours(id, start, finish) VALUES (1, '8:00:00', '10:00:00');
 INSERT INTO expo_hours(id, start, finish) VALUES (2, '10:00:00', '12:00:00');
