@@ -187,4 +187,6 @@ public class StatsServiceTest {
         assertThat(standStatics.get(2).getNormalizedOpportunity(), is(1.0));
         assertThat(standStatics.get(2).getNormalizedDistanceToStartPoint(), is(1.0));
     }
+
+
 }

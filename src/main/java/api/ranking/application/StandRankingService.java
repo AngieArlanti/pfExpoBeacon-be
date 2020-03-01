@@ -1,9 +1,10 @@
 package api.ranking.application;
 
 import api.ranking.domain.RankingAverage;
+import api.ranking.domain.StandRankingDevice;
 import api.ranking.domain.StandRankingRepository;
 import api.stand.application.StandService;
-import api.ranking.domain.StandRankingDevice;
+import api.stand.domain.Stand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,10 @@ public class StandRankingService {
     private StandRankingMapper mapper = new StandRankingMapper();
 
     public void save(final StandRankingDto standRankingDto) {
-        standService.findBy(standRankingDto.getStandId());
-        StandRankingDevice standRankingByDevice = mapper.toModel(standRankingDto);
+        final Stand stand = standService.findBy(standRankingDto.getStandId());
+        final StandRankingDevice standRankingByDevice = mapper.toModel(standRankingDto);
         standRankingRepository.save(standRankingByDevice);
-        RankingAverage rankingAverage = calculateRankingCantRates(standRankingDto);
+        final RankingAverage rankingAverage = calculateRankingCantRates(standRankingDto);
         rankingAverageService.update(rankingAverage);
     }
 

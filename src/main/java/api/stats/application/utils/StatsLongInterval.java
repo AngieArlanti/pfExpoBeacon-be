@@ -5,10 +5,10 @@ import java.util.Collection;
 import static api.stats.application.utils.StatsUtils.coalesce;
 
 public class StatsLongInterval {
-    private Long min;
-    private Long max;
+    private long min;
+    private long max;
 
-    public StatsLongInterval(final Long min, final Long max) {
+    public StatsLongInterval(final long min, final long max) {
         this.min = min;
         this.max = max;
     }
@@ -18,11 +18,11 @@ public class StatsLongInterval {
         values.stream().max(Long::compareTo).ifPresent(aLong -> max = coalesce(aLong));
     }
 
-    public Long getMin() {
+    public long getMin() {
         return min;
     }
 
-    public Long getMax() {
+    public long getMax() {
         return max;
     }
 }

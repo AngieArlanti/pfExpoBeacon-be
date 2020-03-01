@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static api.stats.application.utils.StatsUtils.*;
-import static java.time.OffsetTime.now;
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 /**
  * Service to get stats from DeviceProximity and DeviceProximityHistory Entities.
@@ -78,23 +78,28 @@ public class StatsService {
      *
      * @return Map with Stand Id as a key and a Long representing Stand's current congestion.
      */
-    public Map<String, Long> getStandCurrentCongestion() {
+    public Map<String, Long> getStandCurrentCongestion(final List<Stand> stands) {
         //Obtain Stand Proximity Info.
         List<DeviceProximity> deviceProximityList =
           deviceProximityService.listAllImmediateStandRegisters();
 
+        final Map<String, Long> congestion = new HashMap<>();
+        stands.forEach(stand -> congestion.put(stand.getId(), 0L));
+
         //Calculate how many people was in each stand in the last 10 minutes.
-        return deviceProximityList.stream().filter(this::isUpdated)
-                .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting()));
+        congestion.putAll(deviceProximityList.stream().filter(this::isUpdated)
+                .collect(groupingBy(DeviceProximity::getStandId, Collectors.counting())));
+
+        return congestion;
     }
 
     /**
      * Returns whether deviceProximity record is at most ten minutes old.
-     *
-     * @return true if deviceProximity is updated (it is 10 minutes old).
+     * TODO ADJUST 1200sec WITH STAND AVG TIME.
+     * @return true if deviceProximity is updated (it is 20 minutes old).
      */
     private boolean isUpdated(final DeviceProximity deviceProximity) {
-        return Duration.between(now(), deviceProximity.getUpdateTime()).getSeconds() <= 600;
+        return Duration.between(deviceProximity.getUpdateTime(), OffsetDateTime.now()).getSeconds() <= 1200;
     }
 
     /**
@@ -114,7 +119,7 @@ public class StatsService {
     }
 
     public List<StandStatics> getTimeTourStats(final Position startPosition, final List<Stand> stands) {
-        final Map<String, Long> currentCongestion = getStandCurrentCongestion();
+        final Map<String, Long> currentCongestion = getStandCurrentCongestion(stands);
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
         final Map<String, Double> linearDistancesToStartPoint = getLinearDistanceToStartPosition(startPosition, stands);
 
@@ -122,7 +127,7 @@ public class StatsService {
     }
 
     public List<StandStatics> getPopularTourStats(final Position startPosition, final List<Stand> stands) {
-        final Map<String, Long> currentCongestion = getStandCurrentCongestion();
+        final Map<String, Long> currentCongestion = getStandCurrentCongestion(stands);
         final Map<String, Long> historicCongestion = getStandCurrentHistoricCongestion();
         final Map<String, Double> linearDistancesToStartPoint = getLinearDistanceToStartPosition(startPosition, stands);
 
@@ -191,8 +196,11 @@ public class StatsService {
     }
 
     private double getNormalizedCurrentCongestion(final Map<String, Long> currentCongestion, final Stand stand) {
-        final StatsLongInterval statsInterval = getStatsLongInterval(currentCongestion.values());
-        return getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), statsInterval.getMin(), statsInterval.getMax());
+        if(!currentCongestion.isEmpty()){
+            final StatsLongInterval statsInterval = getStatsLongInterval(currentCongestion.values());
+            return getNormalizedValue(coalesce(currentCongestion.get(stand.getId())), statsInterval.getMin(), statsInterval.getMax());
+        }
+        return 0.0;
     }
 
     private double getNormalizedRanking(final Stand stand) {
