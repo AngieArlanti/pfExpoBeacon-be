@@ -1,5 +1,6 @@
 package api.deviceproximity.application;
 
+import api.deviceproximity.util.CoordinateConversions;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
@@ -28,7 +29,13 @@ public class TrilaterationService {
     }
 
     private Point getPoint(final double[] arrayPoint) {
-        return new Point(arrayPoint[0], arrayPoint[1]);
+        double[] xyz = new double[3];
+        xyz[0] =arrayPoint[0];
+        xyz[1] =arrayPoint[1];
+        xyz[2] =-3605105.073651262;
+        double[] coordinate = new double[3];
+        coordinate=CoordinateConversions.xyzToLatLonDegrees(xyz);
+        return new Point(coordinate[0], coordinate[1]);
     }
 
     private double[] getDistances(final List<Point> points) {
@@ -42,8 +49,9 @@ public class TrilaterationService {
     private double[][] getMatrixPosition(final List<Point> points) {
         double[][] positions = new double[points.size()][2];
         for (int i = 0; i < points.size(); i++) {
-            positions[i][0] = points.get(i).getLatitude();
-            positions[i][1] = points.get(i).getLongitude();
+            double[] coordinate = CoordinateConversions.getXYZfromLatLonDegrees(points.get(i).getLatitude(),points.get(i).getLongitude(),0);
+            positions[i][0] = coordinate[0];
+            positions[i][1] = coordinate[1];
         }
         return positions;
     }
