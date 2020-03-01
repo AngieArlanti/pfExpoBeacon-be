@@ -3,11 +3,11 @@ package api.stats.application.utils;
 import api.position.domain.Position;
 import api.stand.domain.Stand;
 
-import java.awt.geom.Point2D;
 import java.util.Collection;
 
 public final class StatsUtils {
-    private StatsUtils() {}
+    private StatsUtils() {
+    }
 
     public static long coalesce(final Long value) {
         if (value == null) {
@@ -39,8 +39,23 @@ public final class StatsUtils {
         return (max - min) == 0.0 ? 0.0 : ((value - min) / Math.abs(max - min));
     }
 
-    public static double getLinearDistance(final Position startPosition, final Stand stand) {
-        return Point2D.distance(startPosition.getLongitude(),
-                startPosition.getLatitude(), stand.getLongitude(), stand.getLatitude());
+    public static double getHaversineDistance(final Position startPosition, final Stand stand) {
+        return getDistanceBetweenPoints(startPosition.getLatitude(), startPosition.getLongitude(),
+                stand.getLatitude(), stand.getLongitude());
+    }
+
+    private static double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    private static double getDistanceBetweenPoints(final double lat1, final double long1,
+                                                   final double lat2, final double long2) {
+        final int R = 6378137; // Radious of the earth
+        final double latDistance = degreesToRadians(lat2 - lat1);
+        final double lonDistance = degreesToRadians(long2 - long1);
+        final double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+                Math.cos(degreesToRadians(lat1)) * Math.cos(degreesToRadians(lat2)) *
+                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 }
