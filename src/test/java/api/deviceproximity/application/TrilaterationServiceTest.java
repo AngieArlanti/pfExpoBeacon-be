@@ -19,7 +19,7 @@ public class TrilaterationServiceTest {
         points.add(new Point(21.0, -3.0, 23.32));
 
         final Point point = trilaterationService.getLocation(points);
-        assertThat(point.getRoundingHalfUpLatitude(), is(-30.3));
+        assertThat(point.getRoundingHalfUpLatitude(), is(-30.24));
         assertThat(point.getRoundingHalfUpLongitude(), is(-9.13));
     }
 
