@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
@@ -44,7 +47,15 @@ public class DeviceProximityService {
     }
 
     public List<DeviceProximity> listAllImmediateStandRegisters() {
-        return deviceProximityRepository.findAllInmmediateStandRegisters();
+        return deviceProximityRepository
+                .findAllInmmediateStandRegistersOrderByUpdateTime().stream()
+                .filter(distinctByKey(DeviceProximity::getDeviceId))
+                .collect(Collectors.toList());
+    }
+
+    private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 
     private void checkValidStand(final List<String> immediateStandIds) {
