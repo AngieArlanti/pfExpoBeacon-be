@@ -1,7 +1,7 @@
-INSERT INTO ranking_average(ranking, cant_rates) VALUES (0,0);
-INSERT INTO ranking_average(ranking, cant_rates) VALUES (0,0);
-INSERT INTO ranking_average(ranking, cant_rates) VALUES (0,0);
-INSERT INTO ranking_average(ranking, cant_rates) VALUES (0,0);
+INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
+INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
+INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
+INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
 
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:08:FC:DD', 'Combot', 'Un proyecto con eje ecológico',
 'Un proyecto con eje ecológico. Conocé ComBot,  la compactadora de botellas PET creada en su totalidad por Martín Pérez Mendoza y Santiago Carrillo.', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg', 1,-34.640271,-58.401515, 10);
@@ -14,6 +14,11 @@ INSERT INTO stand(id, title, short_description, description, cover, ranking_aver
 
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:04:19:8E', 'GAZE TRACKER',
 'Detección y seguimiento de pupilas', 'Es un sistema de detección y seguimiento de pupilas utilizando una webcam, aplicado a la estimación de la posición de la vista del usuario.', 'https://user-images.githubusercontent.com/7771294/68998629-c239bd00-0893-11ea-9f84-9cf179282c6d.jpeg', 4,-34.640355, -58.401756, 10);
+
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:08:FC:DD', 'device_1', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:2F', 'device_1', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:18:A0', 'device_1', 3);
+INSERT INTO stand_ranking_device(stand_id, device_id, ranking) VALUES('0C:F3:EE:04:19:8E', 'device_1', 3);
 
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg');
 INSERT INTO stand_pictures(stand_id, picture) VALUES('0C:F3:EE:08:FC:DD', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg');
