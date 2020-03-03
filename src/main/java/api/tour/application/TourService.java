@@ -37,7 +37,7 @@ public class TourService {
     public TourService() {
         this.tourMapper = new TourMapper();
         //TODO (ma 2020-02-12) entrance Position is harcoded, must be brought from backoffice.
-        this.entrance = new Position( -58.401466, -34.640419);
+        this.entrance = new Position(-58.489280, -34.547081);
     }
 
     /**
