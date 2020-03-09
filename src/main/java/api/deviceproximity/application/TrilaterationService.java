@@ -32,7 +32,7 @@ public class TrilaterationService {
         double[] xyz = new double[3];
         xyz[0] =arrayPoint[0];
         xyz[1] =arrayPoint[1];
-        xyz[2] =-3605105.073651262;
+        xyz[2] =-3605195.5212069512;
         double[] coordinate = new double[3];
         coordinate=CoordinateConversions.xyzToLatLonDegrees(xyz);
         return new Point(coordinate[0], coordinate[1]);
