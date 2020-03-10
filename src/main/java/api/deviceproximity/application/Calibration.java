@@ -31,16 +31,18 @@ public final class Calibration {
   public static Map<Point, Calibration> getCalibrationData(){
     final Map<Point, Calibration> calibrationMap = new HashMap<>();
 
+    calibrationMap.put(new Point(-34.641176, -58.401177, 0),
+      new Calibration(-3605188.5848024846, -3605189.3149506184,
+              -3605190.7752466784));
+    calibrationMap.put(new Point(-34.641262, -58.401164, 0),
+      new Calibration(-3605194.243448705, -3605192.9656902463,
+              -3605190.7752466784));
     calibrationMap.put(new Point(-34.641254, -58.401091, 0),
-      new Calibration(-3605193.6958379634, -3605192.5093478877,
-        -3605190.7752466784));
-    calibrationMap.put(new Point(-34.641314, -58.401137, 0),
-      new Calibration(-3605193.6958379634, -3605192.5093478877,
-        -3605190.7752466784));
-    calibrationMap.put(new Point(-34.641306, -58.401073, 0), new Calibration(-3605193.6958379634, -3605192.5093478877,
-      -3605190.7752466784));
-    calibrationMap.put(new Point(-34.641205, -58.401092, 0), new Calibration(-3605193.6958379634, -3605192.5093478877,
-        -3605190.7752466784));
+            new Calibration(-3605193.6958379634, -3605192.5093478877,
+                    -3605190.7752466784));
+    calibrationMap.put(new Point(-34.641163, -58.401110, 0),
+            new Calibration(-3605187.945922811, -3605189.3149506184,
+                    -3605190.7752466784));
 
     return calibrationMap;
   }
