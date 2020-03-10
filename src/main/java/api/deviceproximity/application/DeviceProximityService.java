@@ -72,10 +72,10 @@ public class DeviceProximityService {
         final Map<String, Double> deviceProximity = deviceProximityDto.getNearbyStands().stream()
                 .collect(toMap(NearbyStandDto::getStandId, NearbyStandDto::getDistance));
 
-        final List<Stand> standDtos = standService.findBy(new ArrayList<>(deviceProximity.keySet()));
+        final List<Stand> stands = standService.findBy(new ArrayList<>(deviceProximity.keySet()));
 
         final List<Point> points =
-                standDtos.stream().map(stand -> new Point(stand.getLatitude(),
+                stands.stream().map(stand -> new Point(stand.getLatitude(),
                         stand.getLongitude(), deviceProximity.get(stand.getId()))).collect(Collectors.toList());
 
         final Point point = trilaterationService.getLocation(points);

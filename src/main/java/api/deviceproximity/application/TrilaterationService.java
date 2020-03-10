@@ -7,7 +7,10 @@ import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TrilaterationService {
@@ -19,20 +22,23 @@ public class TrilaterationService {
             return points.get(0);
         }
 
+      points.sort(Comparator.comparing(Point::getDistance));
+      double [] resXYZ= CoordinateConversions.getXYZfromLatLonDegrees(points.get(0).getLatitude(),points.get(0).getLongitude(),0);
+
         final double[][] positions = getMatrixPosition(points);
         final double[] distances = getDistances(points);
 
         NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), levenbergMarquardtOptimizer);
         LeastSquaresOptimizer.Optimum optimum = solver.solve();
 
-        return getPoint(optimum.getPoint().toArray());
+        return getPoint(optimum.getPoint().toArray(), resXYZ[2]);
     }
 
-    private Point getPoint(final double[] arrayPoint) {
+    private Point getPoint(final double[] arrayPoint, double z) {
         double[] xyz = new double[3];
         xyz[0] =arrayPoint[0];
         xyz[1] =arrayPoint[1];
-        xyz[2] =-3605195.5212069512;
+        xyz[2] =z;
         double[] coordinate = new double[3];
         coordinate=CoordinateConversions.xyzToLatLonDegrees(xyz);
         return new Point(coordinate[0], coordinate[1]);

@@ -4,7 +4,7 @@ INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
 INSERT INTO ranking_average(ranking, cant_rates) VALUES (3,1);
 
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:08:FC:DD', 'Combot', 'Un proyecto con eje ecológico',
-'Un proyecto con eje ecológico. Conocé ComBot,  la compactadora de botellas PET creada en su totalidad por Martín Pérez Mendoza y Santiago Carrillo.', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg', 1,-34.641224, -58.401154, 10);
+'Un proyecto con eje ecológico. Conocé ComBot,  la compactadora de botellas PET creada en su totalidad por Martín Pérez Mendoza y Santiago Carrillo.', 'https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg', 1,-34.641254, -58.401091, 10);
 
 INSERT INTO stand(id, title, short_description, description, cover, ranking_average_id, latitude, longitude, average_time) VALUES('0C:F3:EE:04:19:2F', 'Auto Formula SAE',
 'Creado por estudiantes de Ingeniería Mecánica del ITBA','Auto Fórmula SAE creado por estudiantes de Ingeniería Mecánica del ITBA.', 'https://user-images.githubusercontent.com/7771294/68998234-83553880-088e-11ea-8763-b01236188de6.jpg', 2,-34.641314, -58.401137, 10);
