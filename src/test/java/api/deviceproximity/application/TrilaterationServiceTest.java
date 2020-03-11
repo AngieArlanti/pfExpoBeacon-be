@@ -1,5 +1,6 @@
 package api.deviceproximity.application;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class TrilaterationServiceTest {
 
     private TrilaterationService trilaterationService = new TrilaterationService();
 
+    @Ignore
     @Test
     public void getLocation() {
         final List<Point> points = new ArrayList<>();

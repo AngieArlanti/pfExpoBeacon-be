@@ -20,15 +20,16 @@ public class TrilaterationService {
             return points.get(0);
         }
 
-      points.sort(Comparator.comparing(Point::getDistance));
+        points.sort(Comparator.comparing(Point::getDistance));
         for (Point p : points) {
             System.out.println("LAT: " + p.getLatitude() + " LON: " + p.getLongitude() + " DIST: " + p.getDistance());
         }
         Calibration calibration = Calibration.getCalibrationData().get(points.get(0));
+
         double z;
-        if(points.get(0).getDistance() < 0.5){
+        if (points.get(0).getDistance() < 0.5) {
             z = calibration.getCeroMeter();
-        } else if(points.get(0).getDistance() < 1) {
+        } else if (points.get(0).getDistance() < 1) {
             z = calibration.getHalfMeter();
         } else {
             z = calibration.getMeter();
@@ -45,11 +46,11 @@ public class TrilaterationService {
 
     private Point getPoint(final double[] arrayPoint, double z) {
         double[] xyz = new double[3];
-        xyz[0] =arrayPoint[0];
-        xyz[1] =arrayPoint[1];
-        xyz[2] =z;
+        xyz[0] = arrayPoint[0];
+        xyz[1] = arrayPoint[1];
+        xyz[2] = z;
         double[] coordinate = new double[3];
-        coordinate=CoordinateConversions.xyzToLatLonDegrees(xyz);
+        coordinate = CoordinateConversions.xyzToLatLonDegrees(xyz);
         return new Point(coordinate[0], coordinate[1]);
     }
 
@@ -64,7 +65,7 @@ public class TrilaterationService {
     private double[][] getMatrixPosition(final List<Point> points) {
         double[][] positions = new double[points.size()][2];
         for (int i = 0; i < points.size(); i++) {
-            double[] coordinate = CoordinateConversions.getXYZfromLatLonDegrees(points.get(i).getLatitude(),points.get(i).getLongitude(),0);
+            double[] coordinate = CoordinateConversions.getXYZfromLatLonDegrees(points.get(i).getLatitude(), points.get(i).getLongitude(), 0);
             positions[i][0] = coordinate[0];
             positions[i][1] = coordinate[1];
         }

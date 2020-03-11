@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toMap;
 @Service
 public class DeviceProximityService {
 
+    public static final double IMMEDIATE_DISTANCE = 1.0;
     @Autowired
     private DeviceProximityRepository deviceProximityRepository;
 
@@ -48,9 +49,14 @@ public class DeviceProximityService {
 
     public List<DeviceProximity> listAllImmediateStandRegisters() {
         return deviceProximityRepository
-                .findAllInmmediateStandRegistersOrderByUpdateTime().stream()
+                .findByOrderByDistanceAscUpdateTimeDesc().stream()
+                .filter(deviceProximity -> isImmediate(deviceProximity.getDistance()))
                 .filter(distinctByKey(DeviceProximity::getDeviceId))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isImmediate(final double distance) {
+        return distance < IMMEDIATE_DISTANCE;
     }
 
     private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
