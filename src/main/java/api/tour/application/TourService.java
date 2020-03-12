@@ -6,7 +6,6 @@ import api.stand.domain.Stand;
 import api.stats.application.StandStatics;
 import api.stats.application.StatsService;
 import api.stats.application.utils.StatsUtils;
-import api.tour.domain.Tour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,7 +81,7 @@ public class TourService {
         final List<Tour> topThreeTours = new ArrayList<>();
 
         for (final Tour tour : bestStandsToStart) {
-            topThreeTours.add(new Tour(sortStandsByDistances(tour.getTour().get(0), tour.getTour()),
+            topThreeTours.add(new Tour(sortStandsByDistances(tour.getStands().get(0), tour.getStands()),
                     tour.getVisits()));
         }
 
@@ -99,7 +98,7 @@ public class TourService {
         final List<Tour> popularTours = new ArrayList<>();
         for (final Tour tour : tours) {
             popularTours.add(
-                    new Tour(sortStandsByTopThreeTourStats(entrance, tour.getTour()),
+                    new Tour(sortStandsByTopThreeTourStats(entrance, tour.getStands()),
                              tour.getVisits()));
         }
         return popularTours;

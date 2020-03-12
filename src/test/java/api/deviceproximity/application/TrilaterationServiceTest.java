@@ -8,11 +8,11 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@Ignore
 public class TrilaterationServiceTest {
 
     private TrilaterationService trilaterationService = new TrilaterationService();
 
-    @Ignore
     @Test
     public void getLocation() {
         final List<Point> points = new ArrayList<>();

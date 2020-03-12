@@ -82,15 +82,15 @@ INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:
 INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 6, 0);
 INSERT INTO stand_visit_hours(stand_id, expo_hours_id, visits) VALUES('0C:F3:EE:04:19:8E', 7, 0);
 
-INSERT INTO device_tours(device_id, tour) VALUES ('device_1', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_2', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_3', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_4', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_5', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_6', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_7', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F');
-INSERT INTO device_tours(device_id, tour) VALUES ('device_8', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_1', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_2', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_3', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_4', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_5', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_6', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_7', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F');
+INSERT INTO device_tours(device_id, stand_ids) VALUES ('device_8', '0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F');
 
-INSERT INTO tour_visits(tour, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0', 4);
-INSERT INTO tour_visits(tour, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E', 2);
-INSERT INTO tour_visits(tour, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F', 2);
+INSERT INTO tour_visits(stand_ids, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:18:A0', 4);
+INSERT INTO tour_visits(stand_ids, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F 0C:F3:EE:04:19:8E', 2);
+INSERT INTO tour_visits(stand_ids, visits) VALUES ('0C:F3:EE:08:FC:DD 0C:F3:EE:04:19:2F', 2);

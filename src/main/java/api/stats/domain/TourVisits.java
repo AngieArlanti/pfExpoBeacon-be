@@ -7,21 +7,21 @@ import javax.persistence.Id;
 public class TourVisits {
 
     @Id
-    private String tour;
-    private Long visits;
+    private String standIds;
+    private long visits;
 
     public TourVisits() {}
 
-    public TourVisits(final String tour, final Long visits) {
-        this.tour = tour;
+    public TourVisits(final String standIds, final long visits) {
+        this.standIds = standIds;
         this.visits = visits;
     }
 
-    public String getTour() {
-        return tour;
+    public String getStandIds() {
+        return standIds;
     }
 
-    public Long getVisits() {
+    public long getVisits() {
         return visits;
     }
 }
