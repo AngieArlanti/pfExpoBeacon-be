@@ -5,6 +5,7 @@ import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.linear.RealVector;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -42,6 +43,12 @@ public class TrilaterationService {
         LeastSquaresOptimizer.Optimum optimum = solver.solve();
 
         return getPoint(optimum.getPoint().toArray(), z);
+    }
+
+    public RealVector getPointWithTrilaterationLibrary(double[][] positions, double[] distances) {
+        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), levenbergMarquardtOptimizer);
+        LeastSquaresOptimizer.Optimum optimum = solver.solve();
+        return optimum.getPoint();
     }
 
     private Point getPoint(final double[] arrayPoint, double z) {

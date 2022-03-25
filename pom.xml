@@ -68,6 +68,12 @@
             <artifactId>trilateration</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>1.10.4</version>
+        </dependency>
     </dependencies>
 
     <build>
