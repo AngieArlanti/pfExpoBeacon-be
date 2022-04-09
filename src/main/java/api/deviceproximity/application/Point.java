@@ -9,16 +9,20 @@ public class Point {
     private double latitude;
     private double longitude;
     private Double distance;
+    private double height;
+    private final double HEIGHT = 0;
 
     public Point(final double latitude, final double longitude, final double distance) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = distance;
+        this.height = HEIGHT;
     }
 
     public Point(final double latitude, final double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.height = HEIGHT;
     }
 
     public double getLongitude() {
@@ -31,6 +35,10 @@ public class Point {
 
     public double getLatitude() {
         return latitude;
+    }
+
+    public double getHeight() {
+        return this.height;
     }
 
     public double getRoundingHalfUpLatitude(){

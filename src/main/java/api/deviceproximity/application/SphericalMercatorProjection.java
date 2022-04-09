@@ -1,7 +1,5 @@
 package api.deviceproximity.application;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 /**
  * Utility class for converting spherical coordinates and cartesian coordinates using the
  * <a href="https://en.wikipedia.org/wiki/Mercator_projection">Mercator
@@ -20,32 +18,12 @@ public class SphericalMercatorProjection {
     private static final double A6 = 9.9330562000986220e-1;  //A6 = 1-E2
 
     /**
-     * Caution: The conversion used by these simpler 2D methods is not compatible with the 3D
-     * Earth-Centered-Earth-Fixed (ECEF) to location conversion.
-     */
-    public static double yToLatitude(double y) {
-        return Math.toDegrees(Math.atan(Math.exp(y / EARTH_RADIUS)) * 2 - Math.PI / 2);
-    }
-
-    public static double xToLongitude(double x) {
-        return Math.toDegrees(x / EARTH_RADIUS);
-    }
-
-    public static double latitudeToY(double latitude) {
-        return Math.log(Math.tan(Math.PI / 4 + Math.toRadians(latitude) / 2)) * EARTH_RADIUS;
-    }
-
-    public static double longitudeToX(double longitude) {
-        return Math.toRadians(longitude) * EARTH_RADIUS;
-    }
-
-    /**
      * Convenience method to convert Earth-Centered-Earth-Fixed (ECEF) to Location. Expects input to
      * be in radians.
      */
-    public static Vector3D ecefToLocation(double[] ecef) {
+    public static double[] ecefToLocation(double[] ecef) {
         double[] geodetic = ecefToGeodetic(ecef);
-        return new Vector3D(Math.toDegrees(geodetic[0]), Math.toDegrees(geodetic[1]), Math.toDegrees(geodetic[2]));
+        return new double[]{Math.toDegrees(geodetic[0]), Math.toDegrees(geodetic[1]), Math.toDegrees(geodetic[2])};
     }
 
     /**
@@ -55,7 +33,7 @@ public class SphericalMercatorProjection {
      *
      * @see <a href="http://danceswithcode.net/engineeringnotes/geodetic_to_ecef/geodetic_to_ecef.html">Source</a>
      */
-    public static double[] ecefToGeodetic(double[] ecef) {
+    private static double[] ecefToGeodetic(double[] ecef) {
         double zp, w2, w, r2, r, s2, c2, s, c, ss, g, rg, rf, u, v, m, f, p, x, y, z;
         double[] geodetic = new double[3];
         x = ecef[0];
@@ -114,7 +92,7 @@ public class SphericalMercatorProjection {
      *
      * @see <a href="http://danceswithcode.net/engineeringnotes/geodetic_to_ecef/geodetic_to_ecef.html">Source</a>
      */
-    public static double[] geodeticToEcef(double[] geodetic) {
+    private static double[] geodeticToEcef(double[] geodetic) {
         double[] ecef = new double[3];
         double latitude = geodetic[0];
         double longitude = geodetic[1];

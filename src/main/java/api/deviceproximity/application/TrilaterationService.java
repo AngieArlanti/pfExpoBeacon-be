@@ -1,83 +1,66 @@
 package api.deviceproximity.application;
 
-import api.deviceproximity.util.CoordinateConversions;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.linear.RealVector;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
+
+import static api.deviceproximity.application.SphericalMercatorProjection.ecefToLocation;
+import static api.deviceproximity.application.SphericalMercatorProjection.locationToEcef;
 
 @Service
 public class TrilaterationService {
 
-    private LevenbergMarquardtOptimizer levenbergMarquardtOptimizer = new LevenbergMarquardtOptimizer();
+  private LevenbergMarquardtOptimizer levenbergMarquardtOptimizer = new LevenbergMarquardtOptimizer();
 
-    public Point getLocation(final List<Point> points) {
-        if (points.size() < 2) {
-            return points.get(0);
-        }
+  public Point getLocation(final List<Point> points) {
+    Validate.isTrue(points.size() >= 2, "At least two points must be given to calculate Location");
 
-        points.sort(Comparator.comparing(Point::getDistance));
-        for (Point p : points) {
-            System.out.println("LAT: " + p.getLatitude() + " LON: " + p.getLongitude() + " DIST: " + p.getDistance());
-        }
-        Calibration calibration = Calibration.getCalibrationData().get(points.get(0));
+    final double[][] positions = getMatrixPosition(points);
+    final double[] distances = getDistances(points);
 
-        double z;
-        if (points.get(0).getDistance() < 0.5) {
-            z = calibration.getCeroMeter();
-        } else if (points.get(0).getDistance() < 1) {
-            z = calibration.getHalfMeter();
-        } else {
-            z = calibration.getMeter();
-        }
+    double[] trilaterationCoordinates = solveTrilateration(positions, distances);
 
-        final double[][] positions = getMatrixPosition(points);
-        final double[] distances = getDistances(points);
+    return convertArrayIntoPoint(trilaterationCoordinates);
+  }
 
-        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), levenbergMarquardtOptimizer);
-        LeastSquaresOptimizer.Optimum optimum = solver.solve();
+  double[] solveTrilateration(double[][] positions, double[] distances) {
+      NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(
+          new TrilaterationFunction(positions, distances), levenbergMarquardtOptimizer);
+      LeastSquaresOptimizer.Optimum optimum = solver.solve();
+    return optimum.getPoint().toArray();
+  }
 
-        return getPoint(optimum.getPoint().toArray(), z);
+  private Point convertArrayIntoPoint(final double[] arrayPoint) {
+    double[] xyz = new double[3];
+    xyz[0] = arrayPoint[0];
+    xyz[1] = arrayPoint[1];
+    xyz[2] = arrayPoint[2];
+    double[] coordinate = ecefToLocation(xyz);
+    return new Point(coordinate[0], coordinate[1]);
+  }
+
+  private double[] getDistances(final List<Point> points) {
+    double[] distances = new double[points.size()];
+    for (int i = 0; i < points.size(); i++) {
+      distances[i] = points.get(i).getDistance();
     }
+    return distances;
+  }
 
-    public RealVector getPointWithTrilaterationLibrary(double[][] positions, double[] distances) {
-        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), levenbergMarquardtOptimizer);
-        LeastSquaresOptimizer.Optimum optimum = solver.solve();
-        return optimum.getPoint();
+  private double[][] getMatrixPosition(final List<Point> points) {
+    double[][] positions = new double[points.size()][3];
+    for (int i = 0; i < points.size(); i++) {
+      double[] coordinate = locationToEcef(new double[]{points.get(i).getLatitude(), points.get(i).getLongitude(),
+          points.get(i).getHeight()});
+      positions[i][0] = coordinate[0];
+      positions[i][1] = coordinate[1];
+      positions[i][2] = coordinate[2];
     }
-
-    private Point getPoint(final double[] arrayPoint, double z) {
-        double[] xyz = new double[3];
-        xyz[0] = arrayPoint[0];
-        xyz[1] = arrayPoint[1];
-        xyz[2] = z;
-        double[] coordinate = new double[3];
-        coordinate = CoordinateConversions.xyzToLatLonDegrees(xyz);
-        return new Point(coordinate[0], coordinate[1]);
-    }
-
-    private double[] getDistances(final List<Point> points) {
-        double[] distances = new double[points.size()];
-        for (int i = 0; i < points.size(); i++) {
-            distances[i] = points.get(i).getDistance();
-        }
-        return distances;
-    }
-
-    private double[][] getMatrixPosition(final List<Point> points) {
-        double[][] positions = new double[points.size()][2];
-        for (int i = 0; i < points.size(); i++) {
-            double[] coordinate = CoordinateConversions.getXYZfromLatLonDegrees(points.get(i).getLatitude(), points.get(i).getLongitude(), 0);
-            positions[i][0] = coordinate[0];
-            positions[i][1] = coordinate[1];
-        }
-        return positions;
-    }
-
-
+    return positions;
+  }
 }
