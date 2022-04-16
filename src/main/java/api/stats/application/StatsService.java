@@ -9,7 +9,7 @@ import api.stats.application.utils.StatsDoubleInterval;
 import api.stats.application.utils.StatsLongInterval;
 import api.stats.application.utils.StatsUtils;
 import api.stats.domain.*;
-import api.tour.domain.Tour;
+import api.tour.application.Tour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -180,7 +180,8 @@ public class StatsService {
     }
 
     private Tour getTour(final TourVisits tourVisits) {
-        List<String> tours = Arrays.asList(tourVisits.getTour().split(" "));
+        final List<String> tours = Arrays.asList(tourVisits.getStandIds().split(
+          " "));
         final List<Stand> tour = standService.findBy(tours);
 
         return new Tour(tour, tourVisits.getVisits());

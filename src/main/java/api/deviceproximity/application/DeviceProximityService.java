@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toMap;
 @Service
 public class DeviceProximityService {
 
+    public static final double IMMEDIATE_DISTANCE = 1.0;
     @Autowired
     private DeviceProximityRepository deviceProximityRepository;
 
@@ -48,9 +49,14 @@ public class DeviceProximityService {
 
     public List<DeviceProximity> listAllImmediateStandRegisters() {
         return deviceProximityRepository
-                .findAllInmmediateStandRegistersOrderByUpdateTime().stream()
+                .findByOrderByDistanceAscUpdateTimeDesc().stream()
+                .filter(deviceProximity -> isImmediate(deviceProximity.getDistance()))
                 .filter(distinctByKey(DeviceProximity::getDeviceId))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isImmediate(final double distance) {
+        return distance < IMMEDIATE_DISTANCE;
     }
 
     private static <T> Predicate<T> distinctByKey(final Function<? super T, ?> keyExtractor) {
@@ -72,10 +78,10 @@ public class DeviceProximityService {
         final Map<String, Double> deviceProximity = deviceProximityDto.getNearbyStands().stream()
                 .collect(toMap(NearbyStandDto::getStandId, NearbyStandDto::getDistance));
 
-        final List<Stand> standDtos = standService.findBy(new ArrayList<>(deviceProximity.keySet()));
+        final List<Stand> stands = standService.findBy(new ArrayList<>(deviceProximity.keySet()));
 
         final List<Point> points =
-                standDtos.stream().map(stand -> new Point(stand.getLatitude(),
+                stands.stream().map(stand -> new Point(stand.getLatitude(),
                         stand.getLongitude(), deviceProximity.get(stand.getId()))).collect(Collectors.toList());
 
         final Point point = trilaterationService.getLocation(points);

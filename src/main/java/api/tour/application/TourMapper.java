@@ -1,7 +1,6 @@
 package api.tour.application;
 
 import api.stand.domain.Stand;
-import api.tour.domain.Tour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 class TourMapper {
 
     TourDto toDto(final Tour tour) {
-        return new TourDto(tour.getTour());
+        return new TourDto(tour.getStands());
     }
 
     List<TourDto> toDto(final List<Tour> tours) {

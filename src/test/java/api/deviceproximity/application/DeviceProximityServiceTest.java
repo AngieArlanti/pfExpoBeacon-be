@@ -3,7 +3,6 @@ package api.deviceproximity.application;
 import api.deviceproximity.domain.DeviceProximity;
 import api.deviceproximity.domain.DeviceProximityRepository;
 import api.stand.application.StandService;
-import api.stats.application.StatsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class DeviceProximityServiceTest {
                 0.8, OffsetDateTime.now());
         mockDeviceProximities.add(deviceProximity1);
         mockDeviceProximities.add(deviceProximity2);
-        when(deviceProximityRepository.findAllInmmediateStandRegistersOrderByUpdateTime())
+        when(deviceProximityRepository.findByOrderByDistanceAscUpdateTimeDesc())
                 .thenReturn(mockDeviceProximities);
 
         final List<DeviceProximity> deviceProximities = deviceProximityService.listAllImmediateStandRegisters();

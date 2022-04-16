@@ -2,22 +2,27 @@ package api.deviceproximity.application;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 public class Point {
 
     private double latitude;
     private double longitude;
     private Double distance;
+    private double height;
+    private final double HEIGHT = 0;
 
     public Point(final double latitude, final double longitude, final double distance) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = distance;
+        this.height = HEIGHT;
     }
 
     public Point(final double latitude, final double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.height = HEIGHT;
     }
 
     public double getLongitude() {
@@ -32,6 +37,10 @@ public class Point {
         return latitude;
     }
 
+    public double getHeight() {
+        return this.height;
+    }
+
     public double getRoundingHalfUpLatitude(){
         return getRoundingHalfUp(latitude);
     }
@@ -44,5 +53,19 @@ public class Point {
         BigDecimal bd = new BigDecimal(number);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return Double.compare(point.latitude, latitude) == 0 &&
+          Double.compare(point.longitude, longitude) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(latitude, longitude);
     }
 }

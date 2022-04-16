@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS stand(
    ranking_average_id INTEGER,
    latitude FLOAT NOT NULL,
    longitude FLOAT NOT NULL,
-   stand_number SERIAL,
+   stand_number INTEGER NOT NULL,
    average_time FLOAT,
    FOREIGN KEY (ranking_average_id) REFERENCES ranking_average (id)
 );
@@ -77,11 +77,11 @@ CREATE TABLE IF NOT EXISTS stand_ranking_device(
 
 CREATE TABLE IF NOT EXISTS device_tours(
     device_id VARCHAR NOT NULL,
-    tour VARCHAR NOT NULL
+    stand_ids VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tour_visits(
-    tour VARCHAR NOT NULL PRIMARY KEY,
+    stand_ids VARCHAR NOT NULL PRIMARY KEY,
     visits INTEGER NOT NULL
 );
 
