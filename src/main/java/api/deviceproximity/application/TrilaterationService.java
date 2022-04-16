@@ -18,7 +18,7 @@ public class TrilaterationService {
   private LevenbergMarquardtOptimizer levenbergMarquardtOptimizer = new LevenbergMarquardtOptimizer();
 
   public Point getLocation(final List<Point> points) {
-    Validate.isTrue(points.size() >= 2, "At least two points must be given to calculate Location");
+    Validate.isTrue(points.size() >= 2, "At least two points must be given to calculate location.");
 
     final double[][] positions = getMatrixPosition(points);
     final double[] distances = getDistances(points);
@@ -47,7 +47,10 @@ public class TrilaterationService {
   private double[] getDistances(final List<Point> points) {
     double[] distances = new double[points.size()];
     for (int i = 0; i < points.size(); i++) {
-      distances[i] = points.get(i).getDistance();
+      double distance = points.get(i).getDistance();
+      Validate.isTrue(distance > 0, "Distances must be positive values.");
+      distances[i] = distance;
+
     }
     return distances;
   }
