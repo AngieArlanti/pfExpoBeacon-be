@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS stand(
    ranking_average_id INTEGER,
    latitude FLOAT NOT NULL,
    longitude FLOAT NOT NULL,
-   stand_number SERIAL,
+   stand_number INTEGER NOT NULL,
    average_time FLOAT,
    FOREIGN KEY (ranking_average_id) REFERENCES ranking_average (id)
 );
